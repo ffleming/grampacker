@@ -6,7 +6,7 @@ How to run Lighterpack
 -----------
 
 1. Install node.js, npm and mongo
-2. ```$ git clone https://github.com/galenmaly/lighterpack.git```
+2. ```$ git clone https://github.com/ffleming/lighterpack.git```
 3. Install dependancies ```$ npm install```
 4. start mongo ```$ mongod```
 5. Start app ```$ npm start```
