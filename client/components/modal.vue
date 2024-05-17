@@ -70,7 +70,7 @@
     }
 }
 
-.lpModal-enter,
+.lpModal-enter-from,
 .lpModal-leave-active {
     opacity: 0;
 

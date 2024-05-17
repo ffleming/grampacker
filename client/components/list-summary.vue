@@ -88,7 +88,8 @@
                     </span>
                     <span v-if="library.optionalFields['price']" class="lpCell lpNumber" />
                     <span class="lpCell lpNumber lpSubtotal">
-                        <span class="lpDisplaySubtotal" :mg="list.totalWornWeight">{{ list.totalWornWeight | displayWeight(library.totalUnit) }}</span>
+                      <!-- | displayWeight(library.totalUnit) -->
+                        <span class="lpDisplaySubtotal" :mg="list.totalWornWeight">{{ list.totalWornWeight }}</span>
                         <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                     </span>
                 </li>
@@ -100,7 +101,8 @@
                     <span v-if="library.optionalFields['price']" class="lpCell lpNumber" />
                     <span class="lpCell lpNumber lpSubtotal">
                         <span class="lpDisplaySubtotal" :mg="list.totalPackWeight" :title="$options.filters.displayWeight(list.totalPackWeight, library.totalUnit) + ' ' + library.totalUnit + ' pack weight (consumable + base weight)'">
-                            {{ list.totalPackWeight | displayWeight(library.totalUnit) }}
+                          {{ list.totalPackWeight }}
+                            <!-- | displayWeight(library.totalUnit) }} -->
                         </span>
                         <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                     </span>

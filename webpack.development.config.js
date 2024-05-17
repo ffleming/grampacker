@@ -15,7 +15,7 @@ module.exports = {
         share: [
             './client/css/share.scss',
             'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:8080/',
+            'webpack-dev-server/client?http://192.168.1.4:8080/',
         ],
     },
     output: {
@@ -28,6 +28,13 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
+                options: {
+                    compilerOptions: {
+                        compatConfig: {
+                            MODE: 2
+                        }
+                    }
+                }
             },
             {
                 test: /\.js$/,
@@ -58,7 +65,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            vue$: 'vue/dist/vue.esm.js',
+            vue: '@vue/compat',
         },
     },
     devServer: {
