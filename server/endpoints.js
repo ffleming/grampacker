@@ -70,7 +70,7 @@ router.post('/register', (req, res) => {
 
     db.users.find({ username }, (err, users) => {
         if (err || users.length) {
-            logWithRequest(req, { message: 'User exists', username });
+            logWithRequest(req, { message: 'Error in db.users.find()', err });
             return res.status(400).json({ errors: [{ field: 'username', message: 'That username already exists, please pick a different username.' }] });
         }
 
