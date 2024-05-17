@@ -29,10 +29,12 @@
                     <a class="lpAdd lpAddItem" @click="newItem"><i class="lpSprite lpSpriteAdd" />Add new item</a>
                 </span>
                 <span v-if="library.optionalFields['price']" class="lpPriceCell lpNumber lpSubtotal">
-                    {{ category.subtotalPrice | displayPrice(library.currencySymbol) }}
+                  <!-- TODO: original was 'category.subtotalPrice | displayPrice(library.currencySymbol)' -->
+                    {{ category.subtotalPrice }}
                 </span>
                 <span class="lpWeightCell lpNumber lpSubtotal">
-                    <span class="lpDisplaySubtotal">{{ category.subtotalWeight | displayWeight(library.totalUnit) }}</span>
+                  <!-- TODO: original was 'category.subtotalWeight | displayWeight(library.totalUnit)' -->
+                    <span class="lpDisplaySubtotal">{{ category.subtotalWeight }}</span>
                     <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                 </span>
                 <span class="lpQtyCell lpSubtotal">
@@ -79,7 +81,7 @@ export default {
                 body: 'Are you sure you want to delete this category? This cannot be undone.',
             };
             bus.$emit('initSpeedbump', callback, speedbumpOptions);
-        },
-    },
+        }
+    }
 };
 </script>

@@ -126,7 +126,8 @@
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">
-                    {{ item.weight | displayWeight(item.authorUnit) }}
+                    <!-- TODO: original was 'item.weight | displayWeight(item.authorUnit)' -->
+                    {{ item.weight }}
                     {{ item.authorUnit }}
                 </span>
                 <span class="lpDescription">
