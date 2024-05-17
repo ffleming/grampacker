@@ -8,14 +8,14 @@ module.exports = {
         app: [
             'whatwg-fetch',
             'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://local.lighterpack.com:8080/',
+            'webpack-dev-server/client?http://localhost:8080/',
             './client/css/lighterpack.scss',
             './client/lighterpack.js',
         ],
         share: [
             './client/css/share.scss',
             'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://local.lighterpack.com:8080/',
+            'webpack-dev-server/client?http://localhost:8080/',
         ],
     },
     output: {
