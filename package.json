@@ -41,19 +41,19 @@
     "mustache": "^2.2.1",
     "nanoid": "2.0.3",
     "node.extend": "^1.1.5",
-    "request": "^2.67.0",
+    "request": "^2.88.2",
     "sass": "1.32.0",
     "sass-loader": "10.1.0",
     "uuid": "^8.3.2",
-    "vue": "2.6.12",
+    "vue": "^2.6.12",
     "vue-color-picker-wheel": "0.4.3",
-    "vue-loader": "^15.9.6",
-    "vue-router": "^3.4.9",
+    "vue-loader": "^15.11.1",
+    "vue-router": "^3.6.5",
     "vue-template-compiler": "2.6.12",
     "vuex": "3.6.0",
     "webpack": "5.11.1",
     "whatwg-fetch": "^2.0.3",
-    "winston": "^3.3.3"
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "eslint": "7.23.0",
@@ -63,7 +63,7 @@
     "stylelint": "13.8.0",
     "stylelint-config-standard": "20.0.0",
     "stylelint-order": "4.1.0",
-    "webpack-cli": "^4.3.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "4.0.2",
     "webpack-dev-server": "3.11.1",
     "webpack-hot-middleware": "2.25.0"
