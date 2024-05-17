@@ -107,9 +107,4 @@ module.exports = {
       },
       host: "192.168.1.4"
   }
-}
-
-  headers: {
-   "Access-Control-Allow-Origin" : "*",
-},
 };

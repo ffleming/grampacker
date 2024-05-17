@@ -42,11 +42,14 @@ store.dispatch('init')
 
 var initGramPacker = function () {
     window.GramPacker = new Vue({
+    console.log("In initGramPacker")
         router,
         store,
-        data: {
+        data() {
+          return {
             path: '',
             fatal: '',
+          }
         },
         watch: {
             $route(to, from) {
