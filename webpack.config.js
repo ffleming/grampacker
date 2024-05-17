@@ -100,4 +100,16 @@ module.exports = {
         }),
         new AssetJsonPlugin(),
     ],
+  devServer: {
+      headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
+      },
+      host: "192.168.1.4"
+  }
+}
+
+  headers: {
+   "Access-Control-Allow-Origin" : "*",
+},
 };

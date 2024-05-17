@@ -104,7 +104,8 @@
             <li v-for="list in library.lists" :key="list.id" class="lpLibraryList" :class="{lpActive: (library.defaultListId == list.id)}">
                 <div class="lpHandle" title="Reorder this item" />
                 <span class="lpLibraryListSwitch lpListName" @click="setDefaultList(list)">
-                    {{ list | listName }}
+                  <!-- {{ list | listName }} -->
+                    {{ list }}
                 </span>
                 <a class="lpRemove" title="Remove this list" @click="removeList(list)"><i class="lpSprite lpSpriteRemove" /></a>
             </li>

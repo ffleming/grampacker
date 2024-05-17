@@ -4,7 +4,7 @@
 </style>
 
 <template>
-    <Popover :shown="shown" @mouseenter.native="show" @mouseleave.native="startHideTimeout">
+  <Popover :shown="shown" >
         <slot slot="target" name="target" />
         <slot slot="content" name="content" />
     </Popover>
