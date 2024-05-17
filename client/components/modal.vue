@@ -60,7 +60,7 @@
 
     &.lpBlackout {
         animation: none;
-        background: url("/images/lp_bg2.jpg") 50% 50%;
+        background: url("/public/images/lp_bg2.jpg") 50% 50%;
         background-size: cover;
         opacity: 1;
     }
