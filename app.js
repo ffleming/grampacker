@@ -89,7 +89,7 @@ if (config.get('environment') !== 'production') {
         hot: true,
         proxy: {
             '*': {
-                target: `http://localhost:${config.get('port')}`,
+                target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
                 secure: false,
                 changeOrigin: true,
             },
