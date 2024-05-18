@@ -107,7 +107,10 @@ $welcomeVerticalSpacing: 80px;
     <div id="lpWelcomeContainer">
         <div id="lpLaunchBanner">
             <div class="lpContainer">
-                <strong>Welcome to the new version of LighterPack!</strong> We hope you like it, and if you have any questions please <a href="mailto:info@lighterpack.com" class="lpHref">get in touch</a>.
+                <strong>Welcome to the newly-revived version of LighterPack!</strong>
+            </div>
+            <div class="lpContainer">
+              If you have any questions please <a href="https://github.com/ffleming/lighterpack/issues" class="lpHref">get in touch</a>.
             </div>
         </div>
         <div id="lpWelcome" class="lpContainer">
