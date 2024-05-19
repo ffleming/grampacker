@@ -11,7 +11,7 @@ const uuid = require('uuid');
 const { logger } = require('./server/log.js');
 
 morgan.token('username', function getUsername (req) {
-    return req.lighterpackusername
+    return req.grampackerusername
 });
 
 
@@ -63,7 +63,7 @@ app.use('/', endpoints);
 app.use('/', moderationEndpoints);
 app.use('/', views);
 
-logger.info("Starting up Lighterpack...");
+logger.info("Starting up Gram Packer...");
 
 if (config.get('environment') === 'production') {
     webpackConfig = require('./webpack.config');

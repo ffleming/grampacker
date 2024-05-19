@@ -75,7 +75,7 @@ $sidebarPadding: 20px;
 <template>
     <div id="sidebar">
         <div id="scrollable">
-            <h1>LighterPack</h1>
+            <h1>Gram Packer</h1>
 
             <libraryLists />
             <libraryItems />

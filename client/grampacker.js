@@ -31,17 +31,17 @@ bus.$on('unauthorized', (error) => {
 
 store.dispatch('init')
     .then(() => {
-        initLighterPack();
+        initGramPacker();
     })
     .catch((error) => {
         if (!store.state.library) {
             router.push('/welcome');
         }
-        initLighterPack();
+        initGramPacker();
     });
 
-var initLighterPack = function () {
-    window.LighterPack = new Vue({
+var initGramPacker = function () {
+    window.GramPacker = new Vue({
         router,
         store,
         data: {

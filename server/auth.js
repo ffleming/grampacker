@@ -53,7 +53,7 @@ const authenticateUser = function (req, res, callback) {
                 logWithRequest(req, { message: 'bad cookie!' });
                 return res.status(404).json({ message: 'Please log in again.' });
             }
-            req.lighterpackusername = users[0].username || 'UNKNOWN';
+            req.grampackerusername = users[0].username || 'UNKNOWN';
             callback(req, res, users[0]);
         });
     }

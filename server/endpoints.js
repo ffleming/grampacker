@@ -136,7 +136,7 @@ router.post('/saveLibrary', (req, res) => {
 function saveLibrary(req, res, user) {
     if (typeof req.body.syncToken === 'undefined') {
         logWithRequest(req, { message: 'Missing syncToken', username: user.username });
-        return res.status(400).send('Please refresh this page to upgrade to the latest version of LighterPack.');
+        return res.status(400).send('Please refresh this page to upgrade to the latest version of Gram Packer.');
     }
     if (!req.body.username || !req.body.data) {
         logWithRequest(req, { message: 'bad save: missing username or data', username: user.username });
@@ -227,10 +227,10 @@ router.post('/forgotPassword', (req, res) => {
                     const message = `Hello ${username},\n Apparently you forgot your password. Here's your new one: \n\n Username: ${username}\n Password: ${newPassword}\n\n If you continue to have problems, please reply to this email with details.\n\n Thanks!`;
 
                     const mailOptions = {
-                        from: 'LighterPack <info@mg.lighterpack.com>',
+                        from: 'Gram Packer <info@mg.grampacker.net>',
                         to: email,
-                        'h:Reply-To': 'LighterPack <info@lighterpack.com>',
-                        subject: 'Your new LighterPack password',
+                        'h:Reply-To': 'Gram Packer <info@grampacker.net>',
+                        subject: 'Your new Gram Packer password',
                         text: message,
                     };
 
@@ -274,10 +274,10 @@ router.post('/forgotUsername', (req, res) => {
         const message = `Hello ${username},\n Apparently you forgot your username. Here It is: \n\n Username: ${username}\n\n If you continue to have problems, please reply to this email with details.\n\n Thanks!`;
 
         const mailOptions = {
-            from: 'LighterPack <info@mg.lighterpack.com>',
+            from: 'Gram Packer <info@mg.grampacker.net>',
             to: email,
-            'h:Reply-To': 'LighterPack <info@lighterpack.com>',
-            subject: 'Your LighterPack username',
+            'h:Reply-To': 'Gram Packer <info@grampacker.net>',
+            subject: 'Your Gram Packer username',
             text: message,
         };
 

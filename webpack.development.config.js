@@ -9,8 +9,8 @@ module.exports = {
             'whatwg-fetch',
             'webpack/hot/dev-server',
             'webpack-dev-server/client?http://localhost:8080/',
-            './client/css/lighterpack.scss',
-            './client/lighterpack.js',
+            './client/css/grampacker.scss',
+            './client/grampacker.js',
         ],
         share: [
             './client/css/share.scss',

@@ -25,8 +25,8 @@ module.exports = {
     entry: {
         app: [
             'whatwg-fetch',
-            './client/css/lighterpack.scss',
-            './client/lighterpack.js',
+            './client/css/grampacker.scss',
+            './client/grampacker.js',
         ],
         share: [
             './public/js/pies.js',

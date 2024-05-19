@@ -107,14 +107,14 @@ $welcomeVerticalSpacing: 80px;
     <div id="lpWelcomeContainer">
         <div id="lpLaunchBanner">
             <div class="lpContainer">
-                <strong>Welcome to the newly-revived version of LighterPack!</strong>
+                <strong>Welcome to the newly-revived version of LighterPack, Gram Packer!</strong>
             </div>
             <div class="lpContainer">
-              If you have any questions please <a href="https://github.com/ffleming/lighterpack/issues" class="lpHref">get in touch</a>.
+              If you have any questions please <a href="https://github.com/ffleming/grampacker/issues" class="lpHref">get in touch</a>.
             </div>
         </div>
         <div id="lpWelcome" class="lpContainer">
-            <h1><strong>LighterPack</strong> helps you track the gear you bring on adventures.</h1>
+            <h1><strong>Gram Packer</strong> helps you track the gear you bring on adventures.</h1>
             <div class="lpWelcomeContent">
                 <div class="lpWelcomeRegisterContainer">
                     <div class="lpWelcomeRegister">
@@ -135,7 +135,7 @@ $welcomeVerticalSpacing: 80px;
                                 <h3><strong>3.</strong>Share your lists with others</h3>
                             </li>
                         </ul>
-                        <img id="lpWelcomeScreenshot" src="/images/screenshot.jpg" alt="A screenshot of the LighterPack interface">
+                        <img id="lpWelcomeScreenshot" src="/images/screenshot.jpg" alt="A screenshot of the Gram Packer interface">
                     </div>
                 </div>
                 <div class="lpWelcomeSigninContainer">

@@ -6,8 +6,8 @@ const newDataTypes = require('../client/dataTypes.js');
 
 const collections = ['users_prod', 'libraries'];
 
-const oldBaseUrl = 'http://dev.lighterpack.com:3001';
-const newBaseUrl = 'http://dev.lighterpack.com:8080';
+const oldBaseUrl = 'http://dev.grampacker.net:3001';
+const newBaseUrl = 'http://dev.grampacker.net:8080';
 
 const db = mongojs(config.get('databaseUrl'), collections);
 

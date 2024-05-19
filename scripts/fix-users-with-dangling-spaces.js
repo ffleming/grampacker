@@ -8,11 +8,11 @@ if (config.get('mailgunAPIKey')) {
     var mailgun = require('mailgun-js')({ apiKey: config.get('mailgunAPIKey'), domain: config.get('mailgunDomain') });
 }
 
-const autoFixableMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed your username had some extra spaces at the beginning or end of it. We were able to rename your username to remove the extraneous spaces. Your new username is ${newUsername}. \n\nYou will have to reset your password to be able log in again which can be done at https://lighterpack.com/forgot-password \n\nApologies for any inconvenience, and if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe LighterPack team";
+const autoFixableMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed your username had some extra spaces at the beginning or end of it. We were able to rename your username to remove the extraneous spaces. Your new username is ${newUsername}. \n\nYou will have to reset your password to be able log in again which can be done at https://grampacker.net/forgot-password \n\nApologies for any inconvenience, and if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe Gram Packer team";
 
-const samePersonMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed you have a user with some extra spaces at the beginning or end of the username. We noticed you also have a separate account with the username with spaces removed. Apologies for any inconvience this has caused. If you need access the user that formerly had spaces in it, we've changed the username to ${newUsername}. \n\nYou will have to reset the password of this account to be able log in again which can be done at https://lighterpack.com/forgot-password \n\nApologies for any inconvenience, if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe LighterPack team";
+const samePersonMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed you have a user with some extra spaces at the beginning or end of the username. We noticed you also have a separate account with the username with spaces removed. Apologies for any inconvience this has caused. If you need access the user that formerly had spaces in it, we've changed the username to ${newUsername}. \n\nYou will have to reset the password of this account to be able log in again which can be done at https://grampacker.net/forgot-password \n\nApologies for any inconvenience, if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe Gram Packer team";
 
-const differentPersonMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed your username had some extra spaces at the beginning or end of it. Unfortunately, the username without spaces is taken by someone else, so your new username is ${newUsername}. \n\nIf you would like your username changed to something new please respond to this email and let me know your preferred new username. \n\nYou will have to reset your password to be able log in again, which can be done at https://lighterpack.com/forgot-password \n\nIf you have any isssues please reply to this email with details. \n\nThanks! \n\nThe LighterPack team";
+const differentPersonMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed your username had some extra spaces at the beginning or end of it. Unfortunately, the username without spaces is taken by someone else, so your new username is ${newUsername}. \n\nIf you would like your username changed to something new please respond to this email and let me know your preferred new username. \n\nYou will have to reset your password to be able log in again, which can be done at https://grampacker.net/forgot-password \n\nIf you have any isssues please reply to this email with details. \n\nThanks! \n\nThe Gram Packer team";
 
 
 console.log('loading users....');
@@ -143,10 +143,10 @@ function messageUser(user, originalUsername, messageTemplate) {
         message = message.replace("${newUsername}", newUsername);
 
         const mailOptions = {
-            from: 'LighterPack <info@mg.lighterpack.com>',
+            from: 'Gram Packer <info@mg.grampacker.net>',
             to: user.email,
-            "h:Reply-To": "LighterPack <info@lighterpack.com>",
-            subject: 'LighterPack account update',
+            "h:Reply-To": "Gram Packer <info@grampacker.net>",
+            subject: 'Gram Packer account update',
             text: message,
         };
         
