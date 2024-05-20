@@ -63,7 +63,7 @@ app.use('/', endpoints);
 app.use('/', moderationEndpoints);
 app.use('/', views);
 
-logger.info("Starting up Gram Packer...");
+logger.info("Starting up Gram Packer in " + config.get('environment') + ' mode...');
 
 if (config.get('environment') === 'production') {
     webpackConfig = require('./webpack.config');

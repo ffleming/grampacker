@@ -81,16 +81,7 @@ const verifyPassword = function (username, password) {
                             reject({ code: 500, message: 'An error occurred, please try again later.' });
                         }
                         if (!result) {
-                            /* TODO: reinstate this block after DB migration */
-                            /* reject({code: 404, message: "Invalid username and/or password."}); */
-
-                            /* TODO: remove this block after DB migration */
-                            if (sha3password === user.password) {
-                                resolve(user);
-                            } else {
-                                /* TODO: revert this error message by removing refresh text */
-                                reject({ code: 404, message: 'Invalid username and/or password. Please refresh the page before trying again.' });
-                            }
+                            reject({code: 404, message: "Invalid username and/or password."});
                         } else {
                             // Remove extra layer of hashing. Just bcrypt.
                             bcrypt.genSalt(10, (err, salt) => {
