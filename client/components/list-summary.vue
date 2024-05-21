@@ -44,7 +44,7 @@
                         <span class="lpDisplaySubtotal" :mg="category.subtotalWeight">{{ $filters.displayWeight(category.subtotalWeight, library.totalUnit) }}</span> <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                     </span>
                     <span class="lpCell lpNumber">
-                        <span class="lpDisplayPercent" :mg="(category.subtotalWeight / list.totalPackWeight * 100).toFixed(2)">{{ (category.subtotalWeight / list.totalPackWeight * 100).toFixed(2) }} %</span>
+                        <span class="lpDisplayPercent" :mg="(category.subtotalWeight / list.totalPackWeight * 100).toFixed(2)">{{ (category.subtotalWeight / list.totalPackWeight * 100).toFixed(0) }} %</span>
                     </span>
                 </li>
                 <li class="lpRow lpFooter lpTotal">
