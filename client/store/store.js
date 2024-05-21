@@ -1,6 +1,4 @@
-// import Vuex from 'vuex';
 import { createStore } from 'vuex'
-// import Vue from 'vue';
 import debounce from 'lodash/debounce';
 
 const weightUtils = require('../utils/weight.js');
@@ -12,8 +10,6 @@ const List = dataTypes.List;
 const Library = dataTypes.Library;
 
 const saveInterval = 10000;
-
-// Vue.use(Vuex);
 
 const store = createStore({
     state: {
