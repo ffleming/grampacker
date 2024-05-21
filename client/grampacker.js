@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
 import routes from './routes';
 import store from './store/store';
@@ -17,17 +17,18 @@ const Library = dataTypes.Library;
 import { createApp } from 'vue';
 import Dashboard from './views/dashboard.vue';
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 const utils = require('./utils/utils.js');
 const weightUtils = require('./utils/weight.js');
 
 window.Vue = Vue; // surfacing Vue globally for utils methods
 window.bus = new Vue(); // global event bus
-window.router = new VueRouter({
-    mode: 'history',
-    routes,
-});
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+})
 
 bus.$on('unauthorized', (error) => {
     window.location = '/signin';
