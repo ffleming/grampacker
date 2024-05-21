@@ -29,12 +29,10 @@
                     <a class="lpAdd lpAddItem" @click="newItem"><i class="lpSprite lpSpriteAdd" />Add new item</a>
                 </span>
                 <span v-if="library.optionalFields['price']" class="lpPriceCell lpNumber lpSubtotal">
-                  <!-- TODO: original was 'category.subtotalPrice | displayPrice(library.currencySymbol)' -->
-                    {{ category.subtotalPrice }}
+                   {{ $filters.displayPrice(category.subtotalPrice, library.currencySymbol) }}
                 </span>
                 <span class="lpWeightCell lpNumber lpSubtotal">
-                  <!-- TODO: original was 'category.subtotalWeight | displayWeight(library.totalUnit)' -->
-                    <span class="lpDisplaySubtotal">{{ category.subtotalWeight }}</span>
+                    <span class="lpDisplaySubtotal">{{ $filters.displayWeight(category.subtotalWeight, library.totalUnit) }}</span>
                     <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                 </span>
                 <span class="lpQtyCell lpSubtotal">
