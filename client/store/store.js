@@ -13,7 +13,7 @@ const saveInterval = 10000;
 
 const store = createStore({
     state: {
-        library: false,
+        library: new Library(),
         isSaving: false,
         syncToken: false,
         saveType: null,
@@ -42,8 +42,8 @@ const store = createStore({
         },
         signout(state) {
             createCookie('lp', '', -1);
-            state.library = false; // duplicate logic
-            state.loggedIn = false; // duplicate logic
+            // state.library = new Library(); // duplicate logic
+            // state.loggedIn = false; // duplicate logic
         },
         setLoggedIn(state, loggedIn) {
             state.loggedIn = loggedIn;
@@ -60,7 +60,7 @@ const store = createStore({
             state.lastSaveData = JSON.stringify(library.save());
         },
         clearLibraryData(state) {
-            state.library = false;
+            state.library = new Library();
         },
         toggleSidebar(state) {
             state.library.showSidebar = !state.library.showSidebar;
