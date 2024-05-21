@@ -41,8 +41,8 @@ store.dispatch('init')
     });
 
 var initGramPacker = function () {
-    window.GramPacker = new Vue({
     console.log("In initGramPacker")
+    window.GramPacker = new Vue({
         router,
         store,
         data() {
