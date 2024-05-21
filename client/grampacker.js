@@ -20,6 +20,7 @@ import Dashboard from './views/dashboard.vue';
 Vue.use(VueRouter);
 
 const utils = require('./utils/utils.js');
+const weightUtils = require('./utils/weight.js');
 
 window.Vue = Vue; // surfacing Vue globally for utils methods
 window.bus = new Vue(); // global event bus
@@ -69,6 +70,20 @@ var initGramPacker = function () {
   const app = createApp(Dashboard);
   app.use(store);
   app.use(router)
+  app.config.globalProperties.$filters = {
+    displayWeight(mg, unit) {
+      return weightUtils.MgToWeight(mg, unit) || 0;
+    },
+    displayPrice(price, symbol) {
+      let amount = '0.00';
+      if (typeof price === 'number') {
+        amount = price.toFixed(2);
+      }
+      return symbol + amount;
+    }
+  }
+
+
   console.log("mounting")
   app.mount('#lp');
   console.log("mounted")
