@@ -4,7 +4,7 @@ import uniqueId from 'lodash/uniqueId';
 import store from '../store/store.js';
 
 Vue.directive('select-on-focus', {
-    inserted(el) {
+    mounted(el) {
         el.addEventListener('focus', (evt) => {
             el.select();
         });
@@ -12,7 +12,7 @@ Vue.directive('select-on-focus', {
 });
 
 Vue.directive('focus-on-create', {
-    inserted(el, binding) {
+    mounted(el, binding) {
         if (binding.expression && binding.value || !binding.expression) {
             el.focus();
         }
@@ -20,7 +20,7 @@ Vue.directive('focus-on-create', {
 });
 
 Vue.directive('focus-on-bus', {
-    inserted(el, binding) {
+    mounted(el, binding) {
         bus.$on(binding.value, () => {
             el.focus();
         });
@@ -28,7 +28,7 @@ Vue.directive('focus-on-bus', {
 });
 
 Vue.directive('select-on-bus', {
-    inserted(el, binding) {
+    mounted(el, binding) {
         bus.$on(binding.value, () => {
             el.select();
         });
@@ -36,7 +36,7 @@ Vue.directive('select-on-bus', {
 });
 
 Vue.directive('empty-if-zero', {
-    inserted(el) {
+    mounted(el) {
         el.addEventListener('focus', (evt) => {
             if (el.value === '0' || el.value === '0.00') {
                 el.dataset.originalValue = el.value;
@@ -53,7 +53,7 @@ Vue.directive('empty-if-zero', {
 });
 
 Vue.directive('click-outside', {
-    inserted(el, binding) {
+    mounted(el, binding) {
         const handler = (evt) => {
             if (el.contains(evt.target)) {
                 return;
