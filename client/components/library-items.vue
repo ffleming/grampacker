@@ -164,14 +164,14 @@ export default {
             let item;
             let filteredItems = [];
             if (!this.searchText) {
-                filteredItems = this.library.items.map(item => Vue.util.extend({}, item));
+                filteredItems = this.library.items;
             } else {
                 const lowerCaseSearchText = this.searchText.toLowerCase();
 
                 for (i = 0; i < this.library.items.length; i++) {
                     item = this.library.items[i];
                     if (item.name.toLowerCase().indexOf(lowerCaseSearchText) > -1 || item.description.toLowerCase().indexOf(lowerCaseSearchText) > -1) {
-                        filteredItems.push(Vue.util.extend({}, item));
+                        filteredItems.push(item);
                     }
                 }
             }
