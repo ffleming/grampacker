@@ -14,6 +14,9 @@ const Category = dataTypes.Category;
 const List = dataTypes.List;
 const Library = dataTypes.Library;
 
+import { createApp } from 'vue';
+import Dashboard from './views/dashboard.vue';
+
 Vue.use(VueRouter);
 
 const utils = require('./utils/utils.js');
@@ -42,6 +45,7 @@ store.dispatch('init')
 
 var initGramPacker = function () {
     console.log("In initGramPacker")
+  /*
     window.GramPacker = new Vue({
         router,
         store,
@@ -60,4 +64,13 @@ var initGramPacker = function () {
             this.path = router.currentRoute.path;
         },
     }).$mount('#lp');
+    */
+
+  const app = createApp(Dashboard);
+  app.use(store);
+  app.use(router)
+  console.log("mounting")
+  app.mount('#lp');
+  console.log("mounted")
+
 };
