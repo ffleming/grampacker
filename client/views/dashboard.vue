@@ -172,7 +172,7 @@ export default {
     },
     beforeMount() {
         if (!this.$store.state.library) {
-            router.push('/welcome');
+            this.$router.push('/welcome');
         } else {
             this.isLoaded = true;
         }
