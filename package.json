@@ -47,6 +47,7 @@
     "request": "^2.88.2",
     "sass": "1.32.0",
     "sass-loader": "10.1.0",
+    "tiny-emitter": "^2.1.0",
     "uuid": "^8.3.2",
     "vue-color-picker-wheel": "0.4.3",
     "vue-loader": "^16.0.0",

@@ -1,10 +1,13 @@
 import '@babel/polyfill';
 
-import Vue from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
+
+import Vue from 'vue'
 
 import routes from './routes';
 import store from './store/store';
+
+import bus from './bus'
 
 const focusDirectives = require('./utils/focus.js');
 const dataTypes = require('./dataTypes.js');
@@ -17,13 +20,11 @@ const Library = dataTypes.Library;
 import { createApp } from 'vue';
 import Dashboard from './views/dashboard.vue';
 
-// Vue.use(VueRouter);
-
 const utils = require('./utils/utils.js');
 const weightUtils = require('./utils/weight.js');
 
 window.Vue = Vue; // surfacing Vue globally for utils methods
-window.bus = new Vue(); // global event bus
+window.bus = bus; // global event bus
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,28 +47,7 @@ store.dispatch('init')
     });
 
 var initGramPacker = function () {
-    console.log("In initGramPacker")
-  /*
-    window.GramPacker = new Vue({
-        router,
-        store,
-        data() {
-          return {
-            path: '',
-            fatal: '',
-          }
-        },
-        watch: {
-            $route(to, from) {
-                this.path = to.path;
-            },
-        },
-        mounted() {
-            this.path = router.currentRoute.path;
-        },
-    }).$mount('#lp');
-    */
-
+  console.log("In initGramPacker")
   const app = createApp(Dashboard);
   app.use(store);
   app.use(router)
@@ -83,10 +63,7 @@ var initGramPacker = function () {
       return symbol + amount;
     }
   }
-
-
   console.log("mounting")
   app.mount('#lp');
   console.log("mounted")
-
 };
