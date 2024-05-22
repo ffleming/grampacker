@@ -174,7 +174,7 @@ export default defineComponent({
 
   beforeMount() {
       if (this.$store.state.library) {
-          router.push('/');
+          this.$router.push('/');
       }
   },
 });

@@ -86,7 +86,7 @@ export default defineComponent({
               body: JSON.stringify({ username: this.forgotPasswordUsername }),
           })
               .then((response) => {
-                  router.push('/signin/reset-password');
+                  this.$router.push('/signin/reset-password');
               })
               .catch((response) => {
                   let errors = [{ message: 'An error occurred, please try again later.' }];
@@ -108,7 +108,7 @@ export default defineComponent({
               body: JSON.stringify({ email: this.forgotUsernameEmail }),
           })
               .then((response) => {
-                  router.push('/signin/forgot-username');
+                  this.$router.push('/signin/forgot-username');
               })
               .catch((response) => {
                   let errors = [{ message: 'An error occurred, please try again later.' }];
