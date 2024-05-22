@@ -1,8 +1,3 @@
-
-/*
-  Application defaults, do not edit.
-  Use local.json to change for your deployment.
-*/
 {
     "environment"   : "development",
     "deployUrl": "http://192.168.1.4:3000",
