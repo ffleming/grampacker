@@ -9,7 +9,6 @@ import store from './store/store';
 
 import bus from './bus'
 
-const focusDirectives = require('./utils/focus.js');
 const dataTypes = require('./dataTypes.js');
 
 const Item = dataTypes.Item;
@@ -18,7 +17,8 @@ const List = dataTypes.List;
 const Library = dataTypes.Library;
 
 import { createApp } from 'vue';
-import Dashboard from './views/dashboard.vue';
+
+import uniqueId from 'lodash/uniqueId';
 
 const utils = require('./utils/utils.js');
 const weightUtils = require('./utils/weight.js');
@@ -63,6 +63,83 @@ var initGramPacker = function () {
       return symbol + amount;
     }
   }
+
+
+  app.directive('select-on-focus', {
+    mounted(el) {
+      el.addEventListener('focus', (evt) => {
+        el.select();
+      });
+    },
+  });
+
+  app.directive('focus-on-create', {
+    mounted(el, binding) {
+      if (binding.expression && binding.value || !binding.expression) {
+        el.focus();
+      }
+    },
+  });
+
+  app.directive('focus-on-bus', {
+    mounted(el, binding) {
+      bus.$on(binding.value, () => {
+        el.focus();
+      });
+    },
+  });
+
+  app.directive('select-on-bus', {
+    mounted(el, binding) {
+      bus.$on(binding.value, () => {
+        el.select();
+      });
+    },
+  });
+
+  app.directive('empty-if-zero', {
+    mounted(el) {
+      el.addEventListener('focus', (evt) => {
+        if (el.value === '0' || el.value === '0.00') {
+          el.dataset.originalValue = el.value;
+          el.value = '';
+        }
+      });
+
+      el.addEventListener('blur', (evt) => {
+        if (el.value === '') {
+          el.value = el.dataset.originalValue || '0';
+        }
+      });
+    },
+  });
+
+  app.directive('click-outside', {
+    mounted(el, binding) {
+      const handler = (evt) => {
+        if (el.contains(evt.target)) {
+          return;
+        }
+        if (binding && typeof binding.value === 'function') {
+          binding.value();
+        }
+      };
+
+      window.addEventListener('click', handler);
+
+      // Store handler to clean up later
+      el.dataset.clickoutside = uniqueId();
+      store.commit('addDirectiveInstance', { key: el.dataset.clickoutside, value: handler });
+    },
+    unbind(el) {
+      // clean up event handlers
+      const handler = store.state.directiveInstances[el.dataset.clickoutside];
+      store.commit('removeDirectiveInstance', el.dataset.clickoutside);
+      window.removeEventListener('click', handler);
+    },
+  });
+
+
   console.log("mounting")
   app.mount('#lp');
   console.log("mounted")
