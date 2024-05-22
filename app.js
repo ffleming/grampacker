@@ -71,7 +71,7 @@ if (config.get('environment') === 'production') {
     webpackConfig = require('./webpack.development.config');
 }
 
-webpackCompiler = webpack(webpackConfig);
+compiler = webpack(webpackConfig);
 
 // Default port is 3000; we can have multiple bindings
 config.get('bindings').map(
@@ -82,32 +82,31 @@ config.get('bindings').map(
 );
 
 if (config.get('environment') !== 'production') {
-    new WebpackDevServer(webpack(webpackConfig), {
-        historyApiFallback: true,
-        disableHostCheck: true,
-        publicPath: webpackConfig.output.publicPath,
-        hot: true,
-        proxy: {
-            '*': {
-                target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
-                secure: false,
-                changeOrigin: true,
-            },
-        },
-        stats: {
-            cached: false,
-            cachedAssets: false,
-            colors: { level: 2 },
-        },
-        watchOptions: {
-            aggregateTimeout: 300,
-            poll: 1000,
-        },
-    }).listen(config.get('devServerPort'), (err, result) => {
-        if (err) {
-            return logger.info(err);
-        }
+  const devServerOptions = {
+    host: "192.168.1.4",
+    port: 8080,
+    devMiddleware: {
+      stats: {
+        cached: false,
+        cachedAssets: false,
+        colors: { level: 2 },
+      },
+    },
+    historyApiFallback: true,
+    hot: true,
+    proxy: {
+      '*': {
+        target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
+        secure: false,
+        changeOrigin: true,
+      },
+    },
+  };
+  const devServer = new WebpackDevServer(devServerOptions, compiler);
 
-        logger.info(`Webpack dev server listening on port ${config.get('devServerPort')}`);
-    });
+  (async () => {
+    await devServer.start();
+
+    console.log("Running");
+  })();
 }
