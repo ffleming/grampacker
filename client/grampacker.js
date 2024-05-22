@@ -48,7 +48,7 @@ store.dispatch('init')
 
 var initGramPacker = function () {
   console.log("In initGramPacker")
-  const app = createApp();
+  const app = createApp({});
   app.use(store);
   app.use(router)
   app.config.globalProperties.$filters = {
