@@ -1,7 +1,7 @@
 {
-  "name": "lighterpack",
-  "version": "2.0.0",
-  "description": "LighterPack =========== LighterPack is a website to track the gear you take on adventures. It is still in Beta.",
+  "name": "grampacker",
+  "version": "2.1.0",
+  "description": "Gram Packer is a website to track the gear you take on adventures. It is a fork of LighterPack.",
   "main": "app.js",
   "scripts": {
     "dev": "node --max-old-space-size=8192 app.js",
@@ -12,9 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/galenmaly/lighterpack"
+    "url": "https://github.com/ffleming/grampacker"
   },
-  "author": "",
+  "author": "The Gram Packer community",
   "license": "GPL-2.0",
   "dependencies": {
     "@babel/core": "7.12.10",

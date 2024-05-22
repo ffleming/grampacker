@@ -90,8 +90,8 @@
 
             <div id="lpFooter">
                 <div class="lpSiteBy">
-                    Gram Packer is a
-                    <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community effort</a>.
+                  Gram Packer {{ appVersion }} is a
+                  <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community</a> effort
                     <a class="lpHref" href="https://github.com/ffleming/grampacker/issues" target="_blank" rel="noopener noreferrer">Join in!</a>
                 </div>
                 <div class="lpContact">
@@ -135,6 +135,8 @@ import importCSV from '../components/import-csv.vue';
 import copyList from '../components/copy-list.vue';
 import speedbump from '../components/speedbump.vue';
 
+import packageInfo from "../../package.json"
+
 export default defineComponent({
   name: 'Dashboard',
 
@@ -160,9 +162,10 @@ export default defineComponent({
   mixins: [],
 
   data() {
-      return {
-          isLoaded: false,
-      };
+    return {
+      appVersion: packageInfo.version,
+      isLoaded: false,
+    };
   },
 
   computed: {
