@@ -2,7 +2,7 @@
 </style>
 
 <template>
-    <Popper id="lpPickerContainer" :shown="shown" @hide="shown = false">
+    <Popper id="lpPickerContainer">
         <span class="lpLegend" :style="{'background-color': color}" @click="shown = true" />
         <template #content>
           <div class="lpPopoverContent">
