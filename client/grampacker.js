@@ -44,7 +44,6 @@ store.dispatch('init')
     });
 
 var initGramPacker = function () {
-  console.log("In initGramPacker")
   const app = createApp({});
   app.use(store);
   app.use(router)
@@ -137,8 +136,5 @@ var initGramPacker = function () {
     },
   });
 
-
-  console.log("mounting")
   app.mount('#lp');
-  console.log("mounted")
 };

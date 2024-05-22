@@ -246,7 +246,6 @@ const store = createStore({
     },
     actions: {
         init(context) {
-            console.log("init")
             if (readCookie('lp')) {
                 return context.dispatch('loadRemote');
             }
@@ -260,14 +259,12 @@ const store = createStore({
             });
         },
         loadLocal(context) {
-            console.log("loadLocal")
             const libraryData = localStorage.library;
             context.commit('loadLibraryData', libraryData);
             context.commit('setSaveType', 'local');
             context.commit('setLoggedIn', false);
         },
         loadRemote(context) {
-            console.log("loadRemote")
             return fetchJson('/signin', {
                 method: 'POST',
                 headers: {
