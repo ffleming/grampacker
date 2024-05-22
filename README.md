@@ -20,10 +20,9 @@ development.
 
 ## Priorities
 
-1. Upgrade to Vue3
+1. Remove mailgun
 1. Proper mobile support
 1. General feature development
-1. Migrate to postgres
 
 But really, that's just what I want to see. If you want something in
 Gram Packer, send a PR.
