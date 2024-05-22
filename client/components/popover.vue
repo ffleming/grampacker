@@ -107,39 +107,45 @@
 </template>
 
 <script>
-export default {
-    name: 'Popover',
-    props: {
-        id: {
-            type: String,
-            required: false,
-        },
-        shown: {
-            type: Boolean,
-            required: true,
-        },
-    },
-    beforeMount() {
-        this.bindEscape();
-    },
-    beforeUnmount() {
-        this.unbindEscape();
-    },
-    methods: {
-        hide() {
-            this.$emit('hide');
-        },
-        bindEscape() {
-            window.addEventListener('keyup', this.closeOnEscape);
-        },
-        unbindEscape() {
-            window.removeEventListener('keyup', this.closeOnEscape);
-        },
-        closeOnEscape(evt) {
-            if (this.shown && evt.keyCode === 27) {
-                this.hide();
-            }
-        },
-    },
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'Popover',
+
+  props: {
+      id: {
+          type: String,
+          required: false,
+      },
+      shown: {
+          type: Boolean,
+          required: true,
+      },
+  },
+
+  beforeMount() {
+      this.bindEscape();
+  },
+
+  beforeUnmount() {
+      this.unbindEscape();
+  },
+
+  methods: {
+      hide() {
+          this.$emit('hide');
+      },
+      bindEscape() {
+          window.addEventListener('keyup', this.closeOnEscape);
+      },
+      unbindEscape() {
+          window.removeEventListener('keyup', this.closeOnEscape);
+      },
+      closeOnEscape(evt) {
+          if (this.shown && evt.keyCode === 27) {
+              this.hide();
+          }
+      },
+  },
+});
 </script>

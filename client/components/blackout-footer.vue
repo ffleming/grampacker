@@ -1,5 +1,4 @@
 <style lang="scss">
-
 </style>
 
 <template>
@@ -16,7 +15,9 @@
 </template>
 
 <script>
-export default {
-    name: 'BlackoutFooter',
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'BlackoutFooter',
+});
 </script>

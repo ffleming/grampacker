@@ -1,5 +1,4 @@
 <style lang="scss">
-
 .lpQtySubtotal {
     padding-right: 25px; /* Accommodates delete column */
 }
@@ -45,41 +44,47 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import item from './item.vue';
 
 const utilsMixin = require('../mixins/utils-mixin.js');
 
-export default {
-    name: 'Category',
-    components: {
-        item,
-    },
-    mixins: [utilsMixin],
-    props: ['category'],
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        itemContainers() {
-            return this.category.categoryItems.map(categoryItem => ({ categoryItem, item: this.library.getItemById(categoryItem.itemId) }));
-        },
-    },
-    methods: {
-        newItem() {
-            this.$store.commit('newItem', { category: this.category, _isNew: true });
-        },
-        updateCategoryName(evt) {
-            this.$store.commit('updateCategoryName', { id: this.category.id, name: evt.target.value });
-        },
-        removeCategory(category) {
-            const callback = function () {
-                this.$store.commit('removeCategory', category);
-            };
-            const speedbumpOptions = {
-                body: 'Are you sure you want to delete this category? This cannot be undone.',
-            };
-            bus.$emit('initSpeedbump', callback, speedbumpOptions);
-        }
-    }
-};
+export default defineComponent({
+  name: 'Category',
+
+  components: {
+      item,
+  },
+
+  mixins: [utilsMixin],
+  props: ['category'],
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      itemContainers() {
+          return this.category.categoryItems.map(categoryItem => ({ categoryItem, item: this.library.getItemById(categoryItem.itemId) }));
+      },
+  },
+
+  methods: {
+      newItem() {
+          this.$store.commit('newItem', { category: this.category, _isNew: true });
+      },
+      updateCategoryName(evt) {
+          this.$store.commit('updateCategoryName', { id: this.category.id, name: evt.target.value });
+      },
+      removeCategory(category) {
+          const callback = function () {
+              this.$store.commit('removeCategory', category);
+          };
+          const speedbumpOptions = {
+              body: 'Are you sure you want to delete this category? This cannot be undone.',
+          };
+          bus.$emit('initSpeedbump', callback, speedbumpOptions);
+      }
+  },
+});
 </script>

@@ -1,5 +1,4 @@
 <style lang="scss">
-
 #itemImageDialog {
     width: 640px;
 
@@ -17,24 +16,29 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import modal from './modal.vue';
 
-export default {
-    name: 'ItemViewImage',
-    components: {
-        modal,
-    },
-    data() {
-        return {
-            imageUrl: '',
-            shown: false,
-        };
-    },
-    mounted() {
-        bus.$on('viewItemImage', (imageUrl) => {
-            this.shown = true;
-            this.imageUrl = imageUrl;
-        });
-    },
-};
+export default defineComponent({
+  name: 'ItemViewImage',
+
+  components: {
+      modal,
+  },
+
+  data() {
+      return {
+          imageUrl: '',
+          shown: false,
+      };
+  },
+
+  mounted() {
+      bus.$on('viewItemImage', (imageUrl) => {
+          this.shown = true;
+          this.imageUrl = imageUrl;
+      });
+  },
+});
 </script>

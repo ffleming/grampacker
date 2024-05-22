@@ -1,5 +1,4 @@
 <style lang="scss">
-
 </style>
 
 <template>
@@ -27,24 +26,27 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import blackoutFooter from '../components/blackout-footer.vue';
 import globalAlerts from '../components/global-alerts.vue';
 import modal from '../components/modal.vue';
 import registerForm from '../components/register-form.vue';
 
-export default {
-    name: 'Register',
-    components: {
-        blackoutFooter,
-        globalAlerts,
-        modal,
-        registerForm,
-    },
+export default defineComponent({
+  name: 'Register',
 
-    computed: {
-        isLocalSaving() {
-            return this.$store.state.saveType === 'local';
-        },
-    },
-};
+  components: {
+      blackoutFooter,
+      globalAlerts,
+      modal,
+      registerForm,
+  },
+
+  computed: {
+      isLocalSaving() {
+          return this.$store.state.saveType === 'local';
+      },
+  },
+});
 </script>

@@ -1,5 +1,4 @@
 <style lang="scss">
-
 </style>
 
 <template>
@@ -14,32 +13,38 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import modal from './modal.vue';
 
-export default {
-    name: 'ItemLink',
-    components: {
-        modal,
-    },
-    data() {
-        return {
-            url: '',
-            item: false,
-            shown: false,
-        };
-    },
-    beforeMount() {
-        bus.$on('updateItemLink', (item) => {
-            this.shown = true;
-            this.item = item;
-            this.url = item.url;
-        });
-    },
-    methods: {
-        addLink() {
-            this.$store.commit('updateItemLink', { url: this.url, item: this.item });
-            this.shown = false;
-        },
-    },
-};
+export default defineComponent({
+  name: 'ItemLink',
+
+  components: {
+      modal,
+  },
+
+  data() {
+      return {
+          url: '',
+          item: false,
+          shown: false,
+      };
+  },
+
+  beforeMount() {
+      bus.$on('updateItemLink', (item) => {
+          this.shown = true;
+          this.item = item;
+          this.url = item.url;
+      });
+  },
+
+  methods: {
+      addLink() {
+          this.$store.commit('updateItemLink', { url: this.url, item: this.item });
+          this.shown = false;
+      },
+  },
+});
 </script>

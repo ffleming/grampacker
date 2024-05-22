@@ -18,32 +18,37 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import PopoverHover from './popover-hover.vue';
 
-export default {
-    name: 'AccountDropdown',
-    components: {
-        PopoverHover,
-    },
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        username() {
-            return this.$store.state.loggedIn;
-        },
-    },
-    methods: {
-        showAccount() {
-            bus.$emit('showAccount');
-        },
-        showHelp() {
-            bus.$emit('showHelp');
-        },
-        signout() {
-            this.$store.commit('signout');
-            router.push('/signin');
-        },
-    },
-};
+export default defineComponent({
+  name: 'AccountDropdown',
+
+  components: {
+      PopoverHover,
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      username() {
+          return this.$store.state.loggedIn;
+      },
+  },
+
+  methods: {
+      showAccount() {
+          bus.$emit('showAccount');
+      },
+      showHelp() {
+          bus.$emit('showHelp');
+      },
+      signout() {
+          this.$store.commit('signout');
+          router.push('/signin');
+      },
+  },
+});
 </script>

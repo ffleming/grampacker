@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import globalAlerts from '../components/global-alerts.vue';
 import sidebar from '../components/sidebar.vue';
 import share from '../components/share.vue';
@@ -133,57 +135,63 @@ import importCSV from '../components/import-csv.vue';
 import copyList from '../components/copy-list.vue';
 import speedbump from '../components/speedbump.vue';
 
-export default {
-    name: 'Dashboard',
-    components: {
-        sidebar,
-        share,
-        listSettings,
-        accountDropdown,
-        forgotPassword,
-        account,
-        accountDelete,
-        help,
-        list,
-        itemLink,
-        copyList,
-        importCSV,
-        itemImage,
-        itemViewImage,
-        speedbump,
-        globalAlerts,
-    },
-    mixins: [],
-    data() {
-        return {
-            isLoaded: false,
-        };
-    },
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        list() {
-            return this.library.getListById(this.library.defaultListId);
-        },
-        isSignedIn() {
-            return this.$store.state.loggedIn;
-        },
-    },
-    beforeMount() {
-        if (!this.$store.state.library) {
-            this.$router.push('/welcome');
-        } else {
-            this.isLoaded = true;
-        }
-    },
-    methods: {
-        toggleSidebar() {
-            this.$store.commit('toggleSidebar');
-        },
-        updateListName(evt) {
-            this.$store.commit('updateListName', { id: this.list.id, name: evt.target.value });
-        },
-    },
-};
+export default defineComponent({
+  name: 'Dashboard',
+
+  components: {
+      sidebar,
+      share,
+      listSettings,
+      accountDropdown,
+      forgotPassword,
+      account,
+      accountDelete,
+      help,
+      list,
+      itemLink,
+      copyList,
+      importCSV,
+      itemImage,
+      itemViewImage,
+      speedbump,
+      globalAlerts,
+  },
+
+  mixins: [],
+
+  data() {
+      return {
+          isLoaded: false,
+      };
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      list() {
+          return this.library.getListById(this.library.defaultListId);
+      },
+      isSignedIn() {
+          return this.$store.state.loggedIn;
+      },
+  },
+
+  beforeMount() {
+      if (!this.$store.state.library) {
+          this.$router.push('/welcome');
+      } else {
+          this.isLoaded = true;
+      }
+  },
+
+  methods: {
+      toggleSidebar() {
+          this.$store.commit('toggleSidebar');
+      },
+      updateListName(evt) {
+          this.$store.commit('updateListName', { id: this.list.id, name: evt.target.value });
+      },
+  },
+});
 </script>

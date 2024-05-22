@@ -95,49 +95,55 @@
 </template>
 
 <script>
-export default {
-    name: 'Modal',
-    props: {
-        id: {
-            type: String,
-            required: false,
-        },
-        shown: {
-            type: Boolean,
-            required: true,
-        },
-        blackout: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-        transparentOverlay: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-    },
-    beforeMount() {
-        this.bindEscape();
-    },
-    beforeUnmount() {
-        this.unbindEscape();
-    },
-    methods: {
-        hide() {
-            this.$emit('hide');
-        },
-        bindEscape() {
-            window.addEventListener('keyup', this.closeOnEscape);
-        },
-        unbindEscape() {
-            window.removeEventListener('keyup', this.closeOnEscape);
-        },
-        closeOnEscape(evt) {
-            if (this.shown && evt.keyCode === 27) {
-                this.hide();
-            }
-        },
-    },
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'Modal',
+
+  props: {
+      id: {
+          type: String,
+          required: false,
+      },
+      shown: {
+          type: Boolean,
+          required: true,
+      },
+      blackout: {
+          type: Boolean,
+          required: false,
+          default: false,
+      },
+      transparentOverlay: {
+          type: Boolean,
+          required: false,
+          default: false,
+      },
+  },
+
+  beforeMount() {
+      this.bindEscape();
+  },
+
+  beforeUnmount() {
+      this.unbindEscape();
+  },
+
+  methods: {
+      hide() {
+          this.$emit('hide');
+      },
+      bindEscape() {
+          window.addEventListener('keyup', this.closeOnEscape);
+      },
+      unbindEscape() {
+          window.removeEventListener('keyup', this.closeOnEscape);
+      },
+      closeOnEscape(evt) {
+          if (this.shown && evt.keyCode === 27) {
+              this.hide();
+          }
+      },
+  },
+});
 </script>

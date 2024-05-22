@@ -1,5 +1,4 @@
 <style lang="scss">
-
 .lpLegend {
     &:hover {
         border-color: #666;
@@ -119,6 +118,8 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import colorPicker from './colorpicker.vue';
 import unitSelect from './unit-select.vue';
 
@@ -126,73 +127,79 @@ const pies = require('../pies.js');
 const utilsMixin = require('../mixins/utils-mixin.js');
 const colorUtils = require('../utils/color.js');
 
-export default {
-    name: 'ListSummary',
-    components: {
-        colorPicker,
-        unitSelect,
-    },
-    mixins: [utilsMixin],
-    props: ['list'],
-    data() {
-        return {
-            chart: null,
-            hoveredCategoryId: null,
-        };
-    },
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        categories() {
-            return this.list.categoryIds.map((id) => {
-                const category = this.library.getCategoryById(id);
-                category.activeHover = (this.hoveredCategoryId === category.id);
-                return category;
-            });
-        },
-    },
-    watch: {
-        '$store.state.library.defaultListId': 'updateChart',
-        'list.totalWeight': 'updateChart',
-        'list.categoryIds': 'updateChart',
-    },
-    mounted() {
-        this.updateChart();
-    },
-    methods: {
-        updateChart(type) {
-            const chartData = this.library.renderChart(type);
+export default defineComponent({
+  name: 'ListSummary',
 
-            if (chartData) {
-                if (this.chart) {
-                    this.chart.update({ processedData: chartData });
-                } else {
-                    this.chart = pies({ processedData: chartData, container: document.getElementsByClassName('lpChart')[0], hoverCallback: this.chartHover });
-                }
-            }
-            return chartData;
-        },
-        chartHover(chartItem) {
-            if (chartItem && chartItem.id) {
-                this.hoveredCategoryId = chartItem.id;
-            } else {
-                this.hoveredCategoryId = null;
-            }
-        },
-        setTotalUnit(unit) {
-            this.$store.commit('setTotalUnit', unit);
-        },
-        updateColor(category, color) {
-            category.color = colorUtils.hexToRgb(color);
-            category.displayColor = colorUtils.rgbToString(colorUtils.hexToRgb(color));
-            this.$store.commit('updateCategoryColor', category);
-            this.updateChart();
-        },
-        colorToHex(color) {
-            return colorUtils.rgbToHex(colorUtils.stringToRgb(color));
-        },
-    },
-};
+  components: {
+      colorPicker,
+      unitSelect,
+  },
 
+  mixins: [utilsMixin],
+  props: ['list'],
+
+  data() {
+      return {
+          chart: null,
+          hoveredCategoryId: null,
+      };
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      categories() {
+          return this.list.categoryIds.map((id) => {
+              const category = this.library.getCategoryById(id);
+              category.activeHover = (this.hoveredCategoryId === category.id);
+              return category;
+          });
+      },
+  },
+
+  watch: {
+      '$store.state.library.defaultListId': 'updateChart',
+      'list.totalWeight': 'updateChart',
+      'list.categoryIds': 'updateChart',
+  },
+
+  mounted() {
+      this.updateChart();
+  },
+
+  methods: {
+      updateChart(type) {
+          const chartData = this.library.renderChart(type);
+
+          if (chartData) {
+              if (this.chart) {
+                  this.chart.update({ processedData: chartData });
+              } else {
+                  this.chart = pies({ processedData: chartData, container: document.getElementsByClassName('lpChart')[0], hoverCallback: this.chartHover });
+              }
+          }
+          return chartData;
+      },
+      chartHover(chartItem) {
+          if (chartItem && chartItem.id) {
+              this.hoveredCategoryId = chartItem.id;
+          } else {
+              this.hoveredCategoryId = null;
+          }
+      },
+      setTotalUnit(unit) {
+          this.$store.commit('setTotalUnit', unit);
+      },
+      updateColor(category, color) {
+          category.color = colorUtils.hexToRgb(color);
+          category.displayColor = colorUtils.rgbToString(colorUtils.hexToRgb(color));
+          this.$store.commit('updateCategoryColor', category);
+          this.updateChart();
+      },
+      colorToHex(color) {
+          return colorUtils.rgbToHex(colorUtils.stringToRgb(color));
+      },
+  },
+});
 </script>

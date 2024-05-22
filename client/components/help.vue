@@ -1,5 +1,4 @@
 <style lang="scss">
-
 #help {
     width: 800px;
 }
@@ -27,22 +26,27 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import modal from './modal.vue';
 
-export default {
-    name: 'Help',
-    components: {
-        modal,
-    },
-    data() {
-        return {
-            shown: false,
-        };
-    },
-    beforeMount() {
-        bus.$on('showHelp', () => {
-            this.shown = true;
-        });
-    },
-};
+export default defineComponent({
+  name: 'Help',
+
+  components: {
+      modal,
+  },
+
+  data() {
+      return {
+          shown: false,
+      };
+  },
+
+  beforeMount() {
+      bus.$on('showHelp', () => {
+          this.shown = true;
+      });
+  },
+});
 </script>
