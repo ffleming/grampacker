@@ -80,11 +80,6 @@ module.exports = {
 			vue: '@vue/compat',
 		},
 	},
-	devServer: {
-    watchOptions: {
-      poll: true,
-    },
-	},
 
 	performance: {
 		hints: false,
@@ -96,4 +91,6 @@ module.exports = {
 		new VueLoaderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 	],
+
+  watch: true,
 };
