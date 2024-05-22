@@ -55,20 +55,19 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true, // Enable source maps for debugging
+              sourceMap: true,
             },
           },
 					{
 						loader: 'sass-loader',
 						options: {
-							sourceMap: true, // Enable source maps for debugging
+							sourceMap: true,
 						},
 					},
 					{
-						loader: 'resolve-url-loader', // Resolve relative URLs in SCSS
+						loader: 'resolve-url-loader',
 						options: {
-							sourceMap: true, // Enable source maps for debugging
-							// root: path.resolve(__dirname, 'grampacker'), // Set root for resolving
+							sourceMap: true,
 						},
 					},
 				],
