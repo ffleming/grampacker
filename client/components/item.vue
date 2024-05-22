@@ -122,10 +122,10 @@ export default defineComponent({
           return this.$store.state.library;
       },
       item() {
-          return Vue.util.extend({}, this.itemContainer.item);
+          return this.itemContainer.item;
       },
       categoryItem() {
-          return Vue.util.extend({}, this.itemContainer.categoryItem);
+          return this.itemContainer.categoryItem;
       },
       thumbnailImage() {
           if (this.item.image) {
