@@ -6,7 +6,7 @@
         <span class="lpLegend" :style="{'background-color': color}" @click="shown = true" />
         <template #content>
           <div class="lpPopoverContent">
-            <VueColorPicker :width="150" :height="150" :disabled="false" :start-color="color" @color-change="onColorChange" />
+            <ColorPickerWheel :width="150" :height="150" :disabled="false" :start-color="color" @color-change="onColorChange" />
           </div>
         </template>
     </Popper>
@@ -16,13 +16,13 @@
 
 import { defineComponent } from 'vue';
 import Popper from "vue3-popper";
-import VueColorPicker from './color-picker.vue';
+import ColorPickerWheel from './color-picker-wheel.vue';
 
 export default defineComponent({
   name: 'ColorPicker',
 
   components: {
-      VueColorPicker,
+      ColorPickerWheel,
       Popper,
   },
 
