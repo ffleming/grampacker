@@ -1,0 +1,6 @@
+# This is specific to the deploy at grampacker.net.
+# If you're cloning this repository, you don't want this.
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://grampacker.net/$1 [R=301,L]
+PassengerEnabled On
+PassengerNodejs /home/fsf/.nvm/versions/node/v20.13.1/bin/node
