@@ -93,7 +93,6 @@ if (config.get('environment') !== 'production') {
       },
     },
     historyApiFallback: true,
-    hot: true,
     proxy: {
       '*': {
         target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
