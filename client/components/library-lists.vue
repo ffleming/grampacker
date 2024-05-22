@@ -91,7 +91,7 @@
     <section id="listContainer">
         <div class="listContainerHeader">
             <h2>Lists</h2>
-            <Popper id="addListFlyout">
+            <Popper id="addListFlyout" hover>
                 <span><a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a></span>
                 <template #content>
                   <div class="lpPopoverContent">
