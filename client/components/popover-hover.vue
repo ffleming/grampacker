@@ -4,10 +4,8 @@
 </style>
 
 <template>
-  <Popover :shown="shown" >
-        <slot slot="target" name="target" />
-        <slot slot="content" name="content" />
-    </Popover>
+        <slot name="target" />
+        <slot name="content" />
 </template>
 
 <script>
