@@ -2,8 +2,6 @@ import '@babel/polyfill';
 
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Vue from 'vue'
-
 import routes from './routes';
 import store from './store';
 
@@ -23,13 +21,12 @@ import uniqueId from 'lodash/uniqueId';
 const utils = require('./utils/utils.js');
 const weightUtils = require('./utils/weight.js');
 
-window.Vue = Vue; // surfacing Vue globally for utils methods
-window.bus = bus; // global event bus
-
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
 })
+
+window.bus = bus; // global event bus
 
 bus.$on('unauthorized', (error) => {
     window.location = '/signin';
@@ -45,8 +42,6 @@ store.dispatch('init')
         }
         initGramPacker();
     });
-
-Vue.configureCompat({ WATCH_ARRAY: false , RENDER_FUNCTION: false})
 
 var initGramPacker = function () {
   console.log("In initGramPacker")

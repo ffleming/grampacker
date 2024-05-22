@@ -77,7 +77,7 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			vue: '@vue/compat',
+			vue: 'vue/dist/vue.esm-bundler',
 		},
 	},
 
