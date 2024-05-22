@@ -45,6 +45,7 @@
     "nanoid": "2.0.3",
     "node.extend": "^1.1.5",
     "request": "^2.88.2",
+    "resolve-url-loader": "^5.0.0",
     "sass": "1.32.0",
     "sass-loader": "10.1.0",
     "tiny-emitter": "^2.1.0",

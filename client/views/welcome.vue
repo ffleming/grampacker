@@ -88,7 +88,7 @@ $welcomeVerticalSpacing: 80px;
 
 #lpWelcomeScreenshot {
     box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.3);
-    max-width: 96%; //visual alignment with content
+    max-width: 96%;
 }
 
 #lpLaunchBanner {

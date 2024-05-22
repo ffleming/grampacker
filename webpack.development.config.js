@@ -3,81 +3,94 @@ const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        app: [
-            'whatwg-fetch',
-            'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://localhost:8080/',
-            './client/css/grampacker.scss',
-            './client/grampacker.js',
-        ],
-        share: [
-            './client/css/share.scss',
-            'webpack/hot/dev-server',
-            'webpack-dev-server/client?http://192.168.1.4:8080/',
-        ],
-    },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
-        filename: '[name].js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    compilerOptions: {
-                        compatConfig: {
-                            MODE: 2
-                        }
-                    }
-                }
+	mode: 'development',
+	entry: {
+		app: [
+			'whatwg-fetch',
+			'webpack/hot/dev-server',
+			'webpack-dev-server/client?http://192.168.1.4:8080/',
+			'./client/css/grampacker.scss',
+			'./client/grampacker.js',
+		],
+		share: [
+			'./client/css/share.scss',
+			'webpack/hot/dev-server',
+			'webpack-dev-server/client?http://192.168.1.4:8080/',
+		],
+	},
+	output: {
+		path: path.resolve(__dirname, './dist'),
+		publicPath: 'http://192.168.1.4:8080/dist/',
+		filename: '[name].js',
+	},
+	module: {
+		rules: [
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+				options: {
+					compilerOptions: {
+						compatConfig: {
+							MODE: 2
+						}
+					}
+				}
+			},
+			{
+				test: /\.js$/,
+				loader: 'babel-loader',
+				exclude: /node_modules/,
+			},
+			{
+				test: /\.(png|jpg|gif|svg)$/,
+				type: 'asset/resource', // Use 'asset/resource' for versatile handling
+				generator: {
+					filename: '[name].[ext]?[hash]',
+				},
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true, // Enable source maps for debugging
             },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]',
-                },
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'vue-style-loader',
-                    'css-loader',
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            implementation: require('sass'),
-                        },
-                    },
-                ],
-            },
-        ],
-    },
-    resolve: {
-        alias: {
-            vue: '@vue/compat',
-        },
-    },
-    devServer: {
-        historyApiFallback: true,
-        noInfo: true,
-        hot: true,
-    },
-    performance: {
-        hints: false,
-    },
-    plugins: [
-        new VueLoaderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-    ],
+          },
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true, // Enable source maps for debugging
+						},
+					},
+					{
+						loader: 'resolve-url-loader', // Resolve relative URLs in SCSS
+						options: {
+							sourceMap: true, // Enable source maps for debugging
+							// root: path.resolve(__dirname, 'grampacker'), // Set root for resolving
+						},
+					},
+				],
+			},
+		],
+	},
+	resolve: {
+		alias: {
+			vue: '@vue/compat',
+		},
+	},
+	devServer: {
+		historyApiFallback: true,
+		noInfo: true,
+		hot: true,
+	},
+	performance: {
+		hints: false,
+	},
+  devtool: 'eval-source-map',
+	plugins: [
+		new VueLoaderPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+	],
 };
