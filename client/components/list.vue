@@ -129,10 +129,13 @@ export default defineComponent({
   },
 
   watch: {
-      categories() {
+      categories: {
+        handler(oldVal, newVal) {
           nextTick(() => {
               this.handleItemReorder();
           });
+        },
+        deep: true,
       },
   },
 

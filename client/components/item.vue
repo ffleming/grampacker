@@ -146,11 +146,17 @@ export default defineComponent({
   },
 
   watch: {
-      item() {
+      item: {
+        handler(val, oldVal) {
           this.setDisplayWeight();
+        },
+        deep: true,
       },
-      categoryItem() {
-          this.setDisplayQty();
+      categoryItem: {
+        handler(val, oldVal) {
+          this.setDisplayWeight();
+        },
+        deep: true,
       },
   },
 

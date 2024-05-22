@@ -199,10 +199,13 @@ export default defineComponent({
   },
 
   watch: {
-      categories() {
+      categories: {
+        handler(oldVal, newVal) {
           nextTick(() => {
               this.handleItemDrag();
           });
+        },
+        deep: true,
       },
   },
 
