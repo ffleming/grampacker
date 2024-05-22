@@ -47,7 +47,7 @@ export default defineComponent({
       },
       signout() {
           this.$store.commit('signout');
-          router.push('/signin');
+          this.$router.push('/signin');
       },
   },
 });

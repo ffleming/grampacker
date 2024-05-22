@@ -84,7 +84,7 @@ export default defineComponent({
 
   beforeMount() {
       if (false) {
-          router.push('/welcome');
+          this.$router.push('/welcome');
       }
   },
 
