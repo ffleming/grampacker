@@ -119,13 +119,13 @@ export default defineComponent({
 
   computed: {
       library() {
-          return this.$store.state.library;
+        return this.$store.state.library;
       },
       item() {
-          return this.itemContainer.item;
+        return Object.assign({}, this.itemContainer.item);
       },
       categoryItem() {
-          return this.itemContainer.categoryItem;
+        return Object.assign({}, this.itemContainer.categoryItem);
       },
       thumbnailImage() {
           if (this.item.image) {
