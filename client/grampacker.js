@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Vue from 'vue'
 
 import routes from './routes';
-import store from './store/store';
+import store from './store';
 
 import bus from './bus'
 
