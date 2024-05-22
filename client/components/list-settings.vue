@@ -3,10 +3,10 @@
 
 <template>
     <span id="settings" v-if="isSignedIn" class="headerItem hasPopover">
-        <Popper>
+        <Popper hover>
         <span class="lpTarget"><i class="lpSprite lpSettings" />Settings</span>
             <template #content>
-              <div class="lpContent">
+              <div class="lpPopoverContent">
                   <ul id="lpOptionalFields">
                       <li v-for="optionalField in optionalFieldsLookup" :key="optionalField.name" class="lpOptionalField">
                           <label>

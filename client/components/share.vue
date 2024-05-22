@@ -3,20 +3,20 @@
 
 <template>
   <span id="share" v-if="isSignedIn" class="headerItem hasPopover">
-      <Popper>
+      <Popper hover>
         <span class="lpTarget"><i class="lpSprite lpLink" /> Share</span>
         <template #content>
-          <div class="lpContent">
-            <div class="lpField">
-              <label for="shareUrl">Share your list</label>
-              <input id="shareUrl" v-select-on-bus="'show-share-box'"  v-select-on-focus type="text" :value="shareUrl">
-            </div>
-            <div class="lpField">
-              <label for="embedUrl">Embed your list</label>
-              <textarea id="embedUrl" v-select-on-focus>&lt;script src="{{ this.baseUrl }}/e/{{ this.externalId }}"&gt;&lt;/script&gt;&lt;div id="{{ this.externalId }}"&gt;&lt;/div&gt;</textarea>
-            </div>
-            <a id="csvUrl" :href="csvUrl" target="_blank" class="lpHref"><i class="lpSprite lpSpriteDownload" />Export to CSV</a>
-          </div>
+          <div class="lpPopoverContent lpFields">
+							<div class="lpField">
+								<label for="shareUrl">Share your list</label>
+								<input id="shareUrl" v-select-on-bus="'show-share-box'"  v-select-on-focus type="text" :value="shareUrl">
+							</div>
+							<div class="lpField">
+								<label for="embedUrl">Embed your list</label>
+								<textarea id="embedUrl" v-select-on-focus>&lt;script src="{{ this.baseUrl }}/e/{{ this.externalId }}"&gt;&lt;/script&gt;&lt;div id="{{ this.externalId }}"&gt;&lt;/div&gt;</textarea>
+							</div>
+							<a id="csvUrl" :href="csvUrl" target="_blank" class="lpHref"><i class="lpSprite lpSpriteDownload" />Export to CSV</a>
+						</div>
         </template>
       </Popper>
   </span>
