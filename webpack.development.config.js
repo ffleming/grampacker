@@ -60,13 +60,13 @@ module.exports = {
             },
           },
 					{
-						loader: 'sass-loader',
+						loader: 'resolve-url-loader',
 						options: {
 							sourceMap: true,
 						},
 					},
 					{
-						loader: 'resolve-url-loader',
+						loader: 'sass-loader',
 						options: {
 							sourceMap: true,
 						},
