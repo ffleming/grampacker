@@ -1,8 +1,8 @@
 import { createStore } from 'vuex'
 import debounce from 'lodash/debounce';
 
-const weightUtils = require('../utils/weight.js');
-const dataTypes = require('../dataTypes.js');
+const weightUtils = require('./utils/weight.js');
+const dataTypes = require('./dataTypes.js');
 
 const Item = dataTypes.Item;
 const Category = dataTypes.Category;
