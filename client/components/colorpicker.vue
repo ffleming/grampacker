@@ -36,7 +36,7 @@ export default defineComponent({
 
   methods: {
       onColorChange(newColor) {
-          this.$emit('colorChange', newColor);
+          this.$emit('color-change', newColor);
       },
   },
 });
