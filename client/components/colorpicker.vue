@@ -5,7 +5,9 @@
     <Popper id="lpPickerContainer" :shown="shown" @hide="shown = false">
         <span class="lpLegend" :style="{'background-color': color}" @click="shown = true" />
         <template #content>
-          <VueColorPicker :width="150" :height="150" :disabled="false" :start-color="color" @color-change="onColorChange" />
+          <div class="lpPopoverContent">
+            <VueColorPicker :width="150" :height="150" :disabled="false" :start-color="color" @color-change="onColorChange" />
+          </div>
         </template>
     </Popper>
 </template>
