@@ -153,25 +153,29 @@ $welcomeVerticalSpacing: 80px;
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import blackoutFooter from '../components/blackout-footer.vue';
 import globalAlerts from '../components/global-alerts.vue';
 import modal from '../components/modal.vue';
 import registerForm from '../components/register-form.vue';
 import SigninForm from '../components/signin-form.vue';
 
-export default {
-    name: 'Welcome',
-    components: {
-        blackoutFooter,
-        globalAlerts,
-        modal,
-        registerForm,
-        SigninForm,
-    },
-    beforeMount() {
-        if (this.$store.state.library) {
-            router.push('/');
-        }
-    },
-};
+export default defineComponent({
+  name: 'Welcome',
+
+  components: {
+      blackoutFooter,
+      globalAlerts,
+      modal,
+      registerForm,
+      SigninForm,
+  },
+
+  beforeMount() {
+      if (this.$store.state.library) {
+          router.push('/');
+      }
+  },
+});
 </script>

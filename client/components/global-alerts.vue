@@ -38,13 +38,15 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 
-export default {
-    name: 'GlobalAlerts',
-    computed: {
-        alerts() {
-            return this.$store.state.globalAlerts;
-        },
-    },
-};
+export default defineComponent({
+  name: 'GlobalAlerts',
+
+  computed: {
+      alerts() {
+          return this.$store.state.globalAlerts;
+      },
+  },
+});
 </script>

@@ -58,79 +58,86 @@
 </template>
 
 <script>
-export default {
-    name: 'Admin',
-    components: {
-    },
-    data() {
-        return {
-            searchQuery: "",
-            searchResults: null,
-            userToInspect: null,
-            editableLibrary: null,
-            newPassword: null,
-        };
-    },
-    computed: {
-        resultsLoaded() {
-            return !!this.searchResults;
-        }
-    },
-    beforeMount() {
-        if (false) {
-            router.push('/welcome');
-        }
-    },
-    methods: {
-        searchUsers() {
-            fetchJson(`/moderation/search?q=${this.searchQuery}`, {
-                method: 'GET',
-                credentials: 'same-origin',
-            })
-            .then((response) => {
-                this.searchResults = response.results;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        },
-        setUser(user) {
-            this.userToInspect = user;
-            this.editableLibrary = JSON.stringify(this.userToInspect.library);
-            this.newPassword = null;
-        },
-        clearSession(user) {
-            fetchJson(`/moderation/clear-session`, {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username: user.username}),
-            })
-            .then((response) => {
-                console.log("clear session success");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        },
-        resetPassword(user) {
-            fetchJson(`/moderation/reset-password`, {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username: user.username}),
-            })
-            .then((response) => {
-                this.newPassword = response.newPassword;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        }
-    },
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'Admin',
+
+  components: {
+  },
+
+  data() {
+      return {
+          searchQuery: '',
+          searchResults: null,
+          userToInspect: null,
+          editableLibrary: null,
+          newPassword: null,
+      };
+  },
+
+  computed: {
+      resultsLoaded() {
+          return !!this.searchResults;
+      }
+  },
+
+  beforeMount() {
+      if (false) {
+          router.push('/welcome');
+      }
+  },
+
+  methods: {
+      searchUsers() {
+          fetchJson(`/moderation/search?q=${this.searchQuery}`, {
+              method: 'GET',
+              credentials: 'same-origin',
+          })
+          .then((response) => {
+              this.searchResults = response.results;
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+      },
+      setUser(user) {
+          this.userToInspect = user;
+          this.editableLibrary = JSON.stringify(this.userToInspect.library);
+          this.newPassword = null;
+      },
+      clearSession(user) {
+          fetchJson(`/moderation/clear-session`, {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({username: user.username}),
+          })
+          .then((response) => {
+              console.log('clear session success');
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+      },
+      resetPassword(user) {
+          fetchJson(`/moderation/reset-password`, {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({username: user.username}),
+          })
+          .then((response) => {
+              this.newPassword = response.newPassword;
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+      }
+  },
+});
 </script>

@@ -21,37 +21,44 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import modal from './modal.vue';
 
-export default {
-    name: 'CopyList',
-    components: {
-        modal,
-    },
-    data() {
-        return {
-            listId: false,
-            shown: false,
-        };
-    },
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-    },
-    beforeMount() {
-        bus.$on('copyList', () => {
-            this.shown = true;
-        });
-    },
-    methods: {
-        copyList() {
-            if (!this.listId) {
-                return; // TODO: errors
-            }
-            this.$store.commit('copyList', this.listId);
-            this.shown = false;
-        },
-    },
-};
+export default defineComponent({
+  name: 'CopyList',
+
+  components: {
+      modal,
+  },
+
+  data() {
+      return {
+          listId: false,
+          shown: false,
+      };
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+  },
+
+  beforeMount() {
+      bus.$on('copyList', () => {
+          this.shown = true;
+      });
+  },
+
+  methods: {
+      copyList() {
+          if (!this.listId) {
+              return; // TODO: errors
+          }
+          this.$store.commit('copyList', this.listId);
+          this.shown = false;
+      },
+  },
+});
 </script>

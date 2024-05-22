@@ -24,59 +24,64 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import PopoverHover from './popover-hover.vue';
 
-export default {
-    name: 'Share',
-    components: {
-        PopoverHover,
-    },
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        list() {
-            return this.library.getListById(this.library.defaultListId);
-        },
-        isSignedIn() {
-            return this.$store.state.loggedIn;
-        },
-        externalId() {
-            return this.list.externalId || '';
-        },
-        baseUrl() {
-            const location = window.location;
-            return location.origin ? location.origin : `${location.protocol}//${location.hostname}`;
-        },
-        shareUrl() {
-            return `${this.baseUrl}/r/${this.externalId}`;
-        },
-        csvUrl() {
-            return `${this.baseUrl}/csv/${this.externalId}`;
-        },
-    },
-    methods: {
-        focusShare(evt) {
-            if (!this.list.externalId) {
-                return fetchJson('/externalId', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'same-origin',
-                })
-                    .then((response) => {
-                        this.$store.commit('setExternalId', { externalId: response.externalId, list: this.list });
-                        setTimeout(() => {
-                            bus.$emit('show-share-box');
-                        }, 0);
-                    })
-                    .catch((response) => {
-                        alert('An error occurred while attempting to get an ID for your list. Please try again later.'); // TODO
-                    });
-            }
-            bus.$emit('show-share-box');
-        },
-    },
-};
+export default defineComponent({
+  name: 'Share',
+
+  components: {
+      PopoverHover,
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      list() {
+          return this.library.getListById(this.library.defaultListId);
+      },
+      isSignedIn() {
+          return this.$store.state.loggedIn;
+      },
+      externalId() {
+          return this.list.externalId || '';
+      },
+      baseUrl() {
+          const location = window.location;
+          return location.origin ? location.origin : `${location.protocol}//${location.hostname}`;
+      },
+      shareUrl() {
+          return `${this.baseUrl}/r/${this.externalId}`;
+      },
+      csvUrl() {
+          return `${this.baseUrl}/csv/${this.externalId}`;
+      },
+  },
+
+  methods: {
+      focusShare(evt) {
+          if (!this.list.externalId) {
+              return fetchJson('/externalId', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  credentials: 'same-origin',
+              })
+                  .then((response) => {
+                      this.$store.commit('setExternalId', { externalId: response.externalId, list: this.list });
+                      setTimeout(() => {
+                          bus.$emit('show-share-box');
+                      }, 0);
+                  })
+                  .catch((response) => {
+                      alert('An error occurred while attempting to get an ID for your list. Please try again later.'); // TODO
+                  });
+          }
+          bus.$emit('show-share-box');
+      },
+  },
+});
 </script>

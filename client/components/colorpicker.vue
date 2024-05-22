@@ -1,5 +1,4 @@
 <style lang="scss">
-
 </style>
 
 <template>
@@ -10,28 +9,33 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import VueColorPicker from 'vue-color-picker-wheel';
 import Popover from './popover.vue';
 
-export default {
-    name: 'ColorPicker',
-    components: {
-        VueColorPicker,
-        Popover,
-    },
-    props: [
-        'color',
-    ],
-    data() {
-        return {
-            shown: false,
-        };
-    },
-    methods: {
-        onColorChange(newColor) {
-            this.$emit('colorChange', newColor);
-        },
-    },
-};
+export default defineComponent({
+  name: 'ColorPicker',
 
+  components: {
+      VueColorPicker,
+      Popover,
+  },
+
+  props: [
+      'color',
+  ],
+
+  data() {
+      return {
+          shown: false,
+      };
+  },
+
+  methods: {
+      onColorChange(newColor) {
+          this.$emit('colorChange', newColor);
+      },
+  },
+});
 </script>

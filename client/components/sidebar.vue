@@ -84,14 +84,17 @@ $sidebarPadding: 20px;
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import libraryItems from './library-items.vue';
 import libraryLists from './library-lists.vue';
 
-export default {
-    name: 'Sidebar',
-    components: {
-        libraryItems,
-        libraryLists,
-    },
-};
+export default defineComponent({
+  name: 'Sidebar',
+
+  components: {
+      libraryItems,
+      libraryLists,
+  },
+});
 </script>

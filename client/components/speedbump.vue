@@ -1,5 +1,4 @@
 <style lang="scss">
-
 </style>
 
 <template>
@@ -22,48 +21,54 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import modal from './modal.vue';
 
-export default {
-    name: 'Speedbump',
-    components: {
-        modal,
-    },
-    data() {
-        return {
-            defaultMessages: {
-                title: '',
-                body: '',
-                confirm: 'Yes',
-                cancel: 'No',
-            },
-            messages: {},
-            callback: null,
-            shown: false,
-        };
-    },
-    beforeMount() {
-        bus.$on('initSpeedbump', (callback, options) => {
-            this.initSpeedbump(callback, options);
-        });
-    },
-    methods: {
-        initSpeedbump(callback, options) {
-            this.callback = callback;
-            this.messages = Vue.util.extend({}, this.defaultMessages);
-            if (typeof options === 'string') {
-                this.messages.body = options;
-            } else {
-                this.messages = Vue.util.extend(this.messages, options);
-            }
-            this.shown = true;
-        },
-        confirmSpeedbump() {
-            if (this.callback && typeof this.callback === 'function') {
-                this.callback(true);
-            }
-            this.shown = false;
-        },
-    },
-};
+export default defineComponent({
+  name: 'Speedbump',
+
+  components: {
+      modal,
+  },
+
+  data() {
+      return {
+          defaultMessages: {
+              title: '',
+              body: '',
+              confirm: 'Yes',
+              cancel: 'No',
+          },
+          messages: {},
+          callback: null,
+          shown: false,
+      };
+  },
+
+  beforeMount() {
+      bus.$on('initSpeedbump', (callback, options) => {
+          this.initSpeedbump(callback, options);
+      });
+  },
+
+  methods: {
+      initSpeedbump(callback, options) {
+          this.callback = callback;
+          this.messages = Vue.util.extend({}, this.defaultMessages);
+          if (typeof options === 'string') {
+              this.messages.body = options;
+          } else {
+              this.messages = Vue.util.extend(this.messages, options);
+          }
+          this.shown = true;
+      },
+      confirmSpeedbump() {
+          if (this.callback && typeof this.callback === 'function') {
+              this.callback(true);
+          }
+          this.shown = false;
+      },
+  },
+});
 </script>
