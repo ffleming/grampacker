@@ -46,14 +46,14 @@ store.dispatch('init')
         initGramPacker();
     });
 
-Vue.configureCompat({ WATCH_ARRAY: false })
+Vue.configureCompat({ WATCH_ARRAY: false , RENDER_FUNCTION: false})
 
 var initGramPacker = function () {
   console.log("In initGramPacker")
   const app = createApp({});
   app.use(store);
   app.use(router)
-  app.config.compilerOptions.whitespace
+  app.config.compilerOptions.whitespace = 'condense'
   app.config.globalProperties.$filters = {
     displayWeight(mg, unit) {
       return weightUtils.MgToWeight(mg, unit) || 0;
