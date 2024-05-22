@@ -76,7 +76,7 @@
 }
 
 #addListFlyout {
-    .lpContent a {
+    .lpPopoverContent a {
         display: block;
         margin-bottom: 5px;
 
@@ -91,14 +91,16 @@
     <section id="listContainer">
         <div class="listContainerHeader">
             <h2>Lists</h2>
-            <PopoverHover id="addListFlyout">
-                <span slot="target"><a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a></span>
-                <div slot="content">
+            <Popper id="addListFlyout">
+                <span><a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a></span>
+                <template #content>
+                  <div class="lpPopoverContent">
                     <a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a>
                     <a class="lpAdd" @click="importCSV"><i class="lpSprite lpSpriteUpload" />Import CSV</a>
                     <a class="lpCopy" @click="copyList"><i class="lpSprite lpSpriteCopy" />Copy a list</a>
-                </div>
-            </PopoverHover>
+                  </div>
+                </template>
+            </Popper>
         </div>
         <ul id="lists">
             <li v-for="list in library.lists" :key="list.id" class="lpLibraryList" :class="{lpActive: (library.defaultListId == list.id)}">
@@ -115,7 +117,7 @@
 <script>
 import { defineComponent } from 'vue';
 
-import PopoverHover from './popover-hover.vue';
+import Popper from 'vue3-popper'
 
 const dragula = require('dragula');
 
@@ -123,7 +125,7 @@ export default defineComponent({
   name: 'LibraryList',
 
   components: {
-      PopoverHover,
+      Popper,
   },
 
   filters: {
