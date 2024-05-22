@@ -159,9 +159,24 @@ export default defineComponent({
   },
 
   watch: {
-      '$store.state.library.defaultListId': 'updateChart',
-      'list.totalWeight': 'updateChart',
-      'list.categoryIds': 'updateChart',
+    '$store.state.library.defaultListId': {
+      handler(val,oldVal) {
+        updateChart(val, oldVal);
+      },
+      deep: true,
+    },
+    'list.totalWeight': {
+      handler(val,oldVal) {
+        updateChart(val, oldVal);
+      },
+      deep: true,
+    },
+    'list.categoryIds': {
+      handler(val,oldVal) {
+        updateChart(val, oldVal);
+      },
+      deep: true,
+    },
   },
 
   mounted() {
