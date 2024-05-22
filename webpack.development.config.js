@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const config = require('config');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
@@ -80,14 +81,17 @@ module.exports = {
 		},
 	},
 	devServer: {
-		historyApiFallback: true,
-		noInfo: true,
-		hot: true,
+    watchOptions: {
+      poll: true,
+    },
 	},
+
 	performance: {
 		hints: false,
 	},
+
   devtool: 'eval-source-map',
+
 	plugins: [
 		new VueLoaderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
