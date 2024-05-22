@@ -16,7 +16,7 @@
 
 import { defineComponent } from 'vue';
 import Popper from "vue3-popper";
-import VueColorPicker from 'vue-color-picker-wheel';
+import VueColorPicker from './color-picker.vue';
 
 export default defineComponent({
   name: 'ColorPicker',
