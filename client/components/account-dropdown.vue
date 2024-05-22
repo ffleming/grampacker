@@ -4,7 +4,7 @@
 <template>
     <span class="headerItem hasPopover">
         <Popper hover>
-            <span class="lpTarget">Logged in as <span class="username">{{ username }}</span> <i class="lpSprite lpExpand" /></span>
+            <span class="lpTarget">Signed in as <span class="username">{{ username }}</span> <i class="lpSprite lpExpand" /></span>
             <template #content>
               <div class="lpPopoverContent">
                 <a class="lpHref accountSettings" @click="showAccount">Account Settings</a><br>
