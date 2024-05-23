@@ -4,10 +4,6 @@ const mongojs = require('mongojs');
 const collections = ['users', 'libraries'];
 const db = mongojs(config.get('databaseUrl'), collections);
 
-if (config.get('mailgunAPIKey')) {
-    var mailgun = require('mailgun-js')({ apiKey: config.get('mailgunAPIKey'), domain: config.get('mailgunDomain') });
-}
-
 const autoFixableMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed your username had some extra spaces at the beginning or end of it. We were able to rename your username to remove the extraneous spaces. Your new username is ${newUsername}. \n\nYou will have to reset your password to be able log in again which can be done at https://grampacker.net/forgot-password \n\nApologies for any inconvenience, and if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe Gram Packer team";
 
 const samePersonMessage = "Hello ${originalUsername},\n\nWhile performing some system updates we noticed you have a user with some extra spaces at the beginning or end of the username. We noticed you also have a separate account with the username with spaces removed. Apologies for any inconvience this has caused. If you need access the user that formerly had spaces in it, we've changed the username to ${newUsername}. \n\nYou will have to reset the password of this account to be able log in again which can be done at https://grampacker.net/forgot-password \n\nApologies for any inconvenience, if you have any isssues please reply to this email with details. \n\nThanks! \n\nThe Gram Packer team";
@@ -142,6 +138,9 @@ function messageUser(user, originalUsername, messageTemplate) {
         let message = messageTemplate.replace("${originalUsername}", originalUsername);
         message = message.replace("${newUsername}", newUsername);
 
+      /*
+       * TODO: If this script is needed, migrate to nodemailer.
+       * In the absence of a need, leave as-is
         const mailOptions = {
             from: 'Gram Packer <info@mg.grampacker.net>',
             to: user.email,
@@ -149,7 +148,6 @@ function messageUser(user, originalUsername, messageTemplate) {
             subject: 'Gram Packer account update',
             text: message,
         };
-        
 
         mailgun.messages().send(mailOptions, (error, response) => {
             if (error) {
@@ -158,6 +156,7 @@ function messageUser(user, originalUsername, messageTemplate) {
             }
             resolve();
         });
+        */
     });
 }
 

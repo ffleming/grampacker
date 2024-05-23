@@ -14,12 +14,6 @@ const { logWithRequest } = require('./log.js');
 
 const { authenticateUser, verifyPassword } = require('./auth.js');
 
-let mailgun;
-
-if (config.get('mailgunAPIKey')) {
-    mailgun = require('mailgun-js')({ apiKey: config.get('mailgunAPIKey'), domain: config.get('mailgunDomain') });
-}
-
 const collections = ['users', 'libraries'];
 const db = mongojs(config.get('databaseUrl'), collections);
 
@@ -29,6 +23,17 @@ const Item = dataTypes.Item;
 const Category = dataTypes.Category;
 const List = dataTypes.List;
 const Library = dataTypes.Library;
+
+const nodemailer = require("nodemailer");
+
+var transport = nodemailer.createTransport({
+  host: config.get("mail").host,
+  port: config.get("mail").port,
+  auth: {
+      user: config.get("mail").username,
+      pass: config.get("mail").password,
+    }
+});
 
 // one day in many years this can go away.
 eval(`${fs.readFileSync(path.join(__dirname, './sha3.js'))}`);
@@ -221,33 +226,32 @@ router.post('/forgotPassword', (req, res) => {
 
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newPassword, salt, (err, hash) => {
-                    user.password = hash;
-                    const email = user.email;
+                  user.password = hash;
+                  var email = user.email;
 
-                    const message = `Hello ${username},\n Apparently you forgot your password. Here's your new one: \n\n Username: ${username}\n Password: ${newPassword}\n\n If you continue to have problems, please reply to this email with details.\n\n Thanks!`;
+                  // TODO: Password reset flow that doesn't involve sending it in an email.
+                  const message = `Hello ${username},\n Apparently you forgot your password. Here's your new one: \n\n Username: ${username}\n Password: ${newPassword}\n\n If you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\n Thanks!`;
 
-                    const mailOptions = {
-                        from: 'Gram Packer <info@mg.grampacker.net>',
-                        to: email,
-                        'h:Reply-To': 'Gram Packer <info@grampacker.net>',
-                        subject: 'Your new Gram Packer password',
-                        text: message,
-                    };
-
-                    logWithRequest(req, { message: 'Attempting to send new password', email });
-                    mailgun.messages().send(mailOptions, (error, response) => {
-                        if (error) {
-                            logWithRequest(req, error);
-                            return res.status(500).json({ message: 'An error occurred' });
-                        }
-                        db.users.save(user);
-                        const out = { username };
-                        logWithRequest(req, { message: 'Message sent', response: response.message });
-                        logWithRequest(req, { message: 'password changed for user', username });
-                        return res.status(200).json(out);
+                  logWithRequest(req, { message: 'Attempting to send new password', email });
+                  try {
+                    const resp = transport.sendMail({
+                      from: config.get("mail").fromAddress,
+                      to: email,
+                      subject: "Your new Gram Packer password",
+                      text: message,
+                      html: message,
                     });
-                });
-            });
+                    db.users.save(user);
+                    const out = { username };
+                    logWithRequest(req, { message: 'Message sent', response: resp });
+                    logWithRequest(req, { message: 'password changed for user', username });
+                    return res.status(200).json(out);
+                  } catch (error) {
+                    logWithRequest(req, { message: "Mail error: " + error });
+                    return res.status(500).json({ message: 'An error occurred' });
+                  }
+              })
+            })
         });
     });
 });
@@ -271,27 +275,25 @@ router.post('/forgotUsername', (req, res) => {
         const user = users[0];
         const username = user.username;
 
-        const message = `Hello ${username},\n Apparently you forgot your username. Here It is: \n\n Username: ${username}\n\n If you continue to have problems, please reply to this email with details.\n\n Thanks!`;
-
-        const mailOptions = {
-            from: 'Gram Packer <info@mg.grampacker.net>',
-            to: email,
-            'h:Reply-To': 'Gram Packer <info@grampacker.net>',
-            subject: 'Your Gram Packer username',
-            text: message,
-        };
+        const message = `Hello ${username},\n Apparently you forgot your username. Here It is: \n\n Username: ${username}\n\n If you continue to have problems, please create an issue at https://github.com/ffleming/grampacker/issues.\n\n Thanks!`;
 
         logWithRequest(req, { message: 'Attempting to send username', email, username });
-        mailgun.messages().send(mailOptions, (error, response) => {
-            if (error) {
-                logWithRequest(req, error);
-                return res.status(500).json({ message: 'An error occurred' });
-            }
-            const out = { email };
-            logWithRequest(req, { message: 'Message sent', response: response.message });
-            logWithRequest(req, { message: 'sent username message for user', username, email });
-            return res.status(200).json(out);
+      try {
+        const resp = transport.sendMail({
+          from: config.get("mail").fromAddress,
+          to: email,
+          subject: "Your Gram Packer username",
+          text: message,
+          html: message,
         });
+        const out = { email };
+        logWithRequest(req, { message: 'Message sent', response: resp });
+        logWithRequest(req, { message: 'sent username message for user', username, email });
+        return res.status(200).json(out);
+      } catch (error) {
+        logWithRequest(req, { message: "Mail error: " + error });
+        return res.status(500).json({ message: 'An error occurred' });
+      }
     });
 });
 
