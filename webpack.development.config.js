@@ -20,7 +20,7 @@ module.exports = {
 		],
 	},
 	output: {
-		path: path.resolve(__dirname, './dist'),
+		path: path.resolve(__dirname, './public/dist'),
 		publicPath: 'http://192.168.1.4:8080/dist/',
 		filename: '[name].js',
 	},
@@ -29,13 +29,6 @@ module.exports = {
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
-				options: {
-					compilerOptions: {
-						compatConfig: {
-							MODE: 2
-						}
-					}
-				}
 			},
 			{
 				test: /\.js$/,

@@ -1,4 +1,3 @@
-const Vue = require('vue');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
@@ -352,10 +351,10 @@ const renderItem = function (item, args) {
     const unitSelect = renderUnitSelect(unit, args.unitSelectTemplate, item.weight);
 
     const starClass = item.star ? `lpStar${item.star}` : '';
-    const out = {
+    var out = {
         classes, unit, displayWeight, unitSelect, showImages: args.showImages, showPrices: args.showPrices, starClass, displayPrice, currencySymbol: args.currencySymbol,
     };
-    Vue.util.extend(out, item);
+    out = Object.assign(out, item);
 
     return Mustache.render(args.itemTemplate, out);
 };
@@ -372,8 +371,8 @@ const renderCategory = function (category, args) {
     category.calculateSubtotal();
     category.subtotalWeightDisplay = weightUtils.MgToWeight(category.subtotalWeight, args.totalUnit);
     category.subtotalPriceDisplay = category.subtotalPrice ? category.subtotalPrice.toFixed(2) : '0.00';
-    let temp = Vue.util.extend({}, category);
-    temp = Vue.util.extend(temp, {
+    let temp = Object.assign({}, category);
+    temp = Object.assign(temp, {
         items, subtotalUnit: args.totalUnit, currencySymbol: args.currencySymbol, showPrices: args.showPrices,
     });
 
@@ -392,8 +391,9 @@ const renderList = function (list, args) {
 };
 
 var renderLibrary = function (library, args) {
-    Vue.util.extend(args, { itemUnit: library.itemUnit, totalUnit: library.totalUnit });
-    return renderList(library.getListById(library.defaultListId), args);
+  const extensor = { itemUnit: library.itemUnit, totalUnit: library.totalUnit }
+  args = Object.assign(args, extensor)
+  return renderList(library.getListById(library.defaultListId), args);
 };
 
 const renderListTotals = function (list, totalsTemplate, unitSelectTemplate, unit) {
