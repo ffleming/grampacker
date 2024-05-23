@@ -40,39 +40,48 @@ module.exports = {
         filename: '[name].[chunkhash].js',
     },
     module: {
-        rules: [
+      rules: [
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+        },
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(png|jpg|gif|svg)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: '[name].[ext]?[hash]',
+          },
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            'vue-style-loader',
             {
-                test: /\.vue$/,
-                loader: 'vue-loader',
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
             },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
+              loader: 'resolve-url-loader',
+              options: {
+                sourceMap: true,
+              },
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]',
-                },
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                    },
-                    'css-loader',
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            implementation: require('sass'),
-                        },
-                    },
-                ],
-            },
-        ],
+          ],
+        },
+      ],
     },
     performance: {
         hints: false,
@@ -100,11 +109,4 @@ module.exports = {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
       }),
     ],
-  devServer: {
-      headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE"
-      },
-      host: "192.168.1.4"
-  }
 };
