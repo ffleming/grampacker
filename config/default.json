@@ -1,14 +1,18 @@
 {
     "environment"   : "development",
-    "deployUrl": "http://192.168.1.4:3000",
+    "deployUrl": "http://192168.1.4:3000",
     "publicUrl": "http://192.168.1.4:3000",
     "port": 3000,
     "devServerPort" : 8080,
     "bindings"      : [""],
     "databaseUrl": "mongodb://localhost:27017/grampacker",
     "imgurClientID": "",
-    "mailgunDomain": "",
-    "mailgunBaseURL": "",
-    "mailgunAPIKey": "",
+    "mail": {
+      "host": "mailhost.com",
+      "post": 25,
+      "username": "user",
+      "password": "password",
+      "fromAddress": "Site admin <noreply@yourdomain.com>"
+    },
     "moderators": []
 }

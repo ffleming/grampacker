@@ -20,7 +20,6 @@ development.
 
 ## Priorities
 
-1. Remove mailgun
 1. Proper mobile support
 1. General feature development
 
