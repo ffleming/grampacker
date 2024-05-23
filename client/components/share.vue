@@ -3,12 +3,13 @@
 
 <template>
   <span id="share" v-if="isSignedIn" class="headerItem hasPopover">
-      <Popper hover>
+      <Popper hover @open:popper="focusShare">
         <span class="lpTarget"><i class="lpSprite lpLink" /> Share</span>
         <template #content>
           <div class="lpPopoverContent lpFields">
 							<div class="lpField">
 								<label for="shareUrl">Share your list</label>
+                <i class="lpSprite lpLink" @click="copy" />
 								<input id="shareUrl" v-select-on-bus="'show-share-box'"  v-select-on-focus type="text" :value="shareUrl">
 							</div>
 							<div class="lpField">
@@ -60,6 +61,17 @@ export default defineComponent({
   },
 
   methods: {
+      async copy() {
+        if (window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(this.shareUrl);
+          } catch ($e) {
+            console.warn("Couldn't copy", $e);
+          }
+        } else {
+          console.log("Mock copy of '", this.shareUrl, "'");
+        }
+      },
       focusShare(evt) {
           if (!this.list.externalId) {
               return fetchJson('/externalId', {
