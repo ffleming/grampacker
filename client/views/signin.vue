@@ -41,7 +41,7 @@ export default defineComponent({
   computed: {
       message() {
           if (this.$route.path.indexOf('/reset-password') > -1 || this.$route.path.indexOf('/forgot-username') > -1) {
-              return 'An email has been sent to the address associated with your account. Note: emails to yahoo.com addresses are currently being blocked. Please reach out via GitHub if you do not receive your email.';
+              return 'An email has been sent to the address associated with your account. Please reach out via GitHub if you do not receive your email.';
           }
           return '';
       },

@@ -229,8 +229,10 @@ router.post('/forgotPassword', (req, res) => {
                   user.password = hash;
                   var email = user.email;
 
-                  // TODO: Password reset flow that doesn't involve sending it in an email.
-                  const message = `Hello ${username},\n Apparently you forgot your password. Here's your new one: \n\n Username: ${username}\n Password: ${newPassword}\n\n If you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\n Thanks!`;
+                  // TODO: Fix potential for abuse, this is arbitrary denial of login.
+                  // We should send a link that either resets passwod and displays in browser,
+                  // or allows user to set a new password.
+                  const message = `Hello ${username},\n\nSomeone (maybe you!) requested a password reset for your grampacker.net account. Here is your new information:\n\nUsername: ${username}\nPassword: ${newPassword}\n\nIf you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
 
                   logWithRequest(req, { message: 'Attempting to send new password', email });
                   try {
@@ -239,7 +241,7 @@ router.post('/forgotPassword', (req, res) => {
                       to: email,
                       subject: "Your new Gram Packer password",
                       text: message,
-                      html: message,
+                      html: "<html><body>" + message.replace(/\n/g, "<br>") + "</body></html>",
                     });
                     db.users.save(user);
                     const out = { username };
@@ -275,7 +277,7 @@ router.post('/forgotUsername', (req, res) => {
         const user = users[0];
         const username = user.username;
 
-        const message = `Hello ${username},\n Apparently you forgot your username. Here It is: \n\n Username: ${username}\n\n If you continue to have problems, please create an issue at https://github.com/ffleming/grampacker/issues.\n\n Thanks!`;
+        const message = `Hello ${username},\n Someone (maybe you!) requested a reminder for your grampacker.net username. Here is your information:\n\nUsername: ${username}\n\nIf you continue to have problems, please create an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
 
         logWithRequest(req, { message: 'Attempting to send username', email, username });
       try {
@@ -284,7 +286,7 @@ router.post('/forgotUsername', (req, res) => {
           to: email,
           subject: "Your Gram Packer username",
           text: message,
-          html: message,
+          html: "<html><body>" + message.replace(/\n/g, "<br>") + "</body></html>",
         });
         const out = { email };
         logWithRequest(req, { message: 'Message sent', response: resp });
