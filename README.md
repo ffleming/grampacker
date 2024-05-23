@@ -23,6 +23,8 @@ development.
 1. Fix password reset flow
 1. Proper mobile support
 1. General feature development
+1. Fix dev-only issues
+    1. Pie chart does not render on shared lists
 
 But really, that's just what I want to see. If you want something in
 Gram Packer, send a PR.
