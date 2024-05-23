@@ -4,8 +4,8 @@
 <template>
     <div id="lpWelcomeFooter">
         <div class="lpSiteBy">
-          Gram Packer is a
-          <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community effort</a>.
+          Gram Packer {{appVersion}} is a
+          <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community</a> effort.
           <a class="lpHref" href="https://github.com/ffleming/grampacker/issues" target="_blank" rel="noopener noreferrer">Join in!</a>
         </div>
         <div class="lpContact">
@@ -16,8 +16,14 @@
 
 <script>
 import { defineComponent } from 'vue';
+import packageInfo from "../../package.json"
 
 export default defineComponent({
   name: 'BlackoutFooter',
+  data() {
+    return {
+      appVersion: packageInfo.version,
+    };
+  },
 });
 </script>
