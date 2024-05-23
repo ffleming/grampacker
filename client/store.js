@@ -42,8 +42,6 @@ const store = createStore({
         },
         signout(state) {
             createCookie('lp', '', -1);
-            state.library = false; // duplicate logic
-            state.loggedIn = false; // duplicate logic
         },
         setLoggedIn(state, loggedIn) {
             state.loggedIn = loggedIn;
