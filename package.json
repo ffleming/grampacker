@@ -1,6 +1,6 @@
 {
   "name": "grampacker",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Gram Packer is a website to track the gear you take on adventures. It is a fork of LighterPack.",
   "main": "app.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "@babel/core": "7.12.10",
     "@babel/polyfill": "7.2.5",
     "@babel/preset-env": "7.12.11",
-    "axios": "^0.21.4",
+    "axios": "^1.7.2",
     "babel": "^6.23.0",
     "babel-loader": "8.2.2",
     "bcryptjs": "^2.4.3",
