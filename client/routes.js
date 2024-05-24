@@ -10,17 +10,11 @@ export default [
     { path: '/', component: dashboard },
     { path: '/welcome', component: welcome },
     { path: '/signin', component: signin },
-    { path: '/signin/reset-password', component: signin },
+    { path: '/signin/forgot-password', component: signin },
     { path: '/signin/forgot-username', component: signin },
     { path: '/register', component: register },
     { path: '/forgot-password', component: forgotPassword },
-    { path: '/reset-password',
-      props: route => ({
-        token: route.query.t,
-        username: route.query.u
-      }),
-      component: resetPassword,
-    },
+    { path: '/reset-password', component: resetPassword, },
     { path: '/moderation', component: moderation },
     { path: '/:pathMatch(.*)*', component: dashboard },
 ];

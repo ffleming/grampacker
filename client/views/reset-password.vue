@@ -111,6 +111,7 @@ export default defineComponent({
         .then((response) => {
           this.saving = false;
           this.shown = false;
+          this.$router.replace({'query': null});
           this.$router.push('/signin/reset-password');
         })
         .catch((err) => {
