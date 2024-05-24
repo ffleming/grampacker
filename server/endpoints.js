@@ -10,7 +10,7 @@ const request = require('request');
 const formidable = require('formidable');
 const mongojs = require('mongojs');
 const config = require('config');
-const { logWithRequest } = require('./log.js');
+const { logWithRequest, logger } = require('./log.js');
 
 const { authenticateUser, verifyPassword } = require('./auth.js');
 
@@ -25,6 +25,9 @@ const List = dataTypes.List;
 const Library = dataTypes.Library;
 
 const nodemailer = require("nodemailer");
+const querystring = require("querystring");
+
+const saltRounds = 10;
 
 var transport = nodemailer.createTransport({
   host: config.get("mail").host,
@@ -37,6 +40,72 @@ var transport = nodemailer.createTransport({
 
 // one day in many years this can go away.
 eval(`${fs.readFileSync(path.join(__dirname, './sha3.js'))}`);
+
+router.post('/pw', (req, res) => {
+  const tok = req.body.t;
+  const username = req.body.u;
+  const pass = req.body.newPassword;
+  const passVerify = req.body.confirmNewPassword;
+
+  let errors = [];
+  if (!tok) {
+    errors.push({field: "t", message: "Invalid reset token"})
+  }
+  if (!pass) {
+    errors.push({field: "newPassword", message: "Must provide new password"})
+  }
+  if (!passVerify) {
+    errors.push({field: "confirmNewPassword", message: "Must provide password confirmation"})
+  }
+  if (pass !== passVerify) {
+    errors.push({field: "confirmNewPassword", message: "Password much match confirmation"})
+  }
+  if (pass.length < 8) {
+    errors.push({field: "newPassword", message: "Password must be at least 8 characters long"})
+  }
+  if (errors.length > 0) {
+    return res.status(400).json({ errors: errors });
+  }
+
+  db.users.find({username: username }, (err, users) => {
+    if (err) {
+      return res.status(400).json({errors: [{message: err}]})
+    }
+    if (users.length == 0) {
+      return res.status(404).json({errors:[{message: "Not found"}]});
+    } else if (users.length > 1) {
+      return res.status(400).json({errors:[{message: "Invalid token"}]});
+    }
+
+    var user = users[0];
+    if (tokenValid(tok, user.token)) {
+      user.password = hash(pass);
+      user.token = {tokenHash: "", createdAt: 1};
+      db.users.save(user);
+      res.status(200).json("Success");
+    } else {
+      return res.status(400).json({errors:[{message: "Invalid token"}]});
+    }
+  });
+});
+
+function tokenValid(plainToken, dbToken) {
+  valid = true
+  valid = valid && bcrypt.compareSync(plainToken, dbToken.tokenHash);
+  threeHoursAgo = Date.now() - (1000 * 60 * 60 * 3)
+  valid = valid && (dbToken.createdAt > threeHoursAgo)
+  return valid;
+}
+
+function hash(string) {
+  const salt = bcrypt.genSaltSync(saltRounds);
+  return bcrypt.hashSync(string, salt);
+}
+
+function generateToken() {
+  return require('crypto').randomBytes(32).toString('hex');
+}
+
 
 router.post('/register', (req, res) => {
     const username = String(req.body.username).toLowerCase().trim();
@@ -63,8 +132,8 @@ router.post('/register', (req, res) => {
         errors.push({ field: 'password', message: 'Please enter a password.' });
     }
 
-    if (password && (password.length < 5 || password.length > 60)) {
-        errors.push({ field: 'password', message: 'Please enter a password between 5 and 60 characters.' });
+    if (password && (password.length < 8 || password.length > 60)) {
+        errors.push({ field: 'password', message: 'Please enter a password between 8 and 60 characters.' });
     }
 
     if (errors.length) {
@@ -85,38 +154,33 @@ router.post('/register', (req, res) => {
                 return res.status(400).json({ errors: [{ field: 'email', message: 'A user with that email already exists.' }] });
             }
 
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(password, salt, (err, hash) => {
-                    crypto.randomBytes(48, (ex, buf) => {
-                        const token = buf.toString('hex');
-                        let library;
-                        if (req.body.library) {
-                            try {
-                                library = JSON.parse(req.body.library);
-                            } catch (e) {
-                                logWithRequest(req, { message: 'Library parsing issue', username });
-                                return res.status(400).json({ errors: [{ message: 'Unable to parse your library. Contact support.' }] });
-                            }
-                        } else {
-                            library = new Library().save();
-                        }
+            const buf = crypto.randomBytes(48);
+            const token = buf.toString('hex');
+            let library;
+            if (req.body.library) {
+                try {
+                    library = JSON.parse(req.body.library);
+                } catch (e) {
+                    logWithRequest(req, { message: 'Library parsing issue', username });
+                    return res.status(400).json({ errors: [{ message: 'Unable to parse your library. Contact support.' }] });
+                }
+            } else {
+                library = new Library().save();
+            }
 
-                        const newUser = {
-                            username,
-                            password: hash,
-                            email,
-                            token,
-                            library,
-                            syncToken: 0,
-                        };
-                        logWithRequest(req, { message: 'Saving new user', username });
-                        db.users.save(newUser);
-                        const out = { username, library: JSON.stringify(newUser.library), syncToken: 0 };
-                        res.cookie('lp', token, { path: '/', maxAge: 365 * 24 * 60 * 1000 });
-                        return res.status(200).json(out);
-                    });
-                });
-            });
+            const newUser = {
+                username,
+                password: hash(newPassword),
+                email,
+                token,
+                library,
+                syncToken: 0,
+            };
+            logWithRequest(req, { message: 'Saving new user', username });
+            db.users.save(newUser);
+            const out = { username, library: JSON.stringify(newUser.library), syncToken: 0 };
+            res.cookie('lp', token, { path: '/', maxAge: 365 * 24 * 60 * 1000 });
+            return res.status(200).json(out);
         });
     });
 });
@@ -205,57 +269,53 @@ function externalId(req, res, user) {
 }
 
 router.post('/forgotPassword', (req, res) => {
-    logWithRequest(req);
-    const username = String(req.body.username).toLowerCase().trim();
-    if (!username || username.length < 1 || username.length > 32) {
-        logWithRequest(req, { message: 'Bad forgot password', username });
-        return res.status(400).json({ errors: [{ message: 'Please enter a username.' }] });
+  logWithRequest(req);
+  const username = String(req.body.username).toLowerCase().trim();
+  if (!username || username.length < 1 || username.length > 32) {
+    logWithRequest(req, { message: 'Bad forgot password', username });
+    return res.status(400).json({ errors: [{ message: 'Please enter a username.' }] });
+  }
+
+  db.users.find({ username }, (err, users) => {
+    if (err) {
+      logWithRequest(req, { message: 'Forgot password lookup error', username });
+      return res.status(500).json({ message: 'An error occurred' });
     }
+    if (users.length != 1) {
+      // Act as if user was found
+      return res.status(200).json("Check your inbox");
+    }
+    var user = users[0];
+    const tok = generateToken()
+    const dbToken = {
+      tokenHash: hash(tok),
+      createdAt: Date.now(),
+    };
+    var link = new URL(config.get("publicUrl") + "/reset-password");
+    link.searchParams.append("t", tok)
+    link.searchParams.append("u", username)
 
-    db.users.find({ username }, (err, users) => {
-        if (err) {
-            logWithRequest(req, { message: 'Forgot password lookup error', username });
-            return res.status(500).json({ message: 'An error occurred' });
-        } if (!users.length) {
-            logWithRequest(req, { message: 'Forgot password for unknown user', username });
-            return res.status(500).json({ message: 'An error occurred.' });
-        }
-        const user = users[0];
-        require('crypto').randomBytes(12, (ex, buf) => {
-            const newPassword = buf.toString('hex');
+    const messageText = `Hello ${username},\n\nSomeone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:\n\n${link}\n\nIf you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
+    const messageHTML = `Hello ${username},<br><br>Someone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:<br><br>Click <a href='${link}'>here</a> to reset your password<br><br>If you continue to have problems, please open an issue at <a href='https://github.com/ffleming/grampacker/issues'>Gram Packer's GitHub page</a>.<br><br>Thanks!`;
 
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newPassword, salt, (err, hash) => {
-                  user.password = hash;
-                  var email = user.email;
+    try {
+      const resp = transport.sendMail({
+        from: config.get("mail").fromAddress,
+        to: user.email,
+        subject: "Gram Packer password reset",
+        text: messageText,
+        html: messageHTML,
+      });
+      user.token = dbToken;
+      db.users.save(user);
 
-                  // TODO: Fix potential for abuse, this is arbitrary denial of login.
-                  // We should send a link that either resets passwod and displays in browser,
-                  // or allows user to set a new password.
-                  const message = `Hello ${username},\n\nSomeone (maybe you!) requested a password reset for your grampacker.net account. Here is your new information:\n\nUsername: ${username}\nPassword: ${newPassword}\n\nIf you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
-
-                  logWithRequest(req, { message: 'Attempting to send new password', email });
-                  try {
-                    const resp = transport.sendMail({
-                      from: config.get("mail").fromAddress,
-                      to: email,
-                      subject: "Your new Gram Packer password",
-                      text: message,
-                      html: "<html><body>" + message.replace(/\n/g, "<br>") + "</body></html>",
-                    });
-                    db.users.save(user);
-                    const out = { username };
-                    logWithRequest(req, { message: 'Message sent', response: resp });
-                    logWithRequest(req, { message: 'password changed for user', username });
-                    return res.status(200).json(out);
-                  } catch (error) {
-                    logWithRequest(req, { message: "Mail error: " + error });
-                    return res.status(500).json({ message: 'An error occurred' });
-                  }
-              })
-            })
-        });
-    });
+      logWithRequest(req, { message: 'Message sent', response: resp });
+      return res.status(200).json("Check your inbox");
+    } catch (error) {
+      logWithRequest(req, { message: "Mail error: " + error });
+      return res.status(500).json({ message: 'An error occurred' });
+    }
+  });
 });
 
 router.post('/forgotUsername', (req, res) => {
