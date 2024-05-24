@@ -86,7 +86,7 @@ export default defineComponent({
               body: JSON.stringify({ username: this.forgotPasswordUsername }),
           })
               .then((response) => {
-                  this.$router.push('/signin/reset-password');
+                this.$router.push('/signin/forgot-password');
               })
               .catch((response) => {
                   let errors = [{ message: 'An error occurred, please try again later.' }];

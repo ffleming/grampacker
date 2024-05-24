@@ -40,8 +40,11 @@ export default defineComponent({
 
   computed: {
       message() {
-          if (this.$route.path.indexOf('/reset-password') > -1 || this.$route.path.indexOf('/forgot-username') > -1) {
+          if (this.$route.path.indexOf('/forgot-username') > -1 || this.$route.path.indexOf('/forgot-password') > -1) {
               return 'An email has been sent to the address associated with your account. Please reach out via GitHub if you do not receive your email.';
+          }
+          if (this.$route.path.indexOf('/reset-password') > -1 ) {
+              return 'Your password has been reset to the value you provided.';
           }
           return '';
       },
