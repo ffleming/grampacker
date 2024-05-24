@@ -20,7 +20,6 @@ development.
 
 ## Priorities
 
-1. Fix password reset flow
 1. Proper mobile support
 1. General feature development
 1. Fix dev-only issues
