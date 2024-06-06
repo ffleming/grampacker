@@ -132,7 +132,7 @@ router.get('/r/:id', (req, res) => {
             renderedCategories,
             renderedTotals,
             optionalFields: library.optionalFields,
-            renderedDescription: markdown.toHTML(list.description),
+            renderedDescription: markdown.toHTML(list.description, "Maruku"),
             scripts: shareScriptsHtml,
             styles: shareStylesHtml,
         };
@@ -185,7 +185,7 @@ router.get('/e/:id', (req, res) => {
             categoryTemplate: templates.t_categoryShare,
             optionalFields: library.optionalFields,
             unitSelectTemplate: templates.t_unitSelect,
-            renderedDescription: markdown.toHTML(list.description),
+            renderedDescription: markdown.toHTML(list.description, "Maruku"),
             currencySymbol: library.currencySymbol,
         });
 
@@ -198,7 +198,7 @@ router.get('/e/:id', (req, res) => {
             renderedCategories,
             renderedTotals,
             optionalFields: library.optionalFields,
-            renderedDescription: markdown.toHTML(list.description),
+            renderedDescription: markdown.toHTML(list.description, "Maruku"),
             baseUrl: config.get('deployUrl'),
             styles: shareStylesLinks,
             scripts: shareScriptsLinks,
