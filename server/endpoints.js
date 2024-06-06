@@ -170,7 +170,7 @@ router.post('/register', (req, res) => {
 
             const newUser = {
                 username,
-                password: hash(newPassword),
+                password: hash(password),
                 email,
                 token,
                 library,
