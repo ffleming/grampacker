@@ -90,6 +90,10 @@
         top: 5px;
     }
 
+    &.lpInList {
+        opacity: 0.5;
+    }
+
     .lpRemove {
         bottom: 0;
         position: absolute;
@@ -121,7 +125,7 @@
             <p v-if="searchText.length > 0" @click="clearSearch">&times;</p>
         </div>
         <ul id="library">
-            <li v-for="item in filteredItems" class="lpLibraryItem" :data-item-id="item.id" :key="item.id">
+            <li v-for="item in filteredItems" :class="'lpLibraryItem ' + item.classes + (item.inCurrentList ? ' lpInList' : '')" :data-item-id="item.id" :key="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">

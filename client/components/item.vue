@@ -1,6 +1,7 @@
 <style lang="scss">
 .lpItem {
     &:hover,
+    &.hover,
     &.ui-sortable-helper {
         background: #fff;
 
@@ -51,7 +52,7 @@
 </style>
 
 <template>
-    <li :id="item.id" :class="'lpItem '+ item.classes">
+    <li :id="item.id" :class="['lpItem', item.classes, (item.inCurrentList ? ' lpInList' : '')]">
         <span class="lpHandleCell">
             <div class="lpItemHandle lpHandle" title="Reorder this item" />
         </span>

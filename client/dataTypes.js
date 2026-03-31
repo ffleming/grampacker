@@ -24,6 +24,8 @@ const Item = function ({ id, unit }) {
     this.image = '';
     this.imageUrl = '';
     this.url = '';
+    this.classes = '';
+    this.inCurrentList = false;
 
     return this;
 };
@@ -34,6 +36,8 @@ Item.prototype.save = function () {
 
 Item.prototype.load = function (input) {
     assignIn(this, input);
+    this.classes = this.classes || '';
+    this.inCurrentList = this.inCurrentList || false;
     if (typeof this.price === 'string') {
         this.price = parseFloat(this.price, 10);
     }
