@@ -125,7 +125,7 @@
             <p v-if="searchText.length > 0" @click="clearSearch">&times;</p>
         </div>
         <ul id="library">
-            <li v-for="item in filteredItems" :class="'lpLibraryItem ' + item.classes + (item.inCurrentList ? ' lpInList' : '')" :data-item-id="item.id" :key="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
+            <li v-for="item in filteredItems" :class="['lpLibraryItem', item.classes, { lpInList: item.inCurrentList }]" :data-item-id="item.id" :key="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">
@@ -167,6 +167,10 @@ export default defineComponent({
           return this.$store.state.library;
       },
       filteredItems() {
+          const list = this.list; // dependency on list structure
+          const listWeight = list.totalWeight; // dependency on list content
+          const listQty = list.totalQty; // dependency on list content
+
           let i;
           let item;
           let filteredItems = [];

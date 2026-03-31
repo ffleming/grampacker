@@ -52,7 +52,7 @@
 </style>
 
 <template>
-    <li :id="item.id" :class="['lpItem', item.classes, (item.inCurrentList ? ' lpInList' : '')]">
+    <li :id="item.id" :class="['lpItem', item.classes, { lpInList: item.inCurrentList }]">
         <span class="lpHandleCell">
             <div class="lpItemHandle lpHandle" title="Reorder this item" />
         </span>
