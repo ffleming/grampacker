@@ -23,9 +23,13 @@
     input,
     select,
     textarea {
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
         color: $content;
         font-family: 'Open Sans', sans-serif;
         font-size: 13px;
+        min-width: 0;
     }
 
     h2 {
