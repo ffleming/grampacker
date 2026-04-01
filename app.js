@@ -1,5 +1,3 @@
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
@@ -65,14 +63,6 @@ app.use('/', views);
 
 logger.info("Starting up Gram Packer in " + config.get('environment') + ' mode...');
 
-if (config.get('environment') === 'production') {
-    webpackConfig = require('./webpack.config');
-} else {
-    webpackConfig = require('./webpack.development.config');
-}
-
-compiler = webpack(webpackConfig);
-
 // Default port is 3000; we can have multiple bindings
 config.get('bindings').map(
     (bind) => {
@@ -82,6 +72,11 @@ config.get('bindings').map(
 );
 
 if (config.get('environment') !== 'production') {
+  const webpack = require('webpack');
+  const WebpackDevServer = require('webpack-dev-server');
+  const webpackConfig = require('./webpack.development.config');
+  const compiler = webpack(webpackConfig);
+
   const devServerOptions = {
     host: "192.168.1.4",
     port: 8080,

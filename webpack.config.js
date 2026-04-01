@@ -60,7 +60,7 @@ module.exports = {
         {
           test: /\.scss$/,
           use: [
-            'vue-style-loader',
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
