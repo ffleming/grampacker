@@ -46,10 +46,6 @@
         flex: 0 0 12px;
         height: 18px;
         margin-right: 5px;
-
-        @media only screen and (max-width: 720px) {
-            flex-basis: 44px;
-        }
     }
 
     &:hover .lpHandle {

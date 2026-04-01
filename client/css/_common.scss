@@ -149,7 +149,7 @@
 }
 
 .lpHandle {
-    background: url(/public/images/handle.png) no-repeat center left;
+    background: url(/public/images/handle.png);
     cursor: move;
     cursor: grab;
     cursor: -webkit-grab;
@@ -161,25 +161,6 @@
     user-select: none;
     visibility: hidden;
     width: 12px;
-    
-    @media only screen and (max-width: 720px) {
-        background-position: center;
-        visibility: visible;
-        width: 44px !important;
-    }
-}
-
-@media only screen and (max-width: 720px) {
-    .lpRemove,
-    .lpHandle,
-    .lpWorn,
-    .lpConsumable,
-    .lpCamera,
-    .lpLink,
-    .lpArrows,
-    .lpStar {
-        visibility: visible !important;
-    }
 }
 
 .gu-mirror {
