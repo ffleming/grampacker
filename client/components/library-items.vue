@@ -161,7 +161,7 @@
             </p>
         </div>
         <ul id="library">
-            <li v-for="item in filteredItems" :key="item.id" :class="['lpLibraryItem', item.classes, { lpInList: item.inCurrentList }]" :data-item-id="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
+            <li v-for="item in filteredItems" :key="item.id" :class="['lpLibraryItem', { lpInList: item.inCurrentList }]" :data-item-id="item.id">
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">
