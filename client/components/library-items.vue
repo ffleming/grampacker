@@ -161,7 +161,7 @@
             </p>
         </div>
         <ul id="library">
-            <li v-for="item in filteredItems" :key="item.id" :class="['lpLibraryItem', { lpInList: item.inCurrentList }]" :data-item-id="item.id">
+            <li v-for="item in filteredItems" :key="item.id" :class="['lpLibraryItem', { lpInList: currentListItems.indexOf(item.id) > -1 }]" :data-item-id="item.id">
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">
@@ -171,9 +171,9 @@
                 <span class="lpDescription">
                     {{ item.description }}
                 </span>
-                <a v-if="!item.inCurrentList" class="lpAddLibraryItem" title="Add to current list" @click="addItemToCurrentList(item)"><i class="lpSprite lpSpriteAdd" /></a>
+                <a v-if="currentListItems.indexOf(item.id) === -1" class="lpAddLibraryItem" title="Add to current list" @click="addItemToCurrentList(item)"><i class="lpSprite lpSpriteAdd" /></a>
                 <a class="lpRemove lpRemoveLibraryItem speedbump" title="Delete this item permanently" @click="removeItem(item)"><i class="lpSprite lpSpriteRemove" /></a>
-                <div v-if="!item.inCurrentList" class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
+                <div v-if="currentListItems.indexOf(item.id) === -1" class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
             </li>
         </ul>
     </section>
@@ -203,11 +203,15 @@ export default defineComponent({
         library() {
             return this.$store.state.library;
         },
+        currentListItems() {
+            // Vue will track dependencies for this computed property
+            const deps = [this.list.totalWeight, this.list.totalQty, this.categories.length];
+            if (deps.length > -1) {
+                return this.library.getItemsInCurrentList();
+            }
+            return [];
+        },
         filteredItems() {
-            const list = this.list; // dependency on list structure
-            const listWeight = list.totalWeight; // dependency on list content
-            const listQty = list.totalQty; // dependency on list content
-
             let i;
             let item;
             let filteredItems = [];
@@ -221,15 +225,6 @@ export default defineComponent({
                     if (item.name.toLowerCase().indexOf(lowerCaseSearchText) > -1 || item.description.toLowerCase().indexOf(lowerCaseSearchText) > -1) {
                         filteredItems.push(item);
                     }
-                }
-            }
-
-            const currentListItems = this.library.getItemsInCurrentList();
-
-            for (i = 0; i < filteredItems.length; i++) {
-                item = filteredItems[i];
-                if (currentListItems.indexOf(item.id) > -1) {
-                    item.inCurrentList = true;
                 }
             }
 
