@@ -249,15 +249,23 @@ input.lpCategoryName { /* specificity */
             text-align: right !important;
         }
         
+        .lpPriceCell {
+            padding-right: 5px !important;
+        }
+
         .lpWeightCell {
-            padding-right: 20px !important; // Match item unit space
+            padding-right: 35px !important; // Match item unit space
+        }
+
+        .lpQtyCell {
+            padding-right: 25px !important; // Match item arrows space
         }
     }
 
     .lpItem, .lpItemsHeader, .lpItemsFooter {
         .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
-        .lpWeightCell { flex: 0 0 85px !important; margin-right: 5px !important; }
-        .lpQtyCell { flex: 0 0 45px !important; }
+        .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
+        .lpQtyCell { flex: 0 0 65px !important; }
         .lpRemoveCell { flex: 0 0 25px !important; }
         .lpHandleCell { flex: 0 0 15px !important; }
         .lpImageCell { flex: 0 0 45px !important; }
@@ -311,7 +319,7 @@ input.lpCategoryName { /* specificity */
         .lpWeightCell {
             position: relative;
             input {
-                padding-right: 20px !important;
+                padding-right: 35px !important;
             }
             .lpUnitSelect {
                 display: block !important;
@@ -321,6 +329,30 @@ input.lpCategoryName { /* specificity */
                 transform: translateY(-50%);
                 font-size: 11px;
                 opacity: 0.7;
+            }
+        }
+
+        .lpQtyCell {
+            position: relative;
+            input {
+                padding-right: 25px !important;
+            }
+            .lpArrows {
+                display: block !important;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                visibility: visible !important;
+                height: 24px;
+                width: 16px;
+                
+                .lpUp, .lpDown {
+                    margin: 0;
+                    left: 2px;
+                }
+                .lpUp { top: 1px; }
+                .lpDown { top: 13px; }
             }
         }
 
