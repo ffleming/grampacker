@@ -3,7 +3,7 @@
 
 <template>
     <span id="settings" v-if="isSignedIn" class="headerItem hasPopover">
-        <Popper hover>
+        <Popper>
         <span class="lpTarget"><i class="lpSprite lpSettings" />Settings</span>
             <template #content>
               <div class="lpPopoverContent">

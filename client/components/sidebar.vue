@@ -40,7 +40,8 @@ $sidebarPadding: 20px;
         padding: 20px 0 20px;
         position: relative;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
+        align-items: center;
 
         span {
             color: #aaa;
@@ -50,9 +51,10 @@ $sidebarPadding: 20px;
     .lpCloseSidebar {
         cursor: pointer;
         display: none;
-        font-size: 28px;
+        font-size: 32px;
         line-height: 24px;
-        padding: 0 10px;
+        padding: 0 15px 0 5px;
+        margin-left: -5px;
         
         @media only screen and (max-width: 720px) {
             display: block;
@@ -98,7 +100,7 @@ $sidebarPadding: 20px;
 <template>
     <div id="sidebar">
         <div id="scrollable">
-            <h1>Gram Packer <a class="lpCloseSidebar" @click="toggleSidebar">&times;</a></h1>
+            <h1><a class="lpCloseSidebar" @click="toggleSidebar">&times;</a> Gram Packer</h1>
 
             <libraryLists />
             <libraryItems />
