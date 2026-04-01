@@ -7,6 +7,11 @@
     height: 60px;
     margin: 0 -20px 20px; /* lpList padding */
     position: relative;
+
+    @media only screen and (max-width: 720px) {
+        flex-wrap: wrap;
+        height: auto;
+    }
 }
 
 #hamburger {
@@ -28,6 +33,12 @@
     font-size: 24px;
     font-weight: 600;
     padding: 12px 15px;
+    min-width: 0; /* Allow input to shrink below default width */
+
+    @media only screen and (max-width: 720px) {
+        font-size: 20px;
+        flex: 1 1 auto;
+    }
 }
 
 .headerItem {

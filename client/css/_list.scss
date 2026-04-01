@@ -30,6 +30,12 @@
 .lpCategories {
     margin: 0;
     padding: 0;
+
+    @media only screen and (max-width: 720px) {
+        overflow-x: auto;
+        /* add slight padding so scrolling doesn't cut off shadows or borders if present */
+        padding-bottom: 10px;
+    }
 }
 
 .lpCategory {
@@ -217,9 +223,16 @@ input.lpCategoryName { /* specificity */
 }
 
 .lpHeader {
-    .lpWeightCell,
-    .lpQtyCell,
     .lpPriceCell {
-        text-align: center;
+        text-align: right;
+        padding-right: 5px;
+    }
+    .lpWeightCell {
+        text-align: right;
+        padding-right: 35px; /* Offset for the unit dropdown in items */
+    }
+    .lpQtyCell {
+        text-align: right;
+        padding-right: 25px; /* Offset for the up/down arrows in items */
     }
 }
