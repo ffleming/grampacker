@@ -1,4 +1,6 @@
 <style lang="scss">
+@import "../css/_globals";
+
 #libraryContainer {
     display: flex;
     flex: 2 0 30vh;
@@ -100,6 +102,38 @@
         right: 14px;
     }
 
+    .lpAddLibraryItem {
+        border-radius: 16px;
+        bottom: 0;
+        cursor: pointer;
+        display: inline-block;
+        line-height: 8px;
+        margin-bottom: 3px;
+        opacity: 0.4;
+        padding: 2px 3px 3px;
+        position: absolute;
+        right: 36px;
+        visibility: hidden;
+
+        &:hover {
+            background: $green1;
+            box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25) inset;
+            opacity: 1;
+
+            .lpSpriteAdd {
+                background-position: 0 -25px;
+            }
+        }
+
+        .lpSpriteAdd {
+            top: 0;
+        }
+    }
+
+    &:hover .lpAddLibraryItem {
+        visibility: visible;
+    }
+
     #library.lpSearching & {
         display: none;
     }
@@ -121,11 +155,13 @@
     <section id="libraryContainer">
         <h2>Gear</h2>
         <div id="librarySearch">
-            <input v-model="searchText" type="text" placeholder="search items"/>
-            <p v-if="searchText.length > 0" @click="clearSearch">&times;</p>
+            <input v-model="searchText" type="text" placeholder="search items">
+            <p v-if="searchText.length > 0" @click="clearSearch">
+                &times;
+            </p>
         </div>
         <ul id="library">
-            <li v-for="item in filteredItems" :class="['lpLibraryItem', item.classes, { lpInList: item.inCurrentList }]" :data-item-id="item.id" :key="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
+            <li v-for="item in filteredItems" :key="item.id" :class="['lpLibraryItem', item.classes, { lpInList: item.inCurrentList }]" :data-item-id="item.id" @mouseenter="item.classes = 'hover'" @mouseleave="item.classes = ''">
                 <a v-if="item.url" :href="item.url" target="_blank" class="lpName lpHref">{{ item.name }}</a>
                 <span v-if="!item.url" class="lpName">{{ item.name }}</span>
                 <span class="lpWeight">
@@ -135,6 +171,7 @@
                 <span class="lpDescription">
                     {{ item.description }}
                 </span>
+                <a v-if="!item.inCurrentList" class="lpAddLibraryItem" title="Add to current list" @click="addItemToCurrentList(item)"><i class="lpSprite lpSpriteAdd" /></a>
                 <a class="lpRemove lpRemoveLibraryItem speedbump" title="Delete this item permanently" @click="removeItem(item)"><i class="lpSprite lpSpriteRemove" /></a>
                 <div v-if="!item.inCurrentList" class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
             </li>
@@ -150,127 +187,133 @@ import utilsMixin from '../mixins/utils-mixin.js';
 const dragula = require('dragula');
 
 export default defineComponent({
-  name: 'LibraryItem',
-  mixins: [utilsMixin],
-  props: ['item'],
+    name: 'LibraryItem',
+    mixins: [utilsMixin],
+    props: ['item'],
 
-  data() {
-      return {
-          searchText: '',
-          itemDragId: false,
-          drake: null,
-      };
-  },
+    data() {
+        return {
+            searchText: '',
+            itemDragId: false,
+            drake: null,
+        };
+    },
 
-  computed: {
-      library() {
-          return this.$store.state.library;
-      },
-      filteredItems() {
-          const list = this.list; // dependency on list structure
-          const listWeight = list.totalWeight; // dependency on list content
-          const listQty = list.totalQty; // dependency on list content
-
-          let i;
-          let item;
-          let filteredItems = [];
-          if (!this.searchText) {
-              filteredItems = this.library.items;
-          } else {
-              const lowerCaseSearchText = this.searchText.toLowerCase();
-
-              for (i = 0; i < this.library.items.length; i++) {
-                  item = this.library.items[i];
-                  if (item.name.toLowerCase().indexOf(lowerCaseSearchText) > -1 || item.description.toLowerCase().indexOf(lowerCaseSearchText) > -1) {
-                      filteredItems.push(item);
-                  }
-              }
-          }
-
-          const currentListItems = this.library.getItemsInCurrentList();
-
-          for (i = 0; i < filteredItems.length; i++) {
-              item = filteredItems[i];
-              if (currentListItems.indexOf(item.id) > -1) {
-                  item.inCurrentList = true;
-              }
-          }
-
-          return filteredItems;
-      },
-      list() {
-          return this.library.getListById(this.library.defaultListId);
-      },
-      categories() {
-          return this.list.categoryIds.map(id => this.library.getCategoryById(id));
-      },
-  },
-
-  watch: {
-      categories: {
-        handler(oldVal, newVal) {
-          nextTick(() => {
-              this.handleItemDrag();
-          });
+    computed: {
+        library() {
+            return this.$store.state.library;
         },
-        deep: true,
-      },
-  },
+        filteredItems() {
+            const list = this.list; // dependency on list structure
+            const listWeight = list.totalWeight; // dependency on list content
+            const listQty = list.totalQty; // dependency on list content
 
-  mounted() {
-      this.handleItemDrag();
-  },
+            let i;
+            let item;
+            let filteredItems = [];
+            if (!this.searchText) {
+                filteredItems = this.library.items;
+            } else {
+                const lowerCaseSearchText = this.searchText.toLowerCase();
 
-  methods: {
-      handleItemDrag() {
-          if (this.drake) {
-              this.drake.destroy();
-          }
+                for (i = 0; i < this.library.items.length; i++) {
+                    item = this.library.items[i];
+                    if (item.name.toLowerCase().indexOf(lowerCaseSearchText) > -1 || item.description.toLowerCase().indexOf(lowerCaseSearchText) > -1) {
+                        filteredItems.push(item);
+                    }
+                }
+            }
 
-          const self = this;
-          const $library = document.getElementById('library');
-          const $categoryItems = Array.prototype.slice.call(document.getElementsByClassName('lpItems')); // list.vue
-          const drake = dragula([$library].concat($categoryItems), {
-              copy: true,
-              moves($el, $source, $handle, $sibling) {
-                  const items = self.library.getItemsInCurrentList();
-                  if (items.indexOf(parseInt($el.dataset.itemId)) > -1) {
-                      return false;
-                  }
-                  return $handle.classList.contains('lpLibraryItemHandle');
-              },
-              accepts($el, $target, $source, $sibling) {
-                  if ($target.id === 'library' || !$sibling || $sibling.classList.contains('lpItemsHeader')) {
-                      return false; // header and footer are technically part of this list - exclude them both.
-                  }
-                  return true;
-              },
-          });
-          drake.on('drag', ($el, $target, $source, $sibling) => {
-              this.itemDragId = parseInt($el.dataset.itemId); // fragile
-          });
-          drake.on('drop', ($el, $target, $source, $sibling) => {
-              if (!$target || $target.id === 'library') {
-                  return;
-              }
-              const categoryId = parseInt($target.parentElement.id); // fragile
-              this.$store.commit('addItemToCategory', { itemId: this.itemDragId, categoryId, dropIndex: getElementIndex($el) - 1 });
-              drake.cancel(true);
-          });
-          this.drake = drake;
-      },
-      removeItem(item) {
-          const callback = function () {
-              this.$store.commit('removeItem', item);
-          };
-          const speedbumpOptions = {
-              body: 'Are you sure you want to delete this item? This cannot be undone.',
-          };
-          bus.$emit('initSpeedbump', callback, speedbumpOptions);
-      },
-      clearSearch() {
-          this.searchText = '';
-      }
-  },
+            const currentListItems = this.library.getItemsInCurrentList();
+
+            for (i = 0; i < filteredItems.length; i++) {
+                item = filteredItems[i];
+                if (currentListItems.indexOf(item.id) > -1) {
+                    item.inCurrentList = true;
+                }
+            }
+
+            return filteredItems;
+        },
+        list() {
+            return this.library.getListById(this.library.defaultListId);
+        },
+        categories() {
+            return this.list.categoryIds.map((id) => this.library.getCategoryById(id));
+        },
+    },
+
+    watch: {
+        categories: {
+            handler(oldVal, newVal) {
+                nextTick(() => {
+                    this.handleItemDrag();
+                });
+            },
+            deep: true,
+        },
+    },
+
+    mounted() {
+        this.handleItemDrag();
+    },
+
+    methods: {
+        handleItemDrag() {
+            if (this.drake) {
+                this.drake.destroy();
+            }
+
+            const self = this;
+            const $library = document.getElementById('library');
+            const $categoryItems = Array.prototype.slice.call(document.getElementsByClassName('lpItems')); // list.vue
+            const drake = dragula([$library].concat($categoryItems), {
+                copy: true,
+                moves($el, $source, $handle, $sibling) {
+                    const items = self.library.getItemsInCurrentList();
+                    if (items.indexOf(parseInt($el.dataset.itemId)) > -1) {
+                        return false;
+                    }
+                    return $handle.classList.contains('lpLibraryItemHandle');
+                },
+                accepts($el, $target, $source, $sibling) {
+                    if ($target.id === 'library' || !$sibling || $sibling.classList.contains('lpItemsHeader')) {
+                        return false; // header and footer are technically part of this list - exclude them both.
+                    }
+                    return true;
+                },
+            });
+            drake.on('drag', ($el, $target, $source, $sibling) => {
+                this.itemDragId = parseInt($el.dataset.itemId); // fragile
+            });
+            drake.on('drop', ($el, $target, $source, $sibling) => {
+                if (!$target || $target.id === 'library') {
+                    return;
+                }
+                const categoryId = parseInt($target.parentElement.id); // fragile
+                this.$store.commit('addItemToCategory', { itemId: this.itemDragId, categoryId, dropIndex: getElementIndex($el) - 1 });
+                drake.cancel(true);
+            });
+            this.drake = drake;
+        },
+        removeItem(item) {
+            const callback = function () {
+                this.$store.commit('removeItem', item);
+            };
+            const speedbumpOptions = {
+                body: 'Are you sure you want to delete this item? This cannot be undone.',
+            };
+            bus.$emit('initSpeedbump', callback, speedbumpOptions);
+        },
+        addItemToCurrentList(item) {
+            if (this.categories.length > 0) {
+                const categoryId = this.categories[0].id;
+                this.$store.commit('addItemToCategory', { itemId: item.id, categoryId, dropIndex: 0 });
+            }
+        },
+        clearSearch() {
+            this.searchText = '';
+        },
+    },
 });
 </script>
