@@ -10,6 +10,10 @@
 
     .lpHasSidebar & {
         margin-left: 320px;
+
+        @media only screen and (max-width: 720px) {
+            margin-left: 0;
+        }
     }
 }
 

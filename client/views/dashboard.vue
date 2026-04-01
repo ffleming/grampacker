@@ -185,6 +185,9 @@ export default defineComponent({
           this.$router.push('/welcome');
       } else {
           this.isLoaded = true;
+          if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
+              this.$store.commit('toggleSidebar');
+          }
       }
   },
 
