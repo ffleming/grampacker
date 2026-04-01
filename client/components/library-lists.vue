@@ -48,7 +48,7 @@
         margin-right: 5px;
 
         @media only screen and (max-width: 720px) {
-            flex-basis: 30px;
+            flex-basis: 44px;
         }
     }
 

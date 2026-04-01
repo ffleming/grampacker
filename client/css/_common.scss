@@ -161,10 +161,11 @@
     user-select: none;
     visibility: hidden;
     width: 12px;
-
+    
     @media only screen and (max-width: 720px) {
+        background-position: center;
         visibility: visible;
-        width: 30px;
+        width: 44px !important;
     }
 }
 

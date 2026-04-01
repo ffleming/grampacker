@@ -49,7 +49,7 @@
     position: relative;
 
     @media only screen and (max-width: 720px) {
-        padding-left: 35px;
+        padding-left: 50px;
     }
 
     &:first-child {
