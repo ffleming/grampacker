@@ -48,6 +48,10 @@
     padding: 5px 5px 0 15px;
     position: relative;
 
+    @media only screen and (max-width: 720px) {
+        padding-left: 35px;
+    }
+
     &:first-child {
         border-top: none;
         padding-top: 10px;

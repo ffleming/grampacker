@@ -149,15 +149,40 @@
 }
 
 .lpHandle {
-    background: url(/public/images/handle.png);
+    background: url(/public/images/handle.png) no-repeat center left;
     cursor: move;
+    cursor: grab;
     cursor: -webkit-grab;
     cursor: -moz-grab;
     float: left;
     height: 24px;
     margin-top: 2px;
+    touch-action: none;
+    user-select: none;
     visibility: hidden;
     width: 12px;
+
+    @media only screen and (max-width: 720px) {
+        visibility: visible;
+        width: 30px;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .lpRemove,
+    .lpHandle,
+    .lpWorn,
+    .lpConsumable,
+    .lpCamera,
+    .lpLink,
+    .lpArrows,
+    .lpStar {
+        visibility: visible !important;
+    }
+}
+
+.gu-mirror {
+    touch-action: none;
 }
 
 .lpAlignRight {
