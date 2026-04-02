@@ -46,6 +46,7 @@
 <script>
 import { defineComponent } from 'vue';
 
+import bus from '../bus';
 import item from './item.vue';
 
 const utilsMixin = require('../mixins/utils-mixin.js');

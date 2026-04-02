@@ -182,6 +182,7 @@
 <script>
 import { defineComponent, nextTick } from 'vue';
 
+import bus from '../bus';
 import utilsMixin from '../mixins/utils-mixin.js';
 
 const dragula = require('dragula');

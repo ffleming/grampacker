@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const Mustache = require('mustache');
 const extend = require('node.extend');
-const markdown = require('markdown').markdown;
+const { marked } = require('marked');
 const config = require('config');
 const mongojs = require('mongojs');
 const { logWithRequest, logger } = require('./log.js');
@@ -132,7 +132,7 @@ router.get('/r/:id', (req, res) => {
             renderedCategories,
             renderedTotals,
             optionalFields: library.optionalFields,
-            renderedDescription: markdown.toHTML(list.description, "Maruku"),
+            renderedDescription: marked.parse(list.description || ''),
             scripts: shareScriptsHtml,
             styles: shareStylesHtml,
         };
@@ -185,7 +185,7 @@ router.get('/e/:id', (req, res) => {
             categoryTemplate: templates.t_categoryShare,
             optionalFields: library.optionalFields,
             unitSelectTemplate: templates.t_unitSelect,
-            renderedDescription: markdown.toHTML(list.description, "Maruku"),
+            renderedDescription: marked.parse(list.description || ''),
             currencySymbol: library.currencySymbol,
         });
 
@@ -198,7 +198,7 @@ router.get('/e/:id', (req, res) => {
             renderedCategories,
             renderedTotals,
             optionalFields: library.optionalFields,
-            renderedDescription: markdown.toHTML(list.description, "Maruku"),
+            renderedDescription: marked.parse(list.description || ''),
             baseUrl: config.get('deployUrl'),
             styles: shareStylesLinks,
             scripts: shareScriptsLinks,

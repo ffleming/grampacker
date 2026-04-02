@@ -1,5 +1,4 @@
 const config = require('config');
-const request = require('request');
 const mongojs = require('mongojs');
 
 const newDataTypes = require('../client/dataTypes.js');
