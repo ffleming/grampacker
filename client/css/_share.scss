@@ -167,8 +167,7 @@
         display: flex !important;
         
         .lpWeightCell,
-        .lpPriceCell,
-        .lpQtyCell {
+        .lpPriceCell {
             display: block !important;
             text-align: right !important;
             padding-right: 0 !important;
@@ -179,7 +178,7 @@
         }
         
         .lpQtyCell {
-            padding-right: 5px !important;
+            display: none !important; // Hidden on mobile because it's now a prefix
         }
     }
 
@@ -189,7 +188,6 @@
         .lpItem, .lpItemsHeader, .lpItemsFooter {
             .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
             .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
-            .lpQtyCell { flex: 0 0 45px !important; }
             .lpImageCell { flex: 0 0 45px !important; }
         }
 
@@ -220,23 +218,25 @@
         }
 
         .lpName {
-            flex: 1 1 60px !important;
+            flex: 1 1 auto !important;
             font-weight: bold;
             order: 2;
             min-width: 0;
         }
 
         .lpQtyCell {
-            order: 10;
+            flex: 0 0 35px !important;
+            order: 1; // Before Name
             text-align: right;
+            padding-right: 5px;
+            font-weight: bold;
 
             &[qty1] {
-                color: transparent; /* Hide '1' but keep space for perfect alignment */
-                user-select: none;
+                visibility: hidden;
             }
 
             &::after {
-                display: none !important;
+                content: " x";
             }
         }
 
