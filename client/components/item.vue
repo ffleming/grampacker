@@ -95,6 +95,7 @@
 <script>
 import { defineComponent } from 'vue';
 
+import bus from '../bus';
 import unitSelect from './unit-select.vue';
 
 const utilsMixin = require('../mixins/utils-mixin.js');

@@ -20,7 +20,7 @@
         margin: 25px 0;
     }
 
-    input,
+    input:not([type=checkbox]):not([type=radio]),
     select,
     textarea {
         appearance: none;
@@ -458,6 +458,11 @@
 
 	& > *:last-child {
 		margin-bottom: 0;
+	}
+
+	ul, div, h3 {
+		position: relative;
+		z-index: $dialog + 2;
 	}
 
 	h3 {

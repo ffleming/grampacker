@@ -15,6 +15,7 @@
 <script>
 import { defineComponent } from 'vue';
 
+import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({

@@ -1,4 +1,19 @@
-<style lang="scss">
+<style lang="scss" scoped>
+.lpOptionalField {
+    label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 4px 0;
+    }
+    input[type="checkbox"] {
+        appearance: checkbox;
+        -webkit-appearance: checkbox;
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+    }
+}
 </style>
 
 <template>
@@ -32,6 +47,7 @@
 import { defineComponent } from 'vue';
 
 import Popper from "vue3-popper";
+import bus from '../bus';
 
 export default defineComponent({
   name: 'ListSettings',

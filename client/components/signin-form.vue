@@ -26,6 +26,7 @@
 <script>
 import { defineComponent } from 'vue';
 
+import bus from '../bus';
 import errors from './errors.vue';
 import spinner from './spinner.vue';
 

@@ -20,6 +20,7 @@
 import { defineComponent } from 'vue';
 
 import Popper from "vue3-popper";
+import bus from '../bus';
 
 export default defineComponent({
   name: 'AccountDropdown',
