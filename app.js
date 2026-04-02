@@ -88,13 +88,14 @@ if (config.get('environment') !== 'production') {
       },
     },
     historyApiFallback: true,
-    proxy: {
-      '*': {
+    proxy: [
+      {
+        context: ["**"],
         target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
         secure: false,
         changeOrigin: true,
       },
-    },
+    ],
   };
   const devServer = new WebpackDevServer(devServerOptions, compiler);
 

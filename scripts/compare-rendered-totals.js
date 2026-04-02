@@ -1,5 +1,4 @@
 const config = require('config');
-const request = require('request');
 const mongojs = require('mongojs');
 
 const newDataTypes = require('../client/dataTypes.js');
@@ -29,6 +28,10 @@ getAllIds()
 function getAllIds() {
     return new Promise((resolve, reject) => {
         db.users_prod.find({}, (err, users) => {
+            if (err) {
+                reject(err);
+                return;
+            }
             if (!users.length) {
                 console.log('no users found');
                 return;
@@ -74,37 +77,35 @@ function compareNextListRender() {
 }
 
 function compareListRender(listId) {
-    return new Promise((resolve, reject) => {
-        const fullUrlOld = `${oldBaseUrl}/r/${listId}`;
-        const fullUrlNew = `${newBaseUrl}/r/${listId}`;
+    const fullUrlOld = `${oldBaseUrl}/r/${listId}`;
+    const fullUrlNew = `${newBaseUrl}/r/${listId}`;
 
-        Promise.all([
-            extractListTotal(fullUrlOld),
-            extractListTotal(fullUrlNew),
-        ])
-            .then(([oldResponse, newResponse]) => {
-                if (oldResponse !== newResponse) {
-                    console.log('difference found!');
-                    console.log(listId);
-                    resolve();
-                }
-                resolve();
-            });
-    });
-}
-
-function extractListTotal(fullUrl) {
-    return new Promise((resolve, reject) => {
-        request.get(fullUrl, (error, response, body) => {
-            if (error) {
-                reject();
-                return;
+    return Promise.all([
+        extractListTotal(fullUrlOld),
+        extractListTotal(fullUrlNew),
+    ])
+        .then(([oldResponse, newResponse]) => {
+            if (oldResponse !== newResponse) {
+                console.log('difference found!');
+                console.log(listId);
             }
-            totalRow = body.substr(body.indexOf('lpRow lpFooter lpTotal'));
-            totalCell = totalRow.substr(totalRow.indexOf('lpTotalValue'));
-            totalCellBody = totalCell.substr(totalCell.indexOf('>') + 1);
-            totalCellBody = totalCellBody.substr(0, totalCellBody.indexOf('<'));
-            resolve(totalCellBody);
+        })
+        .catch(() => {
+            // console.log(`Error comparing list ${listId}`);
         });
-    });
 }
+
+async function extractListTotal(fullUrl) {
+    try {
+        const response = await fetch(fullUrl);
+        const body = await response.text();
+        const totalRow = body.substr(body.indexOf('lpRow lpFooter lpTotal'));
+        const totalCell = totalRow.substr(totalRow.indexOf('lpTotalValue'));
+        let totalCellBody = totalCell.substr(totalCell.indexOf('>') + 1);
+        totalCellBody = totalCellBody.substr(0, totalCellBody.indexOf('<'));
+        return totalCellBody;
+    } catch (error) {
+        throw error;
+    }
+}
+
