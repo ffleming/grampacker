@@ -175,7 +175,7 @@
         }
 
         .lpWeightCell {
-            padding-right: 20px !important;
+            padding-right: 35px !important; // Space for unit
         }
         
         .lpQtyCell {
@@ -188,7 +188,7 @@
 
         .lpItem, .lpItemsHeader, .lpItemsFooter {
             .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
-            .lpWeightCell { flex: 0 0 85px !important; margin-right: 5px !important; }
+            .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
             .lpQtyCell { flex: 0 0 45px !important; }
             .lpImageCell { flex: 0 0 45px !important; }
         }
@@ -205,7 +205,7 @@
         padding: 12px 0;
 
         .lpShowImages &.lpItemHasImage {
-            padding-left: 0; // Reset previous absolute positioning logic
+            padding-left: 0;
 
             .lpImageCell {
                 position: static;
@@ -227,16 +227,16 @@
         }
 
         .lpQtyCell {
-            flex-basis: 45px !important;
-            order: 10; // Move to the right with other numbers
+            order: 10;
             text-align: right;
 
             &[qty1] {
-                visibility: hidden;
+                color: transparent; /* Hide '1' but keep space for perfect alignment */
+                user-select: none;
             }
 
             &::after {
-                display: none; // Remove the " x " suffix
+                display: none !important;
             }
         }
 
@@ -249,14 +249,25 @@
             order: 5;
             text-align: right;
             white-space: nowrap;
-            display: flex !important;
-            justify-content: flex-end;
-            align-items: center;
+            position: relative;
+            padding-right: 35px !important;
+
+            .lpWeight {
+                width: auto !important;
+                display: inline !important;
+            }
 
             .lpUnitSelect {
-                margin-left: 4px;
+                display: block !important;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
                 font-size: 11px;
-                opacity: 0.8;
+                opacity: 0.7;
+                margin: 0 !important;
+                width: 30px;
+                text-align: left;
             }
         }
 
