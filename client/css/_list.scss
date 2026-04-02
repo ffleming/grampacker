@@ -10,6 +10,10 @@
 
     .lpHasSidebar & {
         margin-left: 320px;
+
+        @media only screen and (max-width: 720px) {
+            margin-left: 0;
+        }
     }
 }
 
@@ -26,6 +30,12 @@
 .lpCategories {
     margin: 0;
     padding: 0;
+
+    @media only screen and (max-width: 720px) {
+        overflow-x: auto;
+        /* add slight padding so scrolling doesn't cut off shadows or borders if present */
+        padding-bottom: 10px;
+    }
 }
 
 .lpCategory {
@@ -213,9 +223,144 @@ input.lpCategoryName { /* specificity */
 }
 
 .lpHeader {
-    .lpWeightCell,
-    .lpQtyCell,
     .lpPriceCell {
-        text-align: center;
+        text-align: right;
+        padding-right: 5px;
+    }
+    .lpWeightCell {
+        text-align: right;
+        padding-right: 35px; /* Offset for the unit dropdown in items */
+    }
+    .lpQtyCell {
+        text-align: right;
+        padding-right: 25px; /* Offset for the up/down arrows in items */
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    input.lpCategoryName {
+        flex: 1 1 auto !important;
+        min-width: 50px !important;
+    }
+
+    .lpHeader {
+        .lpPriceCell, .lpWeightCell, .lpQtyCell {
+            padding-right: 0 !important;
+            text-align: right !important;
+        }
+        
+        .lpPriceCell {
+            padding-right: 5px !important;
+        }
+
+        .lpWeightCell {
+            padding-right: 35px !important; // Match item unit space
+        }
+
+        .lpQtyCell {
+            padding-right: 25px !important; // Match item arrows space
+        }
+    }
+
+    .lpItem, .lpItemsHeader, .lpItemsFooter {
+        .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
+        .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
+        .lpQtyCell { flex: 0 0 65px !important; }
+        .lpRemoveCell { flex: 0 0 25px !important; }
+        .lpHandleCell { flex: 0 0 15px !important; }
+        .lpImageCell { flex: 0 0 45px !important; }
+    }
+
+    .lpItem {
+        flex-wrap: wrap !important;
+        height: auto !important;
+        padding: 12px 0 !important;
+        align-items: center !important;
+
+        .lpName {
+            flex: 1 1 60px !important; // Allow to shrink to fit numbers
+            min-width: 0 !important;
+        }
+
+        .lpDescription, .lpActionsCell {
+            order: 100 !important;
+            margin-top: 10px !important;
+        }
+
+        .lpDescription {
+            flex: 1 1 60% !important;
+            padding-left: 20px !important;
+            height: auto !important;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px dotted #ddd;
+            padding-top: 10px;
+        }
+
+        .lpActionsCell {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            padding: 10px 5px 0 !important;
+            border-top: 1px dotted #ddd;
+            
+            .lpSprite {
+                margin-right: 8px !important;
+            }
+        }
+        
+        .lpWeightCell, .lpPriceCell, .lpQtyCell {
+            input {
+                width: 100% !important;
+                text-align: right !important;
+                padding: 3px 0 !important;
+            }
+        }
+        
+        .lpWeightCell {
+            position: relative;
+            input {
+                padding-right: 35px !important;
+            }
+            .lpUnitSelect {
+                display: block !important;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 11px;
+                opacity: 0.7;
+            }
+        }
+
+        .lpQtyCell {
+            position: relative;
+            input {
+                padding-right: 25px !important;
+            }
+            .lpArrows {
+                display: block !important;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                visibility: visible !important;
+                height: 24px;
+                width: 16px;
+                
+                .lpUp, .lpDown {
+                    margin: 0;
+                    left: 2px;
+                }
+                .lpUp { top: 1px; }
+                .lpDown { top: 13px; }
+            }
+        }
+
+        .lpImageCell {
+            .lpItemImage {
+                max-width: 40px !important;
+                top: 0 !important;
+            }
+        }
     }
 }

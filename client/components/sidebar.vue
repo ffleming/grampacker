@@ -19,8 +19,17 @@ $sidebarPadding: 20px;
     width: $sidebarWidth + $sidebarOverflow + $sidebarPadding*2;
     z-index: $sidebar;
 
+    @media only screen and (max-width: 720px) {
+        z-index: $aboveSidebar + 10;
+        pointer-events: none;
+    }
+
     .lpHasSidebar & {
         opacity: 1;
+
+        @media only screen and (max-width: 720px) {
+            pointer-events: auto;
+        }
     }
 
     h1 {
@@ -30,9 +39,25 @@ $sidebarPadding: 20px;
         margin: 0 -20px 20px 0;
         padding: 20px 0 20px;
         position: relative;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
 
         span {
             color: #aaa;
+        }
+    }
+
+    .lpCloseSidebar {
+        cursor: pointer;
+        display: none;
+        font-size: 32px;
+        line-height: 24px;
+        padding: 0 15px 0 5px;
+        margin-left: -5px;
+        
+        @media only screen and (max-width: 720px) {
+            display: block;
         }
     }
 
@@ -75,7 +100,7 @@ $sidebarPadding: 20px;
 <template>
     <div id="sidebar">
         <div id="scrollable">
-            <h1>Gram Packer</h1>
+            <h1><a class="lpCloseSidebar" @click="toggleSidebar">&times;</a> Gram Packer</h1>
 
             <libraryLists />
             <libraryItems />
@@ -96,5 +121,11 @@ export default defineComponent({
       libraryItems,
       libraryLists,
   },
+  
+  methods: {
+      toggleSidebar() {
+          this.$store.commit('toggleSidebar');
+      }
+  }
 });
 </script>

@@ -3,7 +3,7 @@
 
 <template>
   <span id="share" v-if="isSignedIn" class="headerItem hasPopover">
-      <Popper hover @open:popper="focusShare">
+      <Popper @open:popper="focusShare">
         <span class="lpTarget"><i class="lpSprite lpLink" /> Share</span>
         <template #content>
           <div class="lpPopoverContent lpFields">

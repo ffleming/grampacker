@@ -163,101 +163,143 @@
         max-width: 100%;
     }
 
+    .lpHeader {
+        display: flex !important;
+        
+        .lpWeightCell,
+        .lpPriceCell {
+            display: block !important;
+            text-align: right !important;
+            padding-right: 0 !important;
+        }
+
+        .lpWeightCell {
+            padding-right: 35px !important; // Space for unit
+        }
+        
+        .lpQtyCell {
+            display: none !important; // Hidden on mobile because it's now a prefix
+        }
+    }
+
     .lpItems {
         position: relative;
 
-        .lpWeightCell {
-            flex-basis: 100px;
-        }
-
-        .lpPriceCell {
-            flex-basis: 65px;
-        }
-
-        .lpHeader {
-            .lpWeightCell,
-            .lpPriceCell,
-            .lpQtyCell {
-                display: none;
-            }
+        .lpItem, .lpItemsHeader, .lpItemsFooter {
+            .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
+            .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
+            .lpImageCell { flex: 0 0 45px !important; }
         }
 
         .lpFooter {
             justify-content: flex-end;
-
-            .lpQtyCell {
-                display: none;
-            }
         }
     }
 
     .lpItem {
-        align-items: baseline;
-        flex-flow: row wrap;
-        justify-content: flex-end;
-        padding: 3px 0;
+        align-items: center;
+        flex-wrap: wrap !important;
+        justify-content: stretch;
+        padding: 12px 0;
 
         .lpShowImages &.lpItemHasImage {
-            min-height: 90px;
-            padding-left: 100px;
-            position: relative;
+            padding-left: 0;
 
             .lpImageCell {
-                height: 90px;
-                left: 0;
-                position: absolute;
-                top: 0;
-                width: 90px;
+                position: static;
+                height: auto;
+                width: auto;
+                display: block !important;
+                
+                .lpItemImage {
+                    max-width: 40px;
+                }
             }
-        }
-
-        .lpImageCell {
-            flex-basis: 0;
         }
 
         .lpName {
-            flex-basis: 90px;
+            flex: 1 1 auto !important;
             font-weight: bold;
             order: 2;
+            min-width: 0;
         }
 
         .lpQtyCell {
-            flex-basis: auto;
-            order: 1;
+            flex: 0 0 35px !important;
+            order: 1; // Before Name
+            text-align: right;
+            padding-right: 5px;
+            font-weight: bold;
 
             &[qty1] {
-                display: none;
+                visibility: hidden;
             }
 
             &::after {
-                content: " x ";
-                display: inline;
-                margin-right: 5px;
+                content: " x";
             }
         }
 
         .lpPriceCell {
             order: 4;
+            text-align: right;
         }
 
         .lpWeightCell {
             order: 5;
+            text-align: right;
+            white-space: nowrap;
+            position: relative;
+            padding-right: 35px !important;
+
+            .lpWeight {
+                width: auto !important;
+                display: inline !important;
+            }
+
+            .lpUnitSelect {
+                display: block !important;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 11px;
+                opacity: 0.7;
+                margin: 0 !important;
+                width: 30px;
+                text-align: left;
+            }
+        }
+
+        .lpDescription, .lpActionsCell {
+            order: 100 !important;
+            margin-top: 10px !important;
         }
 
         .lpDescription {
-            flex-basis: calc(100% - 50px); /* Always wrap */
-            order: 98;
+            flex: 1 1 60% !important;
+            padding-left: 20px !important;
+            height: auto !important;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px dotted #ddd;
+            padding-top: 10px;
         }
 
         .lpActionsCell {
-            flex: 0 0 auto;
-            order: 99;
-            padding: 0 10px;
+            flex: 0 0 auto !important;
+            width: auto !important;
+            padding: 10px 5px 0 !important;
+            border-top: 1px dotted #ddd;
             text-align: right;
 
             .lpHidden,
             i:not(.lpActive) {
                 display: none;
+            }
+            
+            .lpSprite {
+                margin-right: 8px !important;
             }
         }
     }
@@ -274,12 +316,4 @@
 }
 
 @media only screen and (max-width: 480px) {
-    .lpListSummary {
-        flex-direction: column;
-        margin-bottom: 30px;
-    }
-
-    .lpChartContainer {
-        max-width: 200px;
-    }
 }

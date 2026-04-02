@@ -3,7 +3,7 @@
 
 <template>
     <span class="headerItem hasPopover">
-        <Popper hover>
+        <Popper>
             <span class="lpTarget">Signed in as <span class="username">{{ username }}</span> <i class="lpSprite lpExpand" /></span>
             <template #content>
               <div class="lpPopoverContent">

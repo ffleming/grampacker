@@ -2,10 +2,12 @@
 @import "../css/_globals";
 
 #header {
-    align-items: baseline;
+    align-items: center;
     display: flex;
-    height: 60px;
+    flex-wrap: wrap;
+    height: auto;
     margin: 0 -20px 20px; /* lpList padding */
+    min-height: 60px;
     position: relative;
 }
 
@@ -28,13 +30,30 @@
     font-size: 24px;
     font-weight: 600;
     padding: 12px 15px;
+    min-width: 0;
+
+    @media only screen and (max-width: 720px) {
+        border-top: 1px solid #ddd;
+        flex: 1 1 100% !important;
+        font-size: 18px;
+        order: 10;
+        padding: 10px 20px;
+    }
 }
 
 .headerItem {
     flex: 0 0 auto;
-    height: 100%;
     padding: 17px 16px;
     position: relative;
+
+    @media only screen and (max-width: 720px) {
+        padding: 12px 10px;
+
+        &:first-child {
+            margin-right: auto;
+            padding-left: 20px;
+        }
+    }
 
     &:first-child {
         padding-left: 20px;
@@ -49,6 +68,10 @@
     .lpTarget {
         font-weight: 600;
         padding: 17px 16px 15px;
+
+        @media only screen and (max-width: 720px) {
+            padding: 0;
+        }
     }
 
     &#lpListName {
@@ -57,11 +80,19 @@
 
     &.hasPopover {
         padding: 0;
+
+        @media only screen and (max-width: 720px) {
+            padding: 12px 10px;
+        }
     }
 
     &.signInRegisterButtons {
         height: auto;
         padding: 0 16px;
+
+        @media only screen and (max-width: 720px) {
+            padding: 12px 10px;
+        }
     }
 }
 </style>
@@ -185,6 +216,9 @@ export default defineComponent({
           this.$router.push('/welcome');
       } else {
           this.isLoaded = true;
+          if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
+              this.$store.commit('toggleSidebar');
+          }
       }
   },
 
