@@ -25,8 +25,9 @@
 
 .lpArrows {
     display: inline-block;
-    height: 14px;
+    height: 20px;
     position: relative;
+    top: 6px;
     visibility: hidden;
     width: 10px;
 
@@ -34,18 +35,21 @@
     .lpDown {
         cursor: pointer;
         left: 0;
-        margin: 2px;
+        margin: 0;
         opacity: 0.5;
         position: absolute;
-        top: 0;
 
         &:hover {
             opacity: 1;
         }
     }
 
+    .lpUp {
+        top: 0;
+    }
+
     .lpDown {
-        top: 11px;
+        top: 10px;
     }
 }
 
@@ -123,10 +127,10 @@ export default defineComponent({
         return this.$store.state.library;
       },
       item() {
-        return Object.assign({}, this.itemContainer.item);
+        return this.itemContainer.item;
       },
       categoryItem() {
-        return Object.assign({}, this.itemContainer.categoryItem);
+        return this.itemContainer.categoryItem;
       },
       thumbnailImage() {
           if (this.item.image) {
@@ -150,12 +154,13 @@ export default defineComponent({
       item: {
         handler(val, oldVal) {
           this.setDisplayWeight();
+          this.setDisplayPrice();
         },
         deep: true,
       },
       categoryItem: {
         handler(val, oldVal) {
-          this.setDisplayWeight();
+          this.setDisplayQty();
         },
         deep: true,
       },
@@ -292,6 +297,7 @@ export default defineComponent({
 
           this.categoryItem.qty = this.categoryItem.qty + 1;
           this.saveCategoryItem();
+          this.setDisplayQty();
       },
       decrementQty(evt) {
           evt.stopImmediatePropagation();
@@ -307,6 +313,7 @@ export default defineComponent({
           }
 
           this.saveCategoryItem();
+          this.setDisplayQty();
       },
       incrementWeight(evt) {
           evt.stopImmediatePropagation();
@@ -319,6 +326,7 @@ export default defineComponent({
           this.item.weight = weightUtils.WeightToMg(newWeight, this.item.authorUnit);
 
           this.saveItem();
+          this.setDisplayWeight();
       },
       decrementWeight(evt) {
           evt.stopImmediatePropagation();
@@ -335,6 +343,7 @@ export default defineComponent({
           }
 
           this.saveItem();
+          this.setDisplayWeight();
       },
       removeItem() {
           this.$store.commit('removeItemFromCategory', { itemId: this.item.id, category: this.category });
