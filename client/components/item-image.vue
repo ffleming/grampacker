@@ -1,4 +1,74 @@
 <style lang="scss">
+#itemImageDialog {
+    width: 640px;
+    max-width: 95vw;
+}
+
+.columns {
+    display: flex;
+    gap: 20px;
+    
+    @media only screen and (max-width: 720px) {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+.lpHalf {
+    flex: 1;
+
+    @media only screen and (max-width: 720px) {
+        width: 100%;
+        padding: 0 !important;
+    }
+}
+
+#itemImageUrlForm {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input[type="text"] {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+    }
+
+    @media only screen and (max-width: 720px) {
+        flex-direction: column;
+        align-items: stretch;
+
+        input[type="text"] {
+            margin-bottom: 10px;
+        }
+        
+        .lpButton {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .close {
+            display: block;
+            text-align: center;
+            margin-left: 0;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.imageUploadDescription {
+    margin-bottom: 15px;
+}
+
+#itemImageUpload {
+    margin-right: 10px;
+
+    @media only screen and (max-width: 720px) {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
 </style>
 
 <template>

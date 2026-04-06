@@ -1,4 +1,41 @@
 <style lang="scss">
+#itemLinkDialog {
+    width: 420px;
+    max-width: 95vw;
+}
+
+#itemLinkForm {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input[type="text"] {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+    }
+
+    @media only screen and (max-width: 720px) {
+        flex-direction: column;
+        align-items: stretch;
+
+        input[type="text"] {
+            margin-bottom: 10px;
+        }
+        
+        .lpButton {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .close {
+            display: block;
+            text-align: center;
+            margin-left: 0;
+            margin-bottom: 20px;
+        }
+    }
+}
 </style>
 
 <template>

@@ -1,12 +1,12 @@
 <style lang="scss">
-#itemImageDialog {
-    width: 640px;
+#lpImageDialog {
+    width: auto;
 
-    .imageUploadDescription {
-        margin-bottom: 19px;
+    img {
+        max-width: 800px;
+        width: 100%;
     }
 }
-
 </style>
 
 <template>
