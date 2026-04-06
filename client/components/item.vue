@@ -10,7 +10,10 @@
         .lpConsumable,
         .lpStar,
         .lpHandle,
-        .lpArrows {
+        .lpArrows,
+        .lpCamera,
+        .lpLink,
+        .lpSpriteRemove {
             visibility: visible;
         }
 
@@ -23,6 +26,12 @@
     select {
         padding: 3px;
     }
+}
+
+.lpCamera,
+.lpLink,
+.lpSpriteRemove {
+    visibility: hidden;
 }
 
 .lpArrows {
@@ -86,6 +95,11 @@
     padding: 8px 0;
     min-width: 160px;
     z-index: 1000;
+
+    .lpSprite {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 }
 
 .lpItemOption {
@@ -131,6 +145,8 @@
         <input v-model="item.name" v-focus-on-create="categoryItem._isNew" type="text" class="lpName lpSilent" placeholder="Name" @input="saveItem">
         <input v-model="item.description" type="text" class="lpDescription lpSilent" placeholder="Description" @input="saveItem">
         <span class="lpActionsCell">
+            <i class="lpSprite lpCamera lpDesktopOnly" :title="(!item.image && !item.imageUrl) ? 'Add photo' : 'Change photo'" @click="updateItemImage" />
+            <i class="lpSprite lpLink lpDesktopOnly" :class="{lpActive: item.url}" :title="!item.url ? 'Add link' : 'Change link'" @click="updateItemLink" />
             <i v-if="library.optionalFields['worn']" class="lpSprite lpWorn" :class="{lpActive: categoryItem.worn}" title="Mark this item as worn" @click="toggleWorn" />
             <i v-if="library.optionalFields['consumable']" class="lpSprite lpConsumable" :class="{lpActive: categoryItem.consumable}" title="Mark this item as a consumable" @click="toggleConsumable" />
             <i :class="'lpSprite lpStar lpStar' + categoryItem.star" title="Star this item" @click="cycleStar" />
@@ -150,7 +166,8 @@
             </span>
         </span>
         <span class="lpRemoveCell">
-            <Popper hover placement="left" class="lpItemOptions">
+            <i class="lpSprite lpSpriteRemove lpDesktopOnly" title="Remove item" @click="removeItem" />
+            <Popper hover placement="left" class="lpItemOptions lpMobileOnly">
                 <span class="lpOptionsTarget">&#8942;</span>
                 <template #content>
                   <div class="lpItemPopover">
