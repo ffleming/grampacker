@@ -9,6 +9,10 @@
     margin: 0 -20px 20px; /* lpList padding */
     min-height: 60px;
     position: relative;
+
+    @media only screen and (max-width: 720px) {
+        margin: 0 -5px 20px;
+    }
 }
 
 #hamburger {

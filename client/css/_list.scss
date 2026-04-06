@@ -8,6 +8,10 @@
     transition: all $transitionDurationSlow;
     z-index: $aboveSidebar;
 
+    @media only screen and (max-width: 720px) {
+        padding: 0;
+    }
+
     .lpHasSidebar & {
         margin-left: 320px;
 
@@ -139,7 +143,7 @@ input.lpCategoryName { /* specificity */
 
     .lpActionsCell {
         align-self: center;
-        flex: 0 0 130px;
+        flex: 0 0 80px;
     }
 
     .lpWeightCell {
@@ -264,47 +268,34 @@ input.lpCategoryName { /* specificity */
 
     .lpItem, .lpItemsHeader, .lpItemsFooter {
         .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
-        .lpWeightCell { flex: 0 0 100px !important; margin-right: 5px !important; }
-        .lpQtyCell { flex: 0 0 65px !important; }
-        .lpRemoveCell { flex: 0 0 25px !important; }
-        .lpHandleCell { flex: 0 0 15px !important; }
+        .lpWeightCell { flex: 0 0 5em !important; margin-right: 5px !important; }
+        .lpQtyCell { flex: 0 0 3em !important; margin-right: 5px !important; }
+        .lpRemoveCell { flex: 0 0 12px !important; padding-right: 0 !important; }
+        .lpHandleCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpImageCell { flex: 0 0 45px !important; }
     }
 
     .lpItem {
-        flex-wrap: wrap !important;
-        height: auto !important;
-        padding: 12px 0 !important;
-        align-items: center !important;
+        padding: 2px 0 !important;
 
         .lpName {
-            flex: 1 1 60px !important; // Allow to shrink to fit numbers
+            flex: 1 1 60px !important;
             min-width: 0 !important;
         }
 
-        .lpDescription, .lpActionsCell {
-            order: 100 !important;
-            margin-top: 10px !important;
-        }
-
         .lpDescription {
-            flex: 1 1 60% !important;
-            padding-left: 20px !important;
-            height: auto !important;
-            color: #888;
-            font-size: 12px;
-            border-top: 1px dotted #ddd;
-            padding-top: 10px;
+            flex: 1 1 60px !important;
+            min-width: 0 !important;
+            padding-left: 5px !important;
         }
 
         .lpActionsCell {
             flex: 0 0 auto !important;
             width: auto !important;
-            padding: 10px 5px 0 !important;
-            border-top: 1px dotted #ddd;
+            padding-left: 5px !important;
             
             .lpSprite {
-                margin-right: 8px !important;
+                margin-right: 4px !important;
             }
         }
         
