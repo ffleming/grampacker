@@ -254,15 +254,15 @@ input.lpCategoryName { /* specificity */
         }
         
         .lpPriceCell {
-            padding-right: 8px !important; // Match item cell padding
+            padding-right: 5px !important; // Match item cell padding
         }
 
         .lpWeightCell {
-            padding-right: 43px !important; // Match item unit space (35px input padding + 8px cell padding)
+            padding-right: 40px !important; // Match item unit space (35px input padding + 5px cell padding)
         }
 
         .lpQtyCell {
-            padding-right: 33px !important; // Match item arrows space (25px input padding + 8px cell padding)
+            padding-right: 21px !important; // Match item arrows space (18px input padding + 3px cell padding)
         }
     }
 
@@ -270,9 +270,9 @@ input.lpCategoryName { /* specificity */
         .lpPriceCell, .lpWeightCell, .lpQtyCell, .lpRemoveCell, .lpHandleCell, .lpImageCell {
             min-width: 0 !important;
         }
-        .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
-        .lpWeightCell { flex: 0 0 5.5em !important; margin-right: 5px !important; }
-        .lpQtyCell { flex: 0 0 3.5em !important; margin-right: 5px !important; }
+        .lpPriceCell { flex: 0 0 50px !important; margin-right: 2px !important; }
+        .lpWeightCell { flex: 0 0 5.5em !important; margin-right: 2px !important; }
+        .lpQtyCell { flex: 0 0 3.5em !important; margin-right: 0 !important; }
         .lpRemoveCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpHandleCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpImageCell { flex: 0 0 45px !important; }
@@ -329,7 +329,7 @@ input.lpCategoryName { /* specificity */
         .lpQtyCell {
             position: relative;
             input {
-                padding-right: 25px !important;
+                padding-right: 18px !important;
             }
             .lpArrows {
                 display: block !important;
@@ -339,7 +339,7 @@ input.lpCategoryName { /* specificity */
                 transform: translateY(-50%);
                 visibility: visible !important;
                 height: 24px;
-                width: 16px;
+                width: 14px;
                 
                 .lpUp, .lpDown {
                     margin: 0;

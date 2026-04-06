@@ -84,6 +84,7 @@
 
         @media only screen and (max-width: 720px) {
             opacity: 0.5;
+            padding: 0 2px !important;
         }
     }
 }
