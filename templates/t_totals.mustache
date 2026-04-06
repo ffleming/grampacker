@@ -47,7 +47,9 @@
                 Consumable
             </span>
             {{#showPrices}}
-            <span class="lpCell"></span>
+            <span class="lpCell lpNumber lpSubtotal">
+                {{currencySymbol}}{{totalConsumablePriceDisplay}}
+            </span>
             {{/showPrices}}
             <span class="lpCell lpNumber lpSubtotal">
                 <span class="lpDisplaySubtotal" mg="{{totalConsumableWeight}}">{{totalConsumableWeightDisplay}}</span>
@@ -62,7 +64,9 @@
                 Worn
             </span>
             {{#showPrices}}
-            <span class="lpCell"></span>
+            <span class="lpCell lpNumber lpSubtotal">
+                {{currencySymbol}}{{totalWornPriceDisplay}}
+            </span>
             {{/showPrices}}
             <span class="lpCell lpNumber lpSubtotal">
                 <span class="lpDisplaySubtotal" mg="{{totalWornWeight}}">{{totalWornWeightDisplay}}</span>

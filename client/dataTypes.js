@@ -53,6 +53,7 @@ const Category = function ({ library, id, _isNew }) {
     this.subtotalWornWeight = 0;
     this.subtotalConsumableWeight = 0;
     this.subtotalPrice = 0;
+    this.subtotalWornPrice = 0;
     this.subtotalConsumablePrice = 0;
     this.subtotalQty = 0;
     this.subtotalWornQty = 0;
@@ -91,6 +92,7 @@ Category.prototype.calculateSubtotal = function () {
     this.subtotalWornWeight = 0;
     this.subtotalConsumableWeight = 0;
     this.subtotalPrice = 0;
+    this.subtotalWornPrice = 0;
     this.subtotalConsumablePrice = 0;
     this.subtotalQty = 0;
     this.subtotalWornQty = 0;
@@ -107,6 +109,7 @@ Category.prototype.calculateSubtotal = function () {
 
         if (this.library.optionalFields.worn && categoryItem.worn) {
             this.subtotalWornWeight += item.weight * categoryItem.qty;
+            this.subtotalWornPrice += item.price * categoryItem.qty;
             this.subtotalWornQty += categoryItem.qty;
         }
         if (this.library.optionalFields.consumable && categoryItem.consumable) {
@@ -178,6 +181,7 @@ const List = function ({ id, library }) {
     this.totalBaseWeight = 0;
     this.totalPackWeight = 0;
     this.totalPrice = 0;
+    this.totalWornPrice = 0;
     this.totalConsumablePrice = 0;
     this.totalQty = 0;
 
@@ -284,6 +288,7 @@ List.prototype.calculateTotals = function () {
     let totalWeight = 0;
     let totalPrice = 0;
     let totalWornWeight = 0;
+    let totalWornPrice = 0;
     let totalConsumableWeight = 0;
     let totalConsumablePrice = 0;
     let totalBaseWeight = 0;
@@ -302,6 +307,7 @@ List.prototype.calculateTotals = function () {
             totalConsumableWeight += category.subtotalConsumableWeight;
 
             totalPrice += category.subtotalPrice;
+            totalWornPrice += category.subtotalWornPrice;
             totalConsumablePrice += category.subtotalConsumablePrice;
 
             totalQty += category.subtotalQty;
@@ -321,6 +327,7 @@ List.prototype.calculateTotals = function () {
     this.totalPackWeight = totalPackWeight;
 
     this.totalPrice = totalPrice;
+    this.totalWornPrice = totalWornPrice;
     this.totalConsumablePrice = totalConsumablePrice;
 
     this.totalQty = totalQty;

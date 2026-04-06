@@ -79,7 +79,9 @@
                     <span class="lpCell lpSubtotal">
                         Worn
                     </span>
-                    <span v-if="library.optionalFields['price']" class="lpCell lpNumber" />
+                    <span v-if="library.optionalFields['price']" class="lpCell lpNumber lpSubtotal">
+                      {{ $filters.displayPrice(list.totalWornPrice, library.currencySymbol) }}
+                    </span>
                     <span class="lpCell lpNumber lpSubtotal">
                       <!-- | displayWeight(library.totalUnit) -->
                         <span class="lpDisplaySubtotal" :mg="list.totalWornWeight">{{ $filters.displayWeight(list.totalWornWeight, library.totalUnit) }}</span>
