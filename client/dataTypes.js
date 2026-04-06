@@ -55,6 +55,8 @@ const Category = function ({ library, id, _isNew }) {
     this.subtotalPrice = 0;
     this.subtotalConsumablePrice = 0;
     this.subtotalQty = 0;
+    this.subtotalWornQty = 0;
+    this.subtotalConsumableQty = 0;
 
     this._isNew = _isNew;
     return this;
@@ -91,6 +93,8 @@ Category.prototype.calculateSubtotal = function () {
     this.subtotalPrice = 0;
     this.subtotalConsumablePrice = 0;
     this.subtotalQty = 0;
+    this.subtotalWornQty = 0;
+    this.subtotalConsumableQty = 0;
 
     for (const i in this.categoryItems) {
         const categoryItem = this.categoryItems[i];
@@ -102,11 +106,14 @@ Category.prototype.calculateSubtotal = function () {
         this.subtotalPrice += item.price * categoryItem.qty;
 
         if (this.library.optionalFields.worn && categoryItem.worn) {
-            this.subtotalWornWeight += item.weight * ((categoryItem.qty > 0) ? 1 : 0);
+            const wornQty = (categoryItem.qty > 0) ? 1 : 0;
+            this.subtotalWornWeight += item.weight * wornQty;
+            this.subtotalWornQty += wornQty;
         }
         if (this.library.optionalFields.consumable && categoryItem.consumable) {
             this.subtotalConsumableWeight += item.weight * categoryItem.qty;
             this.subtotalConsumablePrice += item.price * categoryItem.qty;
+            this.subtotalConsumableQty += categoryItem.qty;
         }
         this.subtotalQty += categoryItem.qty;
     }
