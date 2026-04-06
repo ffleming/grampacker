@@ -254,22 +254,25 @@ input.lpCategoryName { /* specificity */
         }
         
         .lpPriceCell {
-            padding-right: 5px !important;
+            padding-right: 8px !important; // Match item cell padding
         }
 
         .lpWeightCell {
-            padding-right: 35px !important; // Match item unit space
+            padding-right: 43px !important; // Match item unit space (35px input padding + 8px cell padding)
         }
 
         .lpQtyCell {
-            padding-right: 25px !important; // Match item arrows space
+            padding-right: 33px !important; // Match item arrows space (25px input padding + 8px cell padding)
         }
     }
 
     .lpItem, .lpItemsHeader, .lpItemsFooter {
+        .lpPriceCell, .lpWeightCell, .lpQtyCell, .lpRemoveCell, .lpHandleCell, .lpImageCell {
+            min-width: 0 !important;
+        }
         .lpPriceCell { flex: 0 0 50px !important; margin-right: 5px !important; }
-        .lpWeightCell { flex: 0 0 5em !important; margin-right: 5px !important; }
-        .lpQtyCell { flex: 0 0 3em !important; margin-right: 5px !important; }
+        .lpWeightCell { flex: 0 0 5.5em !important; margin-right: 5px !important; }
+        .lpQtyCell { flex: 0 0 3.5em !important; margin-right: 5px !important; }
         .lpRemoveCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpHandleCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpImageCell { flex: 0 0 45px !important; }
