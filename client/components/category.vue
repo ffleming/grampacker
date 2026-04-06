@@ -83,13 +83,25 @@
                         <span class="lpDisplaySubtotal">{{ $filters.displayWeight(category.subtotalWeight, library.totalUnit) }}</span>
                         <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                         
+                        <template v-if="library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0">
+                            <span class="lpBreakdownLabel">consumable:</span>
+                            <span class="lpDisplaySubtotal lpBreakdownValue">{{ $filters.displayWeight(category.subtotalConsumableWeight, library.totalUnit) }}</span>
+                            <span class="lpSubtotalUnit lpBreakdownUnit">{{ library.totalUnit }}</span>
+                        </template>
+
                         <template v-if="library.optionalFields['worn'] && category.subtotalWornWeight > 0">
+                            <span class="lpBreakdownLabel">worn:</span>
+                            <span class="lpDisplaySubtotal lpBreakdownValue">{{ $filters.displayWeight(category.subtotalWornWeight, library.totalUnit) }}</span>
+                            <span class="lpSubtotalUnit lpBreakdownUnit">{{ library.totalUnit }}</span>
+                        </template>
+
+                        <template v-if="library.optionalFields['worn'] && category.subtotalWornWeight > 0 && subtotalPackWeight > 0">
                             <span class="lpBreakdownLabel">pack:</span>
                             <span class="lpDisplaySubtotal lpBreakdownValue">{{ $filters.displayWeight(subtotalPackWeight, library.totalUnit) }}</span>
                             <span class="lpSubtotalUnit lpBreakdownUnit">{{ library.totalUnit }}</span>
                         </template>
                         
-                        <template v-if="(library.optionalFields['worn'] && category.subtotalWornWeight > 0) || (library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0)">
+                        <template v-if="((library.optionalFields['worn'] && category.subtotalWornWeight > 0) || (library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0)) && subtotalBaseWeight > 0">
                             <span class="lpBreakdownLabel">base:</span>
                             <span class="lpDisplaySubtotal lpBreakdownValue">{{ $filters.displayWeight(subtotalBaseWeight, library.totalUnit) }}</span>
                             <span class="lpSubtotalUnit lpBreakdownUnit">{{ library.totalUnit }}</span>
@@ -100,11 +112,19 @@
                     <div class="lpQtyBreakdownGrid">
                         <span class="lpQtySubtotal">{{ category.subtotalQty }}</span>
                         
+                        <template v-if="library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0">
+                            <span class="lpQtySubtotal lpBreakdownValue">{{ category.subtotalConsumableQty }}</span>
+                        </template>
+
                         <template v-if="library.optionalFields['worn'] && category.subtotalWornWeight > 0">
+                            <span class="lpQtySubtotal lpBreakdownValue">{{ category.subtotalWornQty }}</span>
+                        </template>
+
+                        <template v-if="library.optionalFields['worn'] && category.subtotalWornWeight > 0 && subtotalPackWeight > 0">
                             <span class="lpQtySubtotal lpBreakdownValue">{{ subtotalPackQty }}</span>
                         </template>
                         
-                        <template v-if="(library.optionalFields['worn'] && category.subtotalWornWeight > 0) || (library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0)">
+                        <template v-if="((library.optionalFields['worn'] && category.subtotalWornWeight > 0) || (library.optionalFields['consumable'] && category.subtotalConsumableWeight > 0)) && subtotalBaseWeight > 0">
                             <span class="lpQtySubtotal lpBreakdownValue">{{ subtotalBaseQty }}</span>
                         </template>
                     </div>
