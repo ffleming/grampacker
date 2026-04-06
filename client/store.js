@@ -224,7 +224,11 @@ const store = createStore({
 
                 item.name = row.name;
                 item.description = row.description;
+                item.url = row.url;
+                item.price = row.price;
                 categoryItem.qty = parseFloat(row.qty);
+                categoryItem.worn = !!(row.worn && row.worn.toLowerCase() === 'worn');
+                categoryItem.consumable = !!(row.consumable && row.consumable.toLowerCase() === 'consumable');
                 item.weight = weightUtils.WeightToMg(parseFloat(row.weight), row.unit);
                 item.authorUnit = row.unit;
                 category.name = row.category;

@@ -8,6 +8,7 @@ $welcomeVerticalSpacing: 80px;
     background-size: cover;
     min-height: 100vh;
     padding-top: $welcomeVerticalSpacing;
+    padding-bottom: 100px;
 }
 
 #lpWelcome {
@@ -38,6 +39,11 @@ $welcomeVerticalSpacing: 80px;
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
+
+    @media only screen and (max-width: 720px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 
 .lpWelcomeRegisterContainer,
@@ -56,15 +62,34 @@ $welcomeVerticalSpacing: 80px;
     display: flex;
     flex: 0 0 550px;
     margin-right: $spacingLarge;
+
+    @media only screen and (max-width: 720px) {
+        flex: 1 1 auto;
+        margin-right: 0;
+        flex-direction: column;
+        order: 2;
+    }
 }
 
 .lpWelcomeSigninContainer {
     flex: 0 0 275px;
+
+    @media only screen and (max-width: 720px) {
+        flex: 1 1 auto;
+        order: 1;
+        margin-bottom: $spacingLarge;
+    }
 }
 
 .lpWelcomeRegister {
     flex: 0 0 46%;
     margin-right: $spacingLarge;
+
+    @media only screen and (max-width: 720px) {
+        flex: 1 1 auto;
+        margin-right: 0;
+        margin-bottom: $spacingLarge;
+    }
 }
 
 #lpValueProp {
