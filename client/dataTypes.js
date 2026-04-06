@@ -106,9 +106,8 @@ Category.prototype.calculateSubtotal = function () {
         this.subtotalPrice += item.price * categoryItem.qty;
 
         if (this.library.optionalFields.worn && categoryItem.worn) {
-            const wornQty = (categoryItem.qty > 0) ? 1 : 0;
-            this.subtotalWornWeight += item.weight * wornQty;
-            this.subtotalWornQty += wornQty;
+            this.subtotalWornWeight += item.weight * categoryItem.qty;
+            this.subtotalWornQty += categoryItem.qty;
         }
         if (this.library.optionalFields.consumable && categoryItem.consumable) {
             this.subtotalConsumableWeight += item.weight * categoryItem.qty;
