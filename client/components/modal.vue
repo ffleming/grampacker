@@ -63,6 +63,10 @@
         background: url("/public/images/lp_bg2.jpg") 50% 50%;
         background-size: cover;
         opacity: 1;
+
+        @media only screen and (max-width: 720px) {
+            padding-bottom: 100px;
+        }
     }
 
     &.lpTransparent {
