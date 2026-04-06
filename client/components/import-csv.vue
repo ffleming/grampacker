@@ -22,7 +22,7 @@
                         <span class="lpCell">Item Name</span>
                         <span class="lpCell">Category</span>
                         <span class="lpCell">Description</span>
-                        <span class="lpCell">Qty</span>
+                        <span class="lpCell">Quantity</span>
                         <span class="lpCell">Weight</span>
                         <span class="lpCell">Unit</span>
                         <span class="lpCell">URL</span>

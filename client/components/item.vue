@@ -5,15 +5,17 @@
     &.ui-sortable-helper {
         background: #fff;
 
-        .lpRemove,
+        .lpItemOptions,
         .lpWorn,
         .lpConsumable,
-        .lpCamera,
-        .lpLink,
+        .lpStar,
         .lpHandle,
-        .lpArrows,
-        .lpStar {
+        .lpArrows {
             visibility: visible;
+        }
+
+        .lpItemOptions .lpOptionsTarget {
+            opacity: 0.8;
         }
     }
 
@@ -53,6 +55,69 @@
     }
 }
 
+.lpItemOptions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .lpOptionsTarget {
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+        padding: 0 5px;
+        opacity: 0;
+        font-weight: bold;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 1 !important;
+        }
+
+        @media only screen and (max-width: 720px) {
+            opacity: 0.5;
+        }
+    }
+}
+
+.lpItemPopover {
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 8px 0;
+    min-width: 160px;
+    z-index: 1000;
+}
+
+.lpItemOption {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    i {
+        margin-right: 12px;
+        opacity: 0.6;
+    }
+
+    &.lpRemoveOption {
+        color: #d32f2f;
+        border-top: 1px solid #eee;
+        margin-top: 4px;
+        padding-top: 12px;
+        
+        i {
+            opacity: 1;
+        }
+    }
+}
+
 </style>
 
 <template>
@@ -66,8 +131,6 @@
         <input v-model="item.name" v-focus-on-create="categoryItem._isNew" type="text" class="lpName lpSilent" placeholder="Name" @input="saveItem">
         <input v-model="item.description" type="text" class="lpDescription lpSilent" placeholder="Description" @input="saveItem">
         <span class="lpActionsCell">
-            <i class="lpSprite lpCamera" title="Upload a photo or use a photo from the web" @click="updateItemImage" />
-            <i class="lpSprite lpLink" :class="{lpActive: item.url}" title="Add a link for this item" @click="updateItemLink" />
             <i v-if="library.optionalFields['worn']" class="lpSprite lpWorn" :class="{lpActive: categoryItem.worn}" title="Mark this item as worn" @click="toggleWorn" />
             <i v-if="library.optionalFields['consumable']" class="lpSprite lpConsumable" :class="{lpActive: categoryItem.consumable}" title="Mark this item as a consumable" @click="toggleConsumable" />
             <i :class="'lpSprite lpStar lpStar' + categoryItem.star" title="Star this item" @click="cycleStar" />
@@ -87,7 +150,16 @@
             </span>
         </span>
         <span class="lpRemoveCell">
-            <a class="lpRemove lpRemoveItem" title="Remove this item" @click="removeItem"><i class="lpSprite lpSpriteRemove" /></a>
+            <Popper hover placement="left" class="lpItemOptions">
+                <span class="lpOptionsTarget">&#8942;</span>
+                <template #content>
+                  <div class="lpItemPopover">
+                    <a class="lpItemOption" @click="updateItemImage"><i class="lpSprite lpCamera" /> <span v-if="!item.image && !item.imageUrl">Add photo</span><span v-else>Change photo</span></a>
+                    <a class="lpItemOption" @click="updateItemLink"><i class="lpSprite lpLink" /> <span v-if="!item.url">Add link</span><span v-else>Change link</span></a>
+                    <a class="lpItemOption lpRemoveOption" @click="removeItem"><i class="lpSprite lpSpriteRemove" /> Remove item</a>
+                  </div>
+                </template>
+            </Popper>
         </span>
     </li>
 </template>
@@ -95,6 +167,7 @@
 <script>
 import { defineComponent } from 'vue';
 
+import Popper from "vue3-popper";
 import bus from '../bus';
 import unitSelect from './unit-select.vue';
 
@@ -105,6 +178,7 @@ export default defineComponent({
   name: 'Item',
 
   components: {
+      Popper,
       unitSelect,
   },
 

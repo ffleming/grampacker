@@ -1,5 +1,22 @@
 @import "globals";
 
+.lpMobileText {
+    display: none;
+}
+
+.lpDesktopText {
+    display: inline;
+}
+
+@media only screen and (max-width: 720px) {
+    .lpMobileText {
+        display: inline;
+    }
+    .lpDesktopText {
+        display: none;
+    }
+}
+
 .lp {
     &,
     body {
@@ -113,7 +130,6 @@
 }
 
 .lpHalf {
-    float: left;
     width: 50%;
 }
 
