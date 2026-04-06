@@ -100,10 +100,10 @@
 <template>
     <div v-if="isLoaded" id="main" :class="{lpHasSidebar: library.showSidebar}">
         <sidebar />
-        <div class="lpList lpTransition">
+        <div class="lpList lpTransition" @click="closeSidebarIfMobile">
             <div id="header" class="clearfix">
                 <span class="headerItem">
-                    <a id="hamburger" class="lpTransition" @click="toggleSidebar"><i class="lpSprite lpHamburger" /></a>
+                    <a id="hamburger" class="lpTransition" @click.stop="toggleSidebar"><i class="lpSprite lpHamburger" /></a>
                 </span>
                 <input id="lpListName" :value="list.name" type="text" class="lpListName lpSilent headerItem" value="New List" placeholder="List Name" autocomplete="off" name="lastpass-disable-search" @input="updateListName">
                 <share />
@@ -225,6 +225,11 @@ export default defineComponent({
   methods: {
       toggleSidebar() {
           this.$store.commit('toggleSidebar');
+      },
+      closeSidebarIfMobile() {
+          if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
+              this.$store.commit('toggleSidebar');
+          }
       },
       updateListName(evt) {
           this.$store.commit('updateListName', { id: this.list.id, name: evt.target.value });
