@@ -38,10 +38,13 @@
 #csv,
 #image {
     height: 1px;
-    left: -999px;
+    left: 0;
+    opacity: 0;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
+    top: 0;
     width: 1px;
+    z-index: -1;
 }
 
 .lpHref.close {

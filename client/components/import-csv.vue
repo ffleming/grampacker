@@ -2,7 +2,8 @@
 #importValidate {
     height: 500px;
     overflow-y: scroll;
-    width: 650px;
+    width: 900px;
+    max-width: 95vw;
 
     .lpButton {
         margin-bottom: 30px;
@@ -24,6 +25,10 @@
                         <span class="lpCell">Qty</span>
                         <span class="lpCell">Weight</span>
                         <span class="lpCell">Unit</span>
+                        <span class="lpCell">URL</span>
+                        <span class="lpCell">Price</span>
+                        <span class="lpCell">Worn</span>
+                        <span class="lpCell">Consumable</span>
                     </li>
                     <li v-for="row in importData.data" class="lpRow">
                         <span class="lpCell">{{ row.name }}</span>
@@ -32,6 +37,10 @@
                         <span class="lpCell">{{ row.qty }}</span>
                         <span class="lpCell">{{ row.weight }}</span>
                         <span class="lpCell">{{ row.unit }}</span>
+                        <span class="lpCell">{{ row.url }}</span>
+                        <span class="lpCell">{{ row.price }}</span>
+                        <span class="lpCell">{{ row.worn }}</span>
+                        <span class="lpCell">{{ row.consumable }}</span>
                     </li>
                 </ul>
             </div>
@@ -87,14 +96,16 @@ export default defineComponent({
   methods: {
       importCSV(evt) {
           const file = evt.target.files[0];
+          if (!file) return;
+          
           const name = file.name;
           const size = file.size;
           const type = file.type;
 
-          if (file.name.length < 1) {
+          if (name.length < 1) {
               return;
           }
-          if (file.size > 1000000) {
+          if (size > 1000000) {
               alert('File is too big');
               return;
           }
@@ -160,6 +171,10 @@ export default defineComponent({
                   qty: parseFloat(row[3]),
                   weight: parseFloat(row[4]),
                   unit: this.fullUnitToUnit[row[5]],
+                  url: row[6],
+                  price: parseFloat(row[7]) || 0,
+                  worn: row[8],
+                  consumable: row[9],
               });
           }
 
