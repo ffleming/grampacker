@@ -424,11 +424,20 @@
 }
 
 .lpLibraryList:hover .lpRemove,
-.lpCategory .lpHeader:hover .lpRemove,
 .lpLibraryItem:hover .lpRemove,
 .lpLibraryItem:hover .lpHandle,
+.lpCategory .lpHeader:hover .lpRemove,
 .lpCategory .lpHeader:hover .lpHandle {
-    visibility: visible;
+    @media only screen and (min-width: 721px) {
+        visibility: visible;
+    }
+}
+
+.lpLibraryList.lpActive .lpRemove,
+.lpLibraryItem.lpInList .lpRemove {
+    @media only screen and (max-width: 720px) {
+        visibility: visible;
+    }
 }
 
 .lpTarget {

@@ -102,38 +102,6 @@
         right: 14px;
     }
 
-    .lpAddLibraryItem {
-        border-radius: 16px;
-        bottom: 0;
-        cursor: pointer;
-        display: inline-block;
-        line-height: 8px;
-        margin-bottom: 3px;
-        opacity: 0.4;
-        padding: 2px 3px 3px;
-        position: absolute;
-        right: 36px;
-        visibility: hidden;
-
-        &:hover {
-            background: $green1;
-            box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25) inset;
-            opacity: 1;
-
-            .lpSpriteAdd {
-                background-position: 0 -25px;
-            }
-        }
-
-        .lpSpriteAdd {
-            top: 0;
-        }
-    }
-
-    &:hover .lpAddLibraryItem {
-        visibility: visible;
-    }
-
     #library.lpSearching & {
         display: none;
     }
@@ -171,8 +139,7 @@
                 <span class="lpDescription">
                     {{ item.description }}
                 </span>
-                <a v-if="currentListItems.indexOf(item.id) === -1" class="lpAddLibraryItem" title="Add to current list" @click="addItemToCurrentList(item)"><i class="lpSprite lpSpriteAdd" /></a>
-                <a class="lpRemove lpRemoveLibraryItem speedbump" title="Delete this item permanently" @click="removeItem(item)"><i class="lpSprite lpSpriteRemove" /></a>
+                <a class="lpRemove speedbump" title="Delete this item permanently" @click="removeItem(item)"><i class="lpSprite lpSpriteRemove" /></a>
                 <div v-if="currentListItems.indexOf(item.id) === -1" class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
             </li>
         </ul>
@@ -300,12 +267,6 @@ export default defineComponent({
                 body: 'Are you sure you want to delete this item? This cannot be undone.',
             };
             bus.$emit('initSpeedbump', callback, speedbumpOptions);
-        },
-        addItemToCurrentList(item) {
-            if (this.categories.length > 0) {
-                const categoryId = this.categories[0].id;
-                this.$store.commit('addItemToCategory', { itemId: item.id, categoryId, dropIndex: 0 });
-            }
         },
         clearSearch() {
             this.searchText = '';

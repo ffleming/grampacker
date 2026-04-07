@@ -13,8 +13,10 @@
         .lpArrows,
         .lpCamera,
         .lpLink,
-        .lpSpriteRemove {
-            visibility: visible;
+        .lpRemove {
+            @media only screen and (min-width: 721px) {
+                visibility: visible;
+            }
         }
 
         .lpItemOptions .lpOptionsTarget {
@@ -30,7 +32,7 @@
 
 .lpCamera,
 .lpLink,
-.lpSpriteRemove {
+.lpRemove {
     visibility: hidden;
 }
 
@@ -167,7 +169,7 @@
             </span>
         </span>
         <span class="lpRemoveCell">
-            <i class="lpSprite lpSpriteRemove lpDesktopOnly" title="Remove item" @click="removeItem" />
+            <a class="lpRemove lpDesktopOnly" title="Remove item" @click="removeItem"><i class="lpSprite lpSpriteRemove" /></a>
             <Popper hover placement="left" class="lpItemOptions lpMobileOnly">
                 <span class="lpOptionsTarget">&#8942;</span>
                 <template #content>
