@@ -210,6 +210,8 @@ const store = createStore({
 
             list.name = importData.name;
 
+            let hasPhotos = false;
+
             for (i in importData.data) {
                 row = importData.data[i];
                 if (newCategories[row.category]) {
@@ -232,6 +234,15 @@ const store = createStore({
                 item.weight = weightUtils.WeightToMg(parseFloat(row.weight), row.unit);
                 item.authorUnit = row.unit;
                 category.name = row.category;
+
+                if (row.photo) {
+                    item.imageUrl = row.photo;
+                    hasPhotos = true;
+                }
+            }
+            if (hasPhotos) {
+                state.library.optionalFields.images = true;
+                bus.$emit('optionalFieldChanged');
             }
             list.calculateTotals();
             state.library.defaultListId = list.id;
