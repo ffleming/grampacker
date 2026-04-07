@@ -577,14 +577,20 @@
     tap-highlight-color: transparent; /* prevent tap highlight color*/
     user-select:none; 
 
+    .farbtastic-solid {
+        z-index: 1;
+    }
+
     .farbtastic-mask {
         position: absolute;
         left: 0;
+        z-index: 2;
     }
 
     .farbtastic-overlay {
         position: absolute;
         left: 0;
+        z-index: 3;
     }   
 }
 </style>
