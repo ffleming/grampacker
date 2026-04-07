@@ -72,7 +72,7 @@ var initGramPacker = function () {
 
   app.directive('focus-on-create', {
     mounted(el, binding) {
-      if (binding.expression && binding.value || !binding.expression) {
+      if (binding.value === undefined || binding.value) {
         el.focus();
       }
     },

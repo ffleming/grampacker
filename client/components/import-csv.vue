@@ -29,6 +29,7 @@
                         <span class="lpCell">Price</span>
                         <span class="lpCell">Worn</span>
                         <span class="lpCell">Consumable</span>
+                        <span class="lpCell">Photo URL</span>
                     </li>
                     <li v-for="row in importData.data" class="lpRow">
                         <span class="lpCell">{{ row.name }}</span>
@@ -41,6 +42,7 @@
                         <span class="lpCell">{{ row.price }}</span>
                         <span class="lpCell">{{ row.worn }}</span>
                         <span class="lpCell">{{ row.consumable }}</span>
+                        <span class="lpCell">{{ row.photo }}</span>
                     </li>
                 </ul>
             </div>
@@ -175,6 +177,7 @@ export default defineComponent({
                   price: parseFloat(row[7]) || 0,
                   worn: row[8],
                   consumable: row[9],
+                  photo: row[10] || '',
               });
           }
 

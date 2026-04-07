@@ -148,12 +148,12 @@ Category.prototype.save = function () {
 };
 
 Category.prototype.load = function (input) {
-    delete input._isNew;
+    input._isNew = false;
 
     assignIn(this, input);
 
     this.categoryItems.forEach((categoryItem, index) => {
-        delete categoryItem._isNew;
+        categoryItem._isNew = false;
         if (typeof categoryItem.price !== 'undefined') {
             delete categoryItem.price;
         }
@@ -370,7 +370,7 @@ Library.prototype.firstRun = function () {
     const firstItem = this.newItem({ category: firstCategory });
 };
 
-Library.prototype.newItem = function ({ category, _isNew }) {
+Library.prototype.newItem = function ({ category, _isNew = false }) {
     const temp = new Item({ id: this.nextSequence(), unit: this.itemUnit });
     this.items.push(temp);
     this.idMap[temp.id] = temp;
@@ -401,7 +401,7 @@ Library.prototype.removeItem = function (id) {
     return true;
 };
 
-Library.prototype.newCategory = function ({ list, _isNew }) {
+Library.prototype.newCategory = function ({ list, _isNew = false }) {
     const temp = new Category({ id: this.nextSequence(), _isNew, library: this });
 
     this.categories.push(temp);
