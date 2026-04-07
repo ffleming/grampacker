@@ -20,9 +20,32 @@ development.
 
 ## Priorities
 
-1. Proper mobile support
-1. General feature development
-1. Fix dev-only issues
+1. Bugfixes
+2. Maintainability and infrastructure improvements
+3. Quality-of-life upgrades
+4. Extra features
 
-But really, that's just what I want to see. If you want something in
-Gram Packer, send a PR.
+GramPacker is not intended to grow and develop continuously. Much of its utility
+is due to how lightweight it is. I am not interested in adding on large-scale
+features that significantly broaden the application's scope like social
+networking, AI, etc.
+
+## Pull requests
+
+Pull requests are very welcome!
+
+## Issues
+
+Bug reports, feature requests, questions, and so on are very welcome! Please use
+the [issues page](https://github.com/ffleming/grampacker/issues).
+
+## AI policy
+
+I don't care what tools authors use to generate text, code etc. Just as I
+shouldn't be able to tell if an author is using Emacs or vim, I shouldn't be
+able to tell if their code comes from their head, from a template, from shallow
+autocomplete, or through probabilistic traversal of a multidimensional language
+model.
+
+This is to say - use whatever tools you want, but no slop, please. This goes for
+all contributions: code, issues, assets, etc.
