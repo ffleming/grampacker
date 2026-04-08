@@ -273,6 +273,12 @@ input.lpCategoryName { /* specificity */
         .lpPriceCell { flex: 0 0 50px !important; margin-right: 2px !important; }
         .lpWeightCell { flex: 0 0 5.5em !important; margin-right: 2px !important; }
         .lpQtyCell { flex: 0 0 3.5em !important; margin-right: 0 !important; }
+
+        &.lpItemsFooter {
+            .lpWeightCell { flex-basis: 9em !important; }
+            .lpQtyCell { flex-basis: 4.5em !important; }
+        }
+
         .lpRemoveCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpHandleCell { flex: 0 0 12px !important; padding-right: 0 !important; }
         .lpImageCell { flex: 0 0 45px !important; }
