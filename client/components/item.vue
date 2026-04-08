@@ -14,9 +14,7 @@
         .lpCamera,
         .lpLink,
         .lpRemove {
-            @media only screen and (min-width: 721px) {
-                visibility: visible;
-            }
+            visibility: visible;
         }
 
         .lpItemOptions .lpOptionsTarget {
