@@ -41,12 +41,12 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'GlobalAlerts',
+    name: 'GlobalAlerts',
 
-  computed: {
-      alerts() {
-          return this.$store.state.globalAlerts;
-      },
-  },
+    computed: {
+        alerts() {
+            return this.$store.state.globalAlerts;
+        },
+    },
 });
 </script>

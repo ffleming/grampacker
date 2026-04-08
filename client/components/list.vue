@@ -65,7 +65,6 @@
         </div>
         <list-summary v-if="!isListNew" :list="list" />
 
-
         <div style="clear: both;" />
 
         <div v-if="library.optionalFields['listDescription']" id="listDescriptionContainer">
@@ -92,108 +91,108 @@ import listSummary from './list-summary.vue';
 const dragula = require('dragula');
 
 export default defineComponent({
-  name: 'List',
+    name: 'List',
 
-  components: {
-      listSummary,
-      category,
-      categoryDragStartIndex: false,
-      itemDragId: false,
-  },
+    components: {
+        listSummary,
+        category,
+        categoryDragStartIndex: false,
+        itemDragId: false,
+    },
 
-  mixins: [],
+    mixins: [],
 
-  data() {
-      return {
-          onboardingCompleted: false,
-          itemDrake: null,
-      };
-  },
+    data() {
+        return {
+            onboardingCompleted: false,
+            itemDrake: null,
+        };
+    },
 
-  computed: {
-      library() {
-          return this.$store.state.library;
-      },
-      list() {
-          return this.$store.getters.activeList;
-      },
-      categories() {
-          return this.list.categoryIds.map(id => this.library.getCategoryById(id));
-      },
-      isListNew() {
-          return this.list.totalWeight === 0;
-      },
-      isLocalSaving() {
-          return this.$store.state.saveType === 'local';
-      },
-  },
-
-  watch: {
-      categories: {
-        handler(oldVal, newVal) {
-          nextTick(() => {
-              this.handleItemReorder();
-          });
+    computed: {
+        library() {
+            return this.$store.state.library;
         },
-        deep: true,
-      },
-  },
+        list() {
+            return this.$store.getters.activeList;
+        },
+        categories() {
+            return this.list.categoryIds.map((id) => this.library.getCategoryById(id));
+        },
+        isListNew() {
+            return this.list.totalWeight === 0;
+        },
+        isLocalSaving() {
+            return this.$store.state.saveType === 'local';
+        },
+    },
 
-  mounted() {
-      this.handleCategoryReorder();
-      this.handleItemReorder();
-  },
+    watch: {
+        categories: {
+            handler(oldVal, newVal) {
+                nextTick(() => {
+                    this.handleItemReorder();
+                });
+            },
+            deep: true,
+        },
+    },
 
-  methods: {
-      newCategory() {
-          this.$store.commit('newCategory', this.list);
-      },
-      updateListDescription() {
-          this.$store.commit('updateListDescription', this.list);
-      },
-      handleItemReorder() {
-          if (this.itemDrake) {
-              this.itemDrake.destroy();
-          }
-          const $categoryItems = Array.prototype.slice.call(document.getElementsByClassName('lpItems'));
-          const drake = dragula($categoryItems, {
-              moves($el, $source, $handle, $sibling) {
-                  return $handle.classList.contains('lpItemHandle');
-              },
-              accepts($el, $target, $source, $sibling) {
-                  if (!$sibling || $sibling.classList.contains('lpItemsHeader')) {
-                      return false; // header and footer are technically part of this list - exclude them both.
-                  }
-                  return true;
-              },
-          });
-          drake.on('drag', ($el, $target, $source, $sibling) => {
-              this.itemDragId = parseInt($el.id); // fragile
-          });
-          drake.on('drop', ($el, $target, $source, $sibling) => {
-              const categoryId = parseInt($target.parentElement.id); // fragile
-              this.$store.commit('reorderItem', {
-                  list: this.list, itemId: this.itemDragId, categoryId, dropIndex: getElementIndex($el) - 1,
-              });
-              drake.cancel(true);
-          });
-          this.itemDrake = drake;
-      },
-      handleCategoryReorder() {
-          const $categories = document.getElementsByClassName('lpCategories')[0];
-          const drake = dragula([$categories], {
-              moves(el, $source, $handle, $sibling) {
-                  return $handle.classList.contains('lpCategoryHandle');
-              },
-          });
-          drake.on('drag', ($el, $target, $source, $sibling) => {
-              this.categoryDragStartIndex = getElementIndex($el);
-          });
-          drake.on('drop', ($el, $target, $source, $sibling) => {
-              this.$store.commit('reorderCategory', { list: this.list, before: this.categoryDragStartIndex, after: getElementIndex($el) });
-              drake.cancel(true);
-          });
-      },
-  },
+    mounted() {
+        this.handleCategoryReorder();
+        this.handleItemReorder();
+    },
+
+    methods: {
+        newCategory() {
+            this.$store.commit('newCategory', this.list);
+        },
+        updateListDescription() {
+            this.$store.commit('updateListDescription', this.list);
+        },
+        handleItemReorder() {
+            if (this.itemDrake) {
+                this.itemDrake.destroy();
+            }
+            const $categoryItems = Array.prototype.slice.call(document.getElementsByClassName('lpItems'));
+            const drake = dragula($categoryItems, {
+                moves($el, $source, $handle, $sibling) {
+                    return $handle.classList.contains('lpItemHandle');
+                },
+                accepts($el, $target, $source, $sibling) {
+                    if (!$sibling || $sibling.classList.contains('lpItemsHeader')) {
+                        return false; // header and footer are technically part of this list - exclude them both.
+                    }
+                    return true;
+                },
+            });
+            drake.on('drag', ($el, $target, $source, $sibling) => {
+                this.itemDragId = parseInt($el.id); // fragile
+            });
+            drake.on('drop', ($el, $target, $source, $sibling) => {
+                const categoryId = parseInt($target.parentElement.id); // fragile
+                this.$store.commit('reorderItem', {
+                    list: this.list, itemId: this.itemDragId, categoryId, dropIndex: getElementIndex($el) - 1,
+                });
+                drake.cancel(true);
+            });
+            this.itemDrake = drake;
+        },
+        handleCategoryReorder() {
+            const $categories = document.getElementsByClassName('lpCategories')[0];
+            const drake = dragula([$categories], {
+                moves(el, $source, $handle, $sibling) {
+                    return $handle.classList.contains('lpCategoryHandle');
+                },
+            });
+            drake.on('drag', ($el, $target, $source, $sibling) => {
+                this.categoryDragStartIndex = getElementIndex($el);
+            });
+            drake.on('drop', ($el, $target, $source, $sibling) => {
+                this.$store.commit('reorderCategory', { list: this.list, before: this.categoryDragStartIndex, after: getElementIndex($el) });
+                drake.cancel(true);
+            });
+        },
+    },
 });
 </script>

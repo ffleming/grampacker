@@ -37,69 +37,69 @@ import errors from './errors.vue';
 import modal from './modal.vue';
 
 export default defineComponent({
-  name: 'Account',
+    name: 'Account',
 
-  components: {
-      errors,
-      modal,
-  },
+    components: {
+        errors,
+        modal,
+    },
 
-  data() {
-      return {
-          deleting: false,
-          errors: [],
-          confirmationText: '',
-          currentPassword: '',
-          shown: false,
-      };
-  },
+    data() {
+        return {
+            deleting: false,
+            errors: [],
+            confirmationText: '',
+            currentPassword: '',
+            shown: false,
+        };
+    },
 
-  computed: {
-      isConfirmationComplete() {
-          return this.confirmationText.toLocaleLowerCase() === 'delete my account';
-      },
-  },
+    computed: {
+        isConfirmationComplete() {
+            return this.confirmationText.toLocaleLowerCase() === 'delete my account';
+        },
+    },
 
-  beforeMount() {
-      bus.$on('showDeleteAccount', () => {
-          this.shown = true;
-      });
-  },
+    beforeMount() {
+        bus.$on('showDeleteAccount', () => {
+            this.shown = true;
+        });
+    },
 
-  methods: {
-      deleteAccount() {
-          this.errors = [];
+    methods: {
+        deleteAccount() {
+            this.errors = [];
 
-          if (!this.currentPassword) {
-              this.errors.push({ field: 'currentPassword', message: 'Please enter your current password.' });
-          }
+            if (!this.currentPassword) {
+                this.errors.push({ field: 'currentPassword', message: 'Please enter your current password.' });
+            }
 
-          if (!this.isConfirmationComplete) {
-              this.errors.push({ field: 'confirmationText', message: 'Please enter the confirmation text.' });
-          }
+            if (!this.isConfirmationComplete) {
+                this.errors.push({ field: 'confirmationText', message: 'Please enter the confirmation text.' });
+            }
 
-          if (this.errors.length) {
-              return;
-          }
+            if (this.errors.length) {
+                return;
+            }
 
-          fetchJson('/delete-account', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              credentials: 'same-origin',
-              body: JSON.stringify({ username: this.$store.state.loggedIn, password: this.currentPassword }),
-          })
-              .then((response) => {
-                  this.deleting = false;
-                  this.$store.commit('signout');
-                  this.$router.push('/signin');
-              })
-              .catch((err) => {
-                  this.errors = err;
-                  this.deleting = false;
-              });
-      },
-  },
+            fetchJson('/delete-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ username: this.$store.state.loggedIn, password: this.currentPassword }),
+            })
+                .then((response) => {
+                    this.deleting = false;
+                    this.$store.commit('signout');
+                    this.$router.push('/signin');
+                })
+                .catch((err) => {
+                    this.errors = err;
+                    this.deleting = false;
+                });
+        },
+    },
 });
 </script>

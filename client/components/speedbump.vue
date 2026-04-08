@@ -27,49 +27,49 @@ import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({
-  name: 'Speedbump',
+    name: 'Speedbump',
 
-  components: {
-      modal,
-  },
+    components: {
+        modal,
+    },
 
-  data() {
-      return {
-          defaultMessages: {
-              title: '',
-              body: '',
-              confirm: 'Yes',
-              cancel: 'No',
-          },
-          messages: {},
-          callback: null,
-          shown: false,
-      };
-  },
+    data() {
+        return {
+            defaultMessages: {
+                title: '',
+                body: '',
+                confirm: 'Yes',
+                cancel: 'No',
+            },
+            messages: {},
+            callback: null,
+            shown: false,
+        };
+    },
 
-  beforeMount() {
-      bus.$on('initSpeedbump', (callback, options) => {
-          this.initSpeedbump(callback, options);
-      });
-  },
+    beforeMount() {
+        bus.$on('initSpeedbump', (callback, options) => {
+            this.initSpeedbump(callback, options);
+        });
+    },
 
-  methods: {
-      initSpeedbump(callback, options) {
-          this.callback = callback;
-          this.messages = Object.assign({}, this.defaultMessages)
-          if (typeof options === 'string') {
-              this.messages.body = options;
-          } else {
-            this.messages = Object.assign({}, this.messages, options)
-          }
-          this.shown = true;
-      },
-      confirmSpeedbump() {
-          if (this.callback && typeof this.callback === 'function') {
-              this.callback(true);
-          }
-          this.shown = false;
-      },
-  },
+    methods: {
+        initSpeedbump(callback, options) {
+            this.callback = callback;
+            this.messages = { ...this.defaultMessages };
+            if (typeof options === 'string') {
+                this.messages.body = options;
+            } else {
+                this.messages = { ...this.messages, ...options };
+            }
+            this.shown = true;
+        },
+        confirmSpeedbump() {
+            if (this.callback && typeof this.callback === 'function') {
+                this.callback(true);
+            }
+            this.shown = false;
+        },
+    },
 });
 </script>

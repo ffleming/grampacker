@@ -14,7 +14,7 @@ export default [
     { path: '/signin/forgot-username', component: signin },
     { path: '/register', component: register },
     { path: '/forgot-password', component: forgotPassword },
-    { path: '/reset-password', component: resetPassword, },
+    { path: '/reset-password', component: resetPassword },
     { path: '/moderation', component: moderation },
     { path: '/:pathMatch(.*)*', component: dashboard },
 ];

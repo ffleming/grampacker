@@ -126,7 +126,7 @@
         border-top: 1px solid #eee;
         margin-top: 4px;
         padding-top: 12px;
-        
+
         i {
             opacity: 1;
         }
@@ -171,11 +171,11 @@
             <Popper hover placement="left" class="lpItemOptions lpMobileOnly">
                 <span class="lpOptionsTarget">&#8942;</span>
                 <template #content>
-                  <div class="lpItemPopover">
-                    <a class="lpItemOption" @click="updateItemImage"><i class="lpSprite lpCamera" /> <span v-if="!item.image && !item.imageUrl">Add photo</span><span v-else>Change photo</span></a>
-                    <a class="lpItemOption" @click="updateItemLink"><i class="lpSprite lpLink" /> <span v-if="!item.url">Add link</span><span v-else>Change link</span></a>
-                    <a class="lpItemOption lpRemoveOption" @click="removeItem"><i class="lpSprite lpSpriteRemove" /> Remove item</a>
-                  </div>
+                    <div class="lpItemPopover">
+                        <a class="lpItemOption" @click="updateItemImage"><i class="lpSprite lpCamera" /> <span v-if="!item.image && !item.imageUrl">Add photo</span><span v-else>Change photo</span></a>
+                        <a class="lpItemOption" @click="updateItemLink"><i class="lpSprite lpLink" /> <span v-if="!item.url">Add link</span><span v-else>Change link</span></a>
+                        <a class="lpItemOption lpRemoveOption" @click="removeItem"><i class="lpSprite lpSpriteRemove" /> Remove item</a>
+                    </div>
                 </template>
             </Popper>
         </span>
@@ -185,7 +185,7 @@
 <script>
 import { defineComponent } from 'vue';
 
-import Popper from "vue3-popper";
+import Popper from 'vue3-popper';
 import bus from '../bus';
 import unitSelect from './unit-select.vue';
 
@@ -193,256 +193,256 @@ const utilsMixin = require('../mixins/utils-mixin.js');
 const weightUtils = require('../utils/weight.js');
 
 export default defineComponent({
-  name: 'Item',
+    name: 'Item',
 
-  components: {
-      Popper,
-      unitSelect,
-  },
+    components: {
+        Popper,
+        unitSelect,
+    },
 
-  mixins: [utilsMixin],
-  props: ['category', 'itemContainer'],
+    mixins: [utilsMixin],
+    props: ['category', 'itemContainer'],
 
-  data() {
-      return {
-          displayWeight: 0,
-          displayPrice: 0,
-          displayQty: 0,
-          weightError: false,
-          priceError: false,
-          qtyError: false,
-          numStars: 4,
-      };
-  },
+    data() {
+        return {
+            displayWeight: 0,
+            displayPrice: 0,
+            displayQty: 0,
+            weightError: false,
+            priceError: false,
+            qtyError: false,
+            numStars: 4,
+        };
+    },
 
-  computed: {
-      library() {
-        return this.$store.state.library;
-      },
-      item() {
-        return this.itemContainer.item;
-      },
-      categoryItem() {
-        return this.itemContainer.categoryItem;
-      },
-      thumbnailImage() {
-          if (this.item.image) {
-              return `https://i.imgur.com/${this.item.image}s.jpg`;
-          } if (this.item.imageUrl) {
-              return this.item.imageUrl;
-          }
-          return '';
-      },
-      fullImage() {
-          if (this.item.image) {
-              return `https://i.imgur.com/${this.item.image}l.jpg`;
-          } if (this.item.imageUrl) {
-              return this.item.imageUrl;
-          }
-          return '';
-      },
-  },
-
-  watch: {
-      item: {
-        handler(val, oldVal) {
-          // no-op. We want to avoid auto-formatting while the user is typing.
+    computed: {
+        library() {
+            return this.$store.state.library;
         },
-        deep: true,
-      },
-      categoryItem: {
-        handler(val, oldVal) {
-          // no-op.
+        item() {
+            return this.itemContainer.item;
         },
-        deep: true,
-      },
-  },
+        categoryItem() {
+            return this.itemContainer.categoryItem;
+        },
+        thumbnailImage() {
+            if (this.item.image) {
+                return `https://i.imgur.com/${this.item.image}s.jpg`;
+            } if (this.item.imageUrl) {
+                return this.item.imageUrl;
+            }
+            return '';
+        },
+        fullImage() {
+            if (this.item.image) {
+                return `https://i.imgur.com/${this.item.image}l.jpg`;
+            } if (this.item.imageUrl) {
+                return this.item.imageUrl;
+            }
+            return '';
+        },
+    },
 
-  beforeMount() {
-      this.setDisplayWeight();
-      this.setDisplayPrice();
-      this.setDisplayQty();
-  },
+    watch: {
+        item: {
+            handler(val, oldVal) {
+                // no-op. We want to avoid auto-formatting while the user is typing.
+            },
+            deep: true,
+        },
+        categoryItem: {
+            handler(val, oldVal) {
+                // no-op.
+            },
+            deep: true,
+        },
+    },
 
-  methods: {
-      saveItem() {
-          this.$store.commit('updateItem', this.item);
-      },
-      saveCategoryItem() {
-          this.$store.commit('updateCategoryItem', { category: this.category, categoryItem: this.categoryItem });
-      },
-      setUnit(unit) {
-          this.item.authorUnit = unit;
-          this.$store.commit('updateItemUnit', unit);
-          this.setDisplayWeight()
-      },
-      savePrice() {
-          const priceFloat = parseFloat(this.displayPrice, 10);
+    beforeMount() {
+        this.setDisplayWeight();
+        this.setDisplayPrice();
+        this.setDisplayQty();
+    },
 
-          if (!isNaN(priceFloat)) {
-              this.item.price = Math.round(priceFloat * 100) / 100;
-              this.saveItem();
-              this.priceError = false;
-          } else {
-              this.priceError = true;
-          }
-      },
-      saveQty() {
-          const qtyFloat = parseFloat(this.displayQty, 10);
+    methods: {
+        saveItem() {
+            this.$store.commit('updateItem', this.item);
+        },
+        saveCategoryItem() {
+            this.$store.commit('updateCategoryItem', { category: this.category, categoryItem: this.categoryItem });
+        },
+        setUnit(unit) {
+            this.item.authorUnit = unit;
+            this.$store.commit('updateItemUnit', unit);
+            this.setDisplayWeight();
+        },
+        savePrice() {
+            const priceFloat = parseFloat(this.displayPrice, 10);
 
-          if (!isNaN(qtyFloat)) {
-              this.categoryItem.qty = qtyFloat;
-              this.saveCategoryItem();
-              this.qtyError = false;
-          } else {
-              this.qtyError = true;
-          }
-      },
-      saveWeight() {
-          const weightFloat = parseFloat(this.displayWeight, 10);
+            if (!isNaN(priceFloat)) {
+                this.item.price = Math.round(priceFloat * 100) / 100;
+                this.saveItem();
+                this.priceError = false;
+            } else {
+                this.priceError = true;
+            }
+        },
+        saveQty() {
+            const qtyFloat = parseFloat(this.displayQty, 10);
 
-          if (!isNaN(weightFloat)) {
-              this.item.weight = weightUtils.WeightToMg(weightFloat, this.item.authorUnit);
-              this.saveItem();
-              this.weightError = false;
-          } else {
-              this.weightError = true;
-          }
-      },
-      setDisplayPrice() {
-          if (!this.priceError) {
-              this.displayPrice = this.item.price.toFixed(2);
-          }
-      },
-      setDisplayQty() {
-          if (!this.qtyError) {
-              this.displayQty = this.categoryItem.qty;
-          }
-      },
-      setDisplayWeight() {
-          this.displayWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit);
-      },
-      updateItemLink() {
-          bus.$emit('updateItemLink', this.item);
-      },
-      updateItemImage() {
-          bus.$emit('updateItemImage', this.item);
-      },
-      viewItemImage() {
-          bus.$emit('viewItemImage', this.fullImage);
-      },
-      toggleWorn() {
-          if (this.categoryItem.consumable) {
-              return;
-          }
-          this.categoryItem.worn = !this.categoryItem.worn;
-          this.saveCategoryItem();
-      },
-      toggleConsumable() {
-          if (this.categoryItem.worn) {
-              return;
-          }
-          this.categoryItem.consumable = !this.categoryItem.consumable;
-          this.saveCategoryItem();
-      },
-      cycleStar() {
-          if (!this.categoryItem.star) {
-              this.categoryItem.star = 0;
-          }
-          this.categoryItem.star = (this.categoryItem.star + 1) % this.numStars;
-          this.saveCategoryItem();
-      },
-      incrementPrice(evt) {
-          evt.stopImmediatePropagation();
+            if (!isNaN(qtyFloat)) {
+                this.categoryItem.qty = qtyFloat;
+                this.saveCategoryItem();
+                this.qtyError = false;
+            } else {
+                this.qtyError = true;
+            }
+        },
+        saveWeight() {
+            const weightFloat = parseFloat(this.displayWeight, 10);
 
-          if (this.priceError) {
-              return;
-          }
+            if (!isNaN(weightFloat)) {
+                this.item.weight = weightUtils.WeightToMg(weightFloat, this.item.authorUnit);
+                this.saveItem();
+                this.weightError = false;
+            } else {
+                this.weightError = true;
+            }
+        },
+        setDisplayPrice() {
+            if (!this.priceError) {
+                this.displayPrice = this.item.price.toFixed(2);
+            }
+        },
+        setDisplayQty() {
+            if (!this.qtyError) {
+                this.displayQty = this.categoryItem.qty;
+            }
+        },
+        setDisplayWeight() {
+            this.displayWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit);
+        },
+        updateItemLink() {
+            bus.$emit('updateItemLink', this.item);
+        },
+        updateItemImage() {
+            bus.$emit('updateItemImage', this.item);
+        },
+        viewItemImage() {
+            bus.$emit('viewItemImage', this.fullImage);
+        },
+        toggleWorn() {
+            if (this.categoryItem.consumable) {
+                return;
+            }
+            this.categoryItem.worn = !this.categoryItem.worn;
+            this.saveCategoryItem();
+        },
+        toggleConsumable() {
+            if (this.categoryItem.worn) {
+                return;
+            }
+            this.categoryItem.consumable = !this.categoryItem.consumable;
+            this.saveCategoryItem();
+        },
+        cycleStar() {
+            if (!this.categoryItem.star) {
+                this.categoryItem.star = 0;
+            }
+            this.categoryItem.star = (this.categoryItem.star + 1) % this.numStars;
+            this.saveCategoryItem();
+        },
+        incrementPrice(evt) {
+            evt.stopImmediatePropagation();
 
-          this.item.price = this.item.price + 1;
+            if (this.priceError) {
+                return;
+            }
 
-          this.saveItem();
-          this.setDisplayPrice();
-      },
-      decrementPrice(evt) {
-          evt.stopImmediatePropagation();
+            this.item.price = this.item.price + 1;
 
-          if (this.priceError) {
-              return;
-          }
+            this.saveItem();
+            this.setDisplayPrice();
+        },
+        decrementPrice(evt) {
+            evt.stopImmediatePropagation();
 
-          this.item.price = this.item.price - 1;
+            if (this.priceError) {
+                return;
+            }
 
-          if (this.item.price < 0) {
-              this.item.price = 0;
-          }
+            this.item.price = this.item.price - 1;
 
-          this.saveItem();
-          this.setDisplayPrice();
-      },
-      incrementQty(evt) {
-          evt.stopImmediatePropagation();
+            if (this.item.price < 0) {
+                this.item.price = 0;
+            }
 
-          if (this.qtyError) {
-              return;
-          }
+            this.saveItem();
+            this.setDisplayPrice();
+        },
+        incrementQty(evt) {
+            evt.stopImmediatePropagation();
 
-          this.categoryItem.qty = this.categoryItem.qty + 1;
-          this.saveCategoryItem();
-          this.setDisplayQty();
-      },
-      decrementQty(evt) {
-          evt.stopImmediatePropagation();
+            if (this.qtyError) {
+                return;
+            }
 
-          if (this.qtyError) {
-              return;
-          }
+            this.categoryItem.qty = this.categoryItem.qty + 1;
+            this.saveCategoryItem();
+            this.setDisplayQty();
+        },
+        decrementQty(evt) {
+            evt.stopImmediatePropagation();
 
-          this.categoryItem.qty = this.categoryItem.qty - 1;
+            if (this.qtyError) {
+                return;
+            }
 
-          if (this.categoryItem.qty < 0) {
-              this.categoryItem.qty = 0;
-          }
+            this.categoryItem.qty = this.categoryItem.qty - 1;
 
-          this.saveCategoryItem();
-          this.setDisplayQty();
-      },
-      incrementWeight(evt) {
-          evt.stopImmediatePropagation();
+            if (this.categoryItem.qty < 0) {
+                this.categoryItem.qty = 0;
+            }
 
-          if (this.weightError) {
-              return;
-          }
+            this.saveCategoryItem();
+            this.setDisplayQty();
+        },
+        incrementWeight(evt) {
+            evt.stopImmediatePropagation();
 
-          const newWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit) + 1;
-          this.item.weight = weightUtils.WeightToMg(newWeight, this.item.authorUnit);
+            if (this.weightError) {
+                return;
+            }
 
-          this.saveItem();
-          this.setDisplayWeight();
-      },
-      decrementWeight(evt) {
-          evt.stopImmediatePropagation();
+            const newWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit) + 1;
+            this.item.weight = weightUtils.WeightToMg(newWeight, this.item.authorUnit);
 
-          if (this.weightError) {
-              return;
-          }
+            this.saveItem();
+            this.setDisplayWeight();
+        },
+        decrementWeight(evt) {
+            evt.stopImmediatePropagation();
 
-          const newWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit) - 1;
-          this.item.weight = weightUtils.WeightToMg(newWeight, this.item.authorUnit);
+            if (this.weightError) {
+                return;
+            }
 
-          if (this.item.weight < 0) {
-              this.item.weight = 0;
-          }
+            const newWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit) - 1;
+            this.item.weight = weightUtils.WeightToMg(newWeight, this.item.authorUnit);
 
-          this.saveItem();
-          this.setDisplayWeight();
-      },
-      removeItem() {
-          this.$store.commit('removeItemFromCategory', { itemId: this.item.id, category: this.category });
+            if (this.item.weight < 0) {
+                this.item.weight = 0;
+            }
 
-          // if the removed item has a blank name remove it from the gear list
-          if (!this.item.name || !this.item.name.trim().length) this.$store.commit('removeItem', { item: this.item });
-      },
-  },
+            this.saveItem();
+            this.setDisplayWeight();
+        },
+        removeItem() {
+            this.$store.commit('removeItemFromCategory', { itemId: this.item.id, category: this.category });
+
+            // if the removed item has a blank name remove it from the gear list
+            if (!this.item.name || !this.item.name.trim().length) this.$store.commit('removeItem', { item: this.item });
+        },
+    },
 });
 </script>,

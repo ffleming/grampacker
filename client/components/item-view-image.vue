@@ -22,24 +22,24 @@ import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({
-  name: 'ItemViewImage',
+    name: 'ItemViewImage',
 
-  components: {
-      modal,
-  },
+    components: {
+        modal,
+    },
 
-  data() {
-      return {
-          imageUrl: '',
-          shown: false,
-      };
-  },
+    data() {
+        return {
+            imageUrl: '',
+            shown: false,
+        };
+    },
 
-  mounted() {
-      bus.$on('viewItemImage', (imageUrl) => {
-          this.shown = true;
-          this.imageUrl = imageUrl;
-      });
-  },
+    mounted() {
+        bus.$on('viewItemImage', (imageUrl) => {
+            this.shown = true;
+            this.imageUrl = imageUrl;
+        });
+    },
 });
 </script>

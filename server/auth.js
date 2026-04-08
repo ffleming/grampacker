@@ -81,7 +81,7 @@ const verifyPassword = function (username, password) {
                             reject({ code: 500, message: 'An error occurred, please try again later.' });
                         }
                         if (!result) {
-                            reject({code: 404, message: "Invalid username and/or password."});
+                            reject({ code: 404, message: 'Invalid username and/or password.' });
                         } else {
                             // Remove extra layer of hashing. Just bcrypt.
                             bcrypt.genSalt(10, (err, salt) => {
