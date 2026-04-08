@@ -8,39 +8,32 @@ const uuid = require('uuid');
 
 const { logger } = require('./server/log.js');
 
-morgan.token('username', function getUsername (req) {
-    return req.grampackerusername
-});
+morgan.token('username', (req) => req.grampackerusername);
 
-
-morgan.token('requestid', function getUsername (req) {
-    return req.uuid
-});
+morgan.token('requestid', (req) => req.uuid);
 
 const app = express();
 app.enable('trust proxy');
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     req.uuid = uuid.v4();
     next();
 });
 
-app.use(morgan(function (tokens, req, res) {
-    return JSON.stringify({
-        'timestamp': tokens.date(req, res, 'iso'),
-        'requestid': tokens.requestid(req, res),
-        "remote-addr": tokens['remote-addr'](req, res),
-        'method': tokens.method(req, res),
-        'http-version': tokens['http-version'](req, res),
-        'user-agent': tokens['user-agent'](req, res),
-        'url': tokens.url(req, res),
-        'status': tokens.status(req, res),
-        'referrer': tokens.referrer(req, res),
-        'content-length': tokens.res(req, res, 'content-length'),
-        'response-time': tokens['response-time'](req, res),
-        'username': tokens.username(req, res),
-    })
-}, { stream: logger.stream.write }));
+app.use(morgan((tokens, req, res) => JSON.stringify({
+    timestamp: tokens.date(req, res, 'iso'),
+    requestid: tokens.requestid(req, res),
+    'remote-addr': tokens['remote-addr'](req, res),
+    method: tokens.method(req, res),
+    'http-version': tokens['http-version'](req, res),
+    'user-agent': tokens['user-agent'](req, res),
+    url: tokens.url(req, res),
+    status: tokens.status(req, res),
+    referrer: tokens.referrer(req, res),
+    'content-length': tokens.res(req, res, 'content-length'),
+    'response-time': tokens['response-time'](req, res),
+    username: tokens.username(req, res),
+}), { stream: logger.stream.write }));
 
 const oneDay = 86400000;
 
@@ -61,7 +54,7 @@ app.use('/', endpoints);
 app.use('/', moderationEndpoints);
 app.use('/', views);
 
-logger.info("Starting up Gram Packer in " + config.get('environment') + ' mode...');
+logger.info(`Starting up Gram Packer in ${config.get('environment')} mode...`);
 
 // Default port is 3000; we can have multiple bindings
 config.get('bindings').map(
@@ -72,36 +65,36 @@ config.get('bindings').map(
 );
 
 if (config.get('environment') !== 'production') {
-  const webpack = require('webpack');
-  const WebpackDevServer = require('webpack-dev-server');
-  const webpackConfig = require('./webpack.development.config');
-  const compiler = webpack(webpackConfig);
+    const webpack = require('webpack');
+    const WebpackDevServer = require('webpack-dev-server');
+    const webpackConfig = require('./webpack.development.config');
+    const compiler = webpack(webpackConfig);
 
-  const devServerOptions = {
-    host: "192.168.1.4",
-    port: 8080,
-    devMiddleware: {
-      stats: {
-        cached: false,
-        cachedAssets: false,
-        colors: { level: 2 },
-      },
-    },
-    historyApiFallback: true,
-    proxy: [
-      {
-        context: ["**"],
-        target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
-        secure: false,
-        changeOrigin: true,
-      },
-    ],
-  };
-  const devServer = new WebpackDevServer(devServerOptions, compiler);
+    const devServerOptions = {
+        host: '192.168.1.4',
+        port: 8080,
+        devMiddleware: {
+            stats: {
+                cached: false,
+                cachedAssets: false,
+                colors: { level: 2 },
+            },
+        },
+        historyApiFallback: true,
+        proxy: [
+            {
+                context: ['**'],
+                target: `http://${config.get('bindings')[0]}:${config.get('port')}`,
+                secure: false,
+                changeOrigin: true,
+            },
+        ],
+    };
+    const devServer = new WebpackDevServer(devServerOptions, compiler);
 
-  (async () => {
-    await devServer.start();
+    (async () => {
+        await devServer.start();
 
-    console.log("Running");
-  })();
+        console.log('Running');
+    })();
 }

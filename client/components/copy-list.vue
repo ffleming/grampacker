@@ -27,39 +27,39 @@ import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({
-  name: 'CopyList',
+    name: 'CopyList',
 
-  components: {
-      modal,
-  },
+    components: {
+        modal,
+    },
 
-  data() {
-      return {
-          listId: false,
-          shown: false,
-      };
-  },
+    data() {
+        return {
+            listId: false,
+            shown: false,
+        };
+    },
 
-  computed: {
-      library() {
-          return this.$store.state.library;
-      },
-  },
+    computed: {
+        library() {
+            return this.$store.state.library;
+        },
+    },
 
-  beforeMount() {
-      bus.$on('copyList', () => {
-          this.shown = true;
-      });
-  },
+    beforeMount() {
+        bus.$on('copyList', () => {
+            this.shown = true;
+        });
+    },
 
-  methods: {
-      copyList() {
-          if (!this.listId) {
-              return; // TODO: errors
-          }
-          this.$store.commit('copyList', this.listId);
-          this.shown = false;
-      },
-  },
+    methods: {
+        copyList() {
+            if (!this.listId) {
+                return; // TODO: errors
+            }
+            this.$store.commit('copyList', this.listId);
+            this.shown = false;
+        },
+    },
 });
 </script>

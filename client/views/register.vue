@@ -34,19 +34,19 @@ import modal from '../components/modal.vue';
 import registerForm from '../components/register-form.vue';
 
 export default defineComponent({
-  name: 'Register',
+    name: 'Register',
 
-  components: {
-      blackoutFooter,
-      globalAlerts,
-      modal,
-      registerForm,
-  },
+    components: {
+        blackoutFooter,
+        globalAlerts,
+        modal,
+        registerForm,
+    },
 
-  computed: {
-      isLocalSaving() {
-          return this.$store.state.saveType === 'local';
-      },
-  },
+    computed: {
+        isLocalSaving() {
+            return this.$store.state.saveType === 'local';
+        },
+    },
 });
 </script>

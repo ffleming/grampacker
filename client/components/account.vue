@@ -39,100 +39,100 @@ import modal from './modal.vue';
 import spinner from './spinner.vue';
 
 export default defineComponent({
-  name: 'Account',
+    name: 'Account',
 
-  components: {
-      errors,
-      modal,
-      spinner,
-  },
+    components: {
+        errors,
+        modal,
+        spinner,
+    },
 
-  data() {
-      return {
-          saving: false,
-          errors: [],
-          currentPassword: '',
-          newEmail: '',
-          newPassword: '',
-          confirmNewPassword: '',
-          shown: false,
-      };
-  },
+    data() {
+        return {
+            saving: false,
+            errors: [],
+            currentPassword: '',
+            newEmail: '',
+            newPassword: '',
+            confirmNewPassword: '',
+            shown: false,
+        };
+    },
 
-  computed: {
-      library() {
-          return this.$store.state.library;
-      },
-      username() {
-          return this.$store.state.loggedIn;
-      },
-  },
+    computed: {
+        library() {
+            return this.$store.state.library;
+        },
+        username() {
+            return this.$store.state.loggedIn;
+        },
+    },
 
-  beforeMount() {
-      bus.$on('showAccount', () => {
-          this.shown = true;
-      });
-  },
+    beforeMount() {
+        bus.$on('showAccount', () => {
+            this.shown = true;
+        });
+    },
 
-  methods: {
-      updateAccount() {
-          this.errors = [];
+    methods: {
+        updateAccount() {
+            this.errors = [];
 
-          if (!this.currentPassword) {
-              this.errors.push({ field: 'currentPassword', message: 'Please enter your current password.' });
-          }
+            if (!this.currentPassword) {
+                this.errors.push({ field: 'currentPassword', message: 'Please enter your current password.' });
+            }
 
-          if (this.newPassword && this.newPassword != this.confirmNewPassword) {
-              this.errors.push({ field: 'newPassword', message: 'Your passwords don\'t match.' });
-          }
+            if (this.newPassword && this.newPassword != this.confirmNewPassword) {
+                this.errors.push({ field: 'newPassword', message: 'Your passwords don\'t match.' });
+            }
 
-          if (this.newPassword && (this.newPassword.length < 5 || this.newPassword.length > 60)) {
-              this.errors.push({ field: 'newPassword', message: 'Please enter a password between 5 and 60 characters.' });
-          }
+            if (this.newPassword && (this.newPassword.length < 5 || this.newPassword.length > 60)) {
+                this.errors.push({ field: 'newPassword', message: 'Please enter a password between 5 and 60 characters.' });
+            }
 
-          if (this.errors.length) {
-              return;
-          }
+            if (this.errors.length) {
+                return;
+            }
 
-          const data = { username: this.username, currentPassword: this.currentPassword };
+            const data = { username: this.username, currentPassword: this.currentPassword };
 
-          let dirty = false;
+            let dirty = false;
 
-          if (this.newPassword) {
-              dirty = true;
-              data.newPassword = this.newPassword;
-          }
-          if (this.newEmail) {
-              dirty = true;
-              data.newEmail = this.newEmail;
-          }
+            if (this.newPassword) {
+                dirty = true;
+                data.newPassword = this.newPassword;
+            }
+            if (this.newEmail) {
+                dirty = true;
+                data.newEmail = this.newEmail;
+            }
 
-          if (!dirty) return;
+            if (!dirty) return;
 
-          this.currentPassword = '';
-          this.saving = true;
+            this.currentPassword = '';
+            this.saving = true;
 
-          fetchJson('/account', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              credentials: 'same-origin',
-              body: JSON.stringify(data),
-          })
-              .then((response) => {
-                  this.saving = false;
-                  this.shown = false;
-              })
-              .catch((err) => {
-                  this.errors = err;
-                  this.saving = false;
-              });
-      },
-      showDeleteAccount() {
-          this.shown = false;
-          bus.$emit('showDeleteAccount');
-      },
-  },
+            fetchJson('/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data),
+            })
+                .then((response) => {
+                    this.saving = false;
+                    this.shown = false;
+                })
+                .catch((err) => {
+                    this.errors = err;
+                    this.saving = false;
+                });
+        },
+        showDeleteAccount() {
+            this.shown = false;
+            bus.$emit('showDeleteAccount');
+        },
+    },
 });
 </script>

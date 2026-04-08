@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const path = require('path');
 const express = require('express');
 const { customAlphabet } = require('nanoid');
+
 const generate = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6);
 
 const router = express.Router();
@@ -24,88 +25,87 @@ const Category = dataTypes.Category;
 const List = dataTypes.List;
 const Library = dataTypes.Library;
 
-const nodemailer = require("nodemailer");
-const querystring = require("querystring");
+const nodemailer = require('nodemailer');
+const querystring = require('querystring');
 
 const saltRounds = 10;
 
-var transport = nodemailer.createTransport({
-  host: config.get("mail").host,
-  port: config.get("mail").port,
-  auth: {
-      user: config.get("mail").username,
-      pass: config.get("mail").password,
-    }
+const transport = nodemailer.createTransport({
+    host: config.get('mail').host,
+    port: config.get('mail').port,
+    auth: {
+        user: config.get('mail').username,
+        pass: config.get('mail').password,
+    },
 });
 
 // one day in many years this can go away.
 eval(`${fs.readFileSync(path.join(__dirname, './sha3.js'))}`);
 
 router.post('/pw', (req, res) => {
-  const tok = req.body.t;
-  const username = req.body.u;
-  const pass = req.body.newPassword;
-  const passVerify = req.body.confirmNewPassword;
+    const tok = req.body.t;
+    const username = req.body.u;
+    const pass = req.body.newPassword;
+    const passVerify = req.body.confirmNewPassword;
 
-  let errors = [];
-  if (!tok) {
-    errors.push({field: "t", message: "Invalid reset token"})
-  }
-  if (!pass) {
-    errors.push({field: "newPassword", message: "Must provide new password"})
-  }
-  if (!passVerify) {
-    errors.push({field: "confirmNewPassword", message: "Must provide password confirmation"})
-  }
-  if (pass !== passVerify) {
-    errors.push({field: "confirmNewPassword", message: "Password much match confirmation"})
-  }
-  if (pass.length < 8) {
-    errors.push({field: "newPassword", message: "Password must be at least 8 characters long"})
-  }
-  if (errors.length > 0) {
-    return res.status(400).json({ errors: errors });
-  }
-
-  db.users.find({username: username }, (err, users) => {
-    if (err) {
-      return res.status(400).json({errors: [{message: err}]})
+    const errors = [];
+    if (!tok) {
+        errors.push({ field: 't', message: 'Invalid reset token' });
     }
-    if (users.length == 0) {
-      return res.status(404).json({errors:[{message: "Not found"}]});
-    } else if (users.length > 1) {
-      return res.status(400).json({errors:[{message: "Invalid token"}]});
+    if (!pass) {
+        errors.push({ field: 'newPassword', message: 'Must provide new password' });
+    }
+    if (!passVerify) {
+        errors.push({ field: 'confirmNewPassword', message: 'Must provide password confirmation' });
+    }
+    if (pass !== passVerify) {
+        errors.push({ field: 'confirmNewPassword', message: 'Password much match confirmation' });
+    }
+    if (pass.length < 8) {
+        errors.push({ field: 'newPassword', message: 'Password must be at least 8 characters long' });
+    }
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
     }
 
-    var user = users[0];
-    if (tokenValid(tok, user.token)) {
-      user.password = hash(pass);
-      user.token = {tokenHash: "", createdAt: 1};
-      db.users.save(user);
-      res.status(200).json("Success");
-    } else {
-      return res.status(400).json({errors:[{message: "Invalid token"}]});
-    }
-  });
+    db.users.find({ username }, (err, users) => {
+        if (err) {
+            return res.status(400).json({ errors: [{ message: err }] });
+        }
+        if (users.length == 0) {
+            return res.status(404).json({ errors: [{ message: 'Not found' }] });
+        } if (users.length > 1) {
+            return res.status(400).json({ errors: [{ message: 'Invalid token' }] });
+        }
+
+        const user = users[0];
+        if (tokenValid(tok, user.token)) {
+            user.password = hash(pass);
+            user.token = { tokenHash: '', createdAt: 1 };
+            db.users.save(user);
+            res.status(200).json('Success');
+        } else {
+            return res.status(400).json({ errors: [{ message: 'Invalid token' }] });
+        }
+    });
 });
 
 function tokenValid(plainToken, dbToken) {
-  valid = true
-  valid = valid && bcrypt.compareSync(plainToken, dbToken.tokenHash);
-  threeHoursAgo = Date.now() - (1000 * 60 * 60 * 3)
-  valid = valid && (dbToken.createdAt > threeHoursAgo)
-  return valid;
+    valid = true;
+    valid = valid && bcrypt.compareSync(plainToken, dbToken.tokenHash);
+    threeHoursAgo = Date.now() - (1000 * 60 * 60 * 3);
+    valid = valid && (dbToken.createdAt > threeHoursAgo);
+    return valid;
 }
 
 function hash(string) {
-  const salt = bcrypt.genSaltSync(saltRounds);
-  return bcrypt.hashSync(string, salt);
+    const salt = bcrypt.genSaltSync(saltRounds);
+    return bcrypt.hashSync(string, salt);
 }
 
 function generateToken() {
-  return require('crypto').randomBytes(32).toString('hex');
+    return require('crypto').randomBytes(32).toString('hex');
 }
-
 
 router.post('/register', (req, res) => {
     const username = String(req.body.username).toLowerCase().trim();
@@ -269,53 +269,53 @@ function externalId(req, res, user) {
 }
 
 router.post('/forgotPassword', (req, res) => {
-  logWithRequest(req);
-  const username = String(req.body.username).toLowerCase().trim();
-  if (!username || username.length < 1 || username.length > 32) {
-    logWithRequest(req, { message: 'Bad forgot password', username });
-    return res.status(400).json({ errors: [{ message: 'Please enter a username.' }] });
-  }
-
-  db.users.find({ username }, (err, users) => {
-    if (err) {
-      logWithRequest(req, { message: 'Forgot password lookup error', username });
-      return res.status(500).json({ message: 'An error occurred' });
+    logWithRequest(req);
+    const username = String(req.body.username).toLowerCase().trim();
+    if (!username || username.length < 1 || username.length > 32) {
+        logWithRequest(req, { message: 'Bad forgot password', username });
+        return res.status(400).json({ errors: [{ message: 'Please enter a username.' }] });
     }
-    if (users.length != 1) {
-      // Act as if user was found
-      return res.status(200).json("Check your inbox");
-    }
-    var user = users[0];
-    const tok = generateToken()
-    const dbToken = {
-      tokenHash: hash(tok),
-      createdAt: Date.now(),
-    };
-    var link = new URL(config.get("publicUrl") + "/reset-password");
-    link.searchParams.append("t", tok)
-    link.searchParams.append("u", username)
 
-    const messageText = `Hello ${username},\n\nSomeone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:\n\n${link}\n\nIf you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
-    const messageHTML = `Hello ${username},<br><br>Someone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:<br><br>Click <a href='${link}'>here</a> to reset your password<br><br>If you continue to have problems, please open an issue at <a href='https://github.com/ffleming/grampacker/issues'>Gram Packer's GitHub page</a>.<br><br>Thanks!`;
+    db.users.find({ username }, (err, users) => {
+        if (err) {
+            logWithRequest(req, { message: 'Forgot password lookup error', username });
+            return res.status(500).json({ message: 'An error occurred' });
+        }
+        if (users.length != 1) {
+            // Act as if user was found
+            return res.status(200).json('Check your inbox');
+        }
+        const user = users[0];
+        const tok = generateToken();
+        const dbToken = {
+            tokenHash: hash(tok),
+            createdAt: Date.now(),
+        };
+        const link = new URL(`${config.get('publicUrl')}/reset-password`);
+        link.searchParams.append('t', tok);
+        link.searchParams.append('u', username);
 
-    try {
-      const resp = transport.sendMail({
-        from: config.get("mail").fromAddress,
-        to: user.email,
-        subject: "Gram Packer password reset",
-        text: messageText,
-        html: messageHTML,
-      });
-      user.token = dbToken;
-      db.users.save(user);
+        const messageText = `Hello ${username},\n\nSomeone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:\n\n${link}\n\nIf you continue to have problems, please open an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
+        const messageHTML = `Hello ${username},<br><br>Someone (maybe you!) requested a password reset for your grampacker.net account. If it wasn't you, just ignore this message. If it was you, please use the following link to reset your Gram Packer password:<br><br>Click <a href='${link}'>here</a> to reset your password<br><br>If you continue to have problems, please open an issue at <a href='https://github.com/ffleming/grampacker/issues'>Gram Packer's GitHub page</a>.<br><br>Thanks!`;
 
-      logWithRequest(req, { message: 'Message sent', response: resp });
-      return res.status(200).json("Check your inbox");
-    } catch (error) {
-      logWithRequest(req, { message: "Mail error: " + error });
-      return res.status(500).json({ message: 'An error occurred' });
-    }
-  });
+        try {
+            const resp = transport.sendMail({
+                from: config.get('mail').fromAddress,
+                to: user.email,
+                subject: 'Gram Packer password reset',
+                text: messageText,
+                html: messageHTML,
+            });
+            user.token = dbToken;
+            db.users.save(user);
+
+            logWithRequest(req, { message: 'Message sent', response: resp });
+            return res.status(200).json('Check your inbox');
+        } catch (error) {
+            logWithRequest(req, { message: `Mail error: ${error}` });
+            return res.status(500).json({ message: 'An error occurred' });
+        }
+    });
 });
 
 router.post('/forgotUsername', (req, res) => {
@@ -340,22 +340,22 @@ router.post('/forgotUsername', (req, res) => {
         const message = `Hello ${username},\n Someone (maybe you!) requested a reminder for your grampacker.net username. Here is your information:\n\nUsername: ${username}\n\nIf you continue to have problems, please create an issue at https://github.com/ffleming/grampacker/issues.\n\nThanks!`;
 
         logWithRequest(req, { message: 'Attempting to send username', email, username });
-      try {
-        const resp = transport.sendMail({
-          from: config.get("mail").fromAddress,
-          to: email,
-          subject: "Your Gram Packer username",
-          text: message,
-          html: "<html><body>" + message.replace(/\n/g, "<br>") + "</body></html>",
-        });
-        const out = { email };
-        logWithRequest(req, { message: 'Message sent', response: resp });
-        logWithRequest(req, { message: 'sent username message for user', username, email });
-        return res.status(200).json(out);
-      } catch (error) {
-        logWithRequest(req, { message: "Mail error: " + error });
-        return res.status(500).json({ message: 'An error occurred' });
-      }
+        try {
+            const resp = transport.sendMail({
+                from: config.get('mail').fromAddress,
+                to: email,
+                subject: 'Your Gram Packer username',
+                text: message,
+                html: `<html><body>${message.replace(/\n/g, '<br>')}</body></html>`,
+            });
+            const out = { email };
+            logWithRequest(req, { message: 'Message sent', response: resp });
+            logWithRequest(req, { message: 'sent username message for user', username, email });
+            return res.status(200).json(out);
+        } catch (error) {
+            logWithRequest(req, { message: `Mail error: ${error}` });
+            return res.status(500).json({ message: 'An error occurred' });
+        }
     });
 });
 
@@ -461,7 +461,7 @@ function imageUpload(req, res, user) {
             const r = await fetch('https://api.imgur.com/3/image', {
                 method: 'POST',
                 headers: { Authorization: `Client-ID ${config.get('imgurClientID')}` },
-                body: formData
+                body: formData,
             });
 
             const body = await r.text();

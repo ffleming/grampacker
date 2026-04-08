@@ -29,25 +29,25 @@ import modal from '../components/modal.vue';
 import SigninForm from '../components/signin-form.vue';
 
 export default defineComponent({
-  name: 'Signin',
+    name: 'Signin',
 
-  components: {
-      blackoutFooter,
-      globalAlerts,
-      modal,
-      SigninForm,
-  },
+    components: {
+        blackoutFooter,
+        globalAlerts,
+        modal,
+        SigninForm,
+    },
 
-  computed: {
-      message() {
-          if (this.$route.path.indexOf('/forgot-username') > -1 || this.$route.path.indexOf('/forgot-password') > -1) {
-              return 'An email has been sent to the address associated with your account. Please reach out via GitHub if you do not receive your email.';
-          }
-          if (this.$route.path.indexOf('/reset-password') > -1 ) {
-              return 'Your password has been reset to the value you provided.';
-          }
-          return '';
-      },
-  },
+    computed: {
+        message() {
+            if (this.$route.path.indexOf('/forgot-username') > -1 || this.$route.path.indexOf('/forgot-password') > -1) {
+                return 'An email has been sent to the address associated with your account. Please reach out via GitHub if you do not receive your email.';
+            }
+            if (this.$route.path.indexOf('/reset-password') > -1) {
+                return 'Your password has been reset to the value you provided.';
+            }
+            return '';
+        },
+    },
 });
 </script>

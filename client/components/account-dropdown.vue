@@ -6,12 +6,12 @@
         <Popper>
             <span class="lpTarget">Signed in as <span class="username">{{ username }}</span> <i class="lpSprite lpExpand" /></span>
             <template #content>
-              <div class="lpPopoverContent">
-                <a class="lpHref accountSettings" @click="showAccount">Account Settings</a><br>
-                <a class="lpHref" @click="showHelp">Help</a><br>
-                <a class="lpHref signout" @click="signout">Sign Out</a>
-              </div>
-           </template>
+                <div class="lpPopoverContent">
+                    <a class="lpHref accountSettings" @click="showAccount">Account Settings</a><br>
+                    <a class="lpHref" @click="showHelp">Help</a><br>
+                    <a class="lpHref signout" @click="signout">Sign Out</a>
+                </div>
+            </template>
         </Popper>
     </span>
 </template>
@@ -19,36 +19,36 @@
 <script>
 import { defineComponent } from 'vue';
 
-import Popper from "vue3-popper";
+import Popper from 'vue3-popper';
 import bus from '../bus';
 
 export default defineComponent({
-  name: 'AccountDropdown',
+    name: 'AccountDropdown',
 
-  components: {
-      Popper,
-  },
+    components: {
+        Popper,
+    },
 
-  computed: {
-      library() {
-          return this.$store.state.library;
-      },
-      username() {
-          return this.$store.state.loggedIn;
-      },
-  },
+    computed: {
+        library() {
+            return this.$store.state.library;
+        },
+        username() {
+            return this.$store.state.loggedIn;
+        },
+    },
 
-  methods: {
-      showAccount() {
-          bus.$emit('showAccount');
-      },
-      showHelp() {
-          bus.$emit('showHelp');
-      },
-      signout() {
-          this.$store.commit('signout');
-          this.$router.push('/signin');
-      },
-  },
+    methods: {
+        showAccount() {
+            bus.$emit('showAccount');
+        },
+        showHelp() {
+            bus.$emit('showHelp');
+        },
+        signout() {
+            this.$store.commit('signout');
+            this.$router.push('/signin');
+        },
+    },
 });
 </script>
