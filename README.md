@@ -18,6 +18,12 @@ development.
 5. Start app ```$ npm start```
 6. go to http://localhost:8080
 
+You probably want to configure git to ignore linting changes:
+
+```
+git config blame.ignoreRevsFile .git-blame-ignore-revs`
+```
+
 ## Priorities
 
 1. Bugfixes
