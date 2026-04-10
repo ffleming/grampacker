@@ -25,7 +25,7 @@ class lpError extends Error {
 window.fetchJson = (url, options) => {
     const fetchOptions = {
         method: 'GET',
-        headers: {},
+        headers: {}
     };
 
     if (options) {
@@ -55,7 +55,7 @@ window.fetchJson = (url, options) => {
                         json,
                     });
                 })
-                .catch((err) => reject(err));
+                .catch(err => reject(err));
         });
     }
 

@@ -363,6 +363,7 @@ const Library = function () {
     return this;
 };
 
+
 Library.prototype.firstRun = function () {
     const firstList = this.newList();
     const firstCategory = this.newCategory({ list: firstList });
@@ -674,7 +675,7 @@ Library.prototype.sequenceShouldBeCorrect = function (serializedLibrary) {
 Library.prototype.idsShouldBeInts = function (serializedLibrary) {
     // Some lists of Ids were strings previously. They should be numbers.
     serializedLibrary.lists.forEach((list) => {
-        list.categoryIds = list.categoryIds.map((categoryId) => parseInt(categoryId, 10));
+        list.categoryIds = list.categoryIds.map(categoryId => parseInt(categoryId, 10));
     });
 };
 

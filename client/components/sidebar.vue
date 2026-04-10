@@ -55,7 +55,7 @@ $sidebarPadding: 20px;
         line-height: 24px;
         padding: 0 15px 0 5px;
         margin-left: -5px;
-
+        
         @media only screen and (max-width: 720px) {
             display: block;
         }
@@ -115,17 +115,17 @@ import libraryItems from './library-items.vue';
 import libraryLists from './library-lists.vue';
 
 export default defineComponent({
-    name: 'Sidebar',
+  name: 'Sidebar',
 
-    components: {
-        libraryItems,
-        libraryLists,
-    },
-
-    methods: {
-        toggleSidebar() {
-            this.$store.commit('toggleSidebar');
-        },
-    },
+  components: {
+      libraryItems,
+      libraryLists,
+  },
+  
+  methods: {
+      toggleSidebar() {
+          this.$store.commit('toggleSidebar');
+      }
+  }
 });
 </script>

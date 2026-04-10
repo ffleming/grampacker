@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
 import debounce from 'lodash/debounce';
 
 const weightUtils = require('./utils/weight.js');

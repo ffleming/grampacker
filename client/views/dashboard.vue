@@ -125,8 +125,8 @@
 
             <div id="lpFooter">
                 <div class="lpSiteBy">
-                    Gram Packer {{ appVersion }} is a
-                    <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community</a> effort
+                  Gram Packer {{ appVersion }} is a
+                  <a class="lpHref" href="https://github.com/ffleming/grampacker/graphs/contributors" target="_blank" rel="noopener noreferrer">community</a> effort
                     <a class="lpHref" href="https://github.com/ffleming/grampacker/issues" target="_blank" rel="noopener noreferrer">Join in!</a>
                 </div>
                 <div class="lpContact">
@@ -170,74 +170,74 @@ import importCSV from '../components/import-csv.vue';
 import copyList from '../components/copy-list.vue';
 import speedbump from '../components/speedbump.vue';
 
-import packageInfo from '../../package.json';
+import packageInfo from "../../package.json"
 
 export default defineComponent({
-    name: 'Dashboard',
+  name: 'Dashboard',
 
-    components: {
-        sidebar,
-        share,
-        listSettings,
-        accountDropdown,
-        forgotPassword,
-        account,
-        accountDelete,
-        help,
-        list,
-        itemLink,
-        copyList,
-        importCSV,
-        itemImage,
-        itemViewImage,
-        speedbump,
-        globalAlerts,
-    },
+  components: {
+      sidebar,
+      share,
+      listSettings,
+      accountDropdown,
+      forgotPassword,
+      account,
+      accountDelete,
+      help,
+      list,
+      itemLink,
+      copyList,
+      importCSV,
+      itemImage,
+      itemViewImage,
+      speedbump,
+      globalAlerts,
+  },
 
-    mixins: [],
+  mixins: [],
 
-    data() {
-        return {
-            appVersion: packageInfo.version,
-            isLoaded: false,
-        };
-    },
+  data() {
+    return {
+      appVersion: packageInfo.version,
+      isLoaded: false,
+    };
+  },
 
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        list() {
-            return this.library.getListById(this.library.defaultListId);
-        },
-        isSignedIn() {
-            return this.$store.state.loggedIn;
-        },
-    },
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      list() {
+          return this.library.getListById(this.library.defaultListId);
+      },
+      isSignedIn() {
+          return this.$store.state.loggedIn;
+      },
+  },
 
-    beforeMount() {
-        if (!this.$store.state.library) {
-            this.$router.push('/welcome');
-        } else {
-            this.isLoaded = true;
-            if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
-                this.$store.commit('toggleSidebar');
-            }
-        }
-    },
+  beforeMount() {
+      if (!this.$store.state.library) {
+          this.$router.push('/welcome');
+      } else {
+          this.isLoaded = true;
+          if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
+              this.$store.commit('toggleSidebar');
+          }
+      }
+  },
 
-    methods: {
-        toggleSidebar() {
-            this.$store.commit('toggleSidebar');
-        },
-        closeSidebarIfMobile() {
-            if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
-                this.$store.commit('toggleSidebar');
-            }
-        },
-        updateListName(evt) {
-            this.$store.commit('updateListName', { id: this.list.id, name: evt.target.value });
-        },
-    },
+  methods: {
+      toggleSidebar() {
+          this.$store.commit('toggleSidebar');
+      },
+      closeSidebarIfMobile() {
+          if (window.innerWidth <= 720 && this.$store.state.library.showSidebar) {
+              this.$store.commit('toggleSidebar');
+          }
+      },
+      updateListName(evt) {
+          this.$store.commit('updateListName', { id: this.list.id, name: evt.target.value });
+      },
+  },
 });
 </script>

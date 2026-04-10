@@ -16,8 +16,7 @@ class AssetJsonPlugin {
                 require('fs').writeFileSync(
                     path.join(__dirname, '/public/dist/', 'assets.json'), JSON.stringify(assetData),
                 );
-            },
-        );
+            });
     }
 }
 
@@ -41,57 +40,57 @@ module.exports = {
         filename: '[name].[chunkhash].js',
     },
     module: {
-        rules: [
+      rules: [
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+        },
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(png|jpg|gif|svg)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: '[name].[ext]?[hash]',
+          },
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
             {
-                test: /\.vue$/,
-                loader: 'vue-loader',
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
             },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
+              loader: 'resolve-url-loader',
+              options: {
+                sourceMap: true,
+              },
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
-                type: 'asset/resource',
-                generator: {
-                    filename: '[name].[ext]?[hash]',
-                },
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                    {
-                        loader: 'resolve-url-loader',
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                ],
-            },
-        ],
+          ],
+        },
+      ],
     },
     performance: {
         hints: false,
     },
 
     resolve: {
-        alias: {
-            vue: 'vue/dist/vue.esm-bundler',
-        },
+      alias: {
+        vue: 'vue/dist/vue.esm-bundler',
+      },
     },
 
     devtool: false,
@@ -104,10 +103,10 @@ module.exports = {
             filename: '[name].[chunkhash].css',
         }),
         new AssetJsonPlugin(),
-        new webpack.DefinePlugin({
-            __VUE_OPTIONS_API__: 'true',
-            __VUE_PROD_DEVTOOLS__: 'false',
-            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
-        }),
+      new webpack.DefinePlugin({
+        __VUE_OPTIONS_API__: 'true',
+        __VUE_PROD_DEVTOOLS__: 'false',
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+      }),
     ],
 };

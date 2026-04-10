@@ -135,7 +135,7 @@ $welcomeVerticalSpacing: 80px;
                 <strong>Welcome to the newly-revived version of LighterPack, Gram Packer!</strong>
             </div>
             <div class="lpContainer">
-                If you have any questions please <a href="https://github.com/ffleming/grampacker/issues" class="lpHref">get in touch</a>.
+              If you have any questions please <a href="https://github.com/ffleming/grampacker/issues" class="lpHref">get in touch</a>.
             </div>
         </div>
         <div id="lpWelcome" class="lpContainer">
@@ -187,20 +187,20 @@ import registerForm from '../components/register-form.vue';
 import SigninForm from '../components/signin-form.vue';
 
 export default defineComponent({
-    name: 'Welcome',
+  name: 'Welcome',
 
-    components: {
-        blackoutFooter,
-        globalAlerts,
-        modal,
-        registerForm,
-        SigninForm,
-    },
+  components: {
+      blackoutFooter,
+      globalAlerts,
+      modal,
+      registerForm,
+      SigninForm,
+  },
 
-    beforeMount() {
-        if (this.$store.state.library) {
-            this.$router.push('/');
-        }
-    },
+  beforeMount() {
+      if (this.$store.state.library) {
+          this.$router.push('/');
+      }
+  },
 });
 </script>

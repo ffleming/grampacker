@@ -31,65 +31,65 @@ import errors from './errors.vue';
 import spinner from './spinner.vue';
 
 export default defineComponent({
-    name: 'SigninForm',
+  name: 'SigninForm',
 
-    components: {
-        errors,
-        spinner,
-    },
+  components: {
+      errors,
+      spinner,
+  },
 
-    props: ['message'],
+  props: ['message'],
 
-    data() {
-        return {
-            fetching: false,
-            errors: [],
-            username: '',
-            password: '',
-        };
-    },
+  data() {
+      return {
+          fetching: false,
+          errors: [],
+          username: '',
+          password: '',
+      };
+  },
 
-    methods: {
-        signin() {
-            this.errors = [];
+  methods: {
+      signin() {
+          this.errors = [];
 
-            if (!this.username) {
-                this.errors.push({ field: 'username', message: 'Please enter a username.' });
-            }
+          if (!this.username) {
+              this.errors.push({ field: 'username', message: 'Please enter a username.' });
+          }
 
-            if (!this.password) {
-                this.errors.push({ field: 'password', message: 'Please enter a password.' });
-            }
+          if (!this.password) {
+              this.errors.push({ field: 'password', message: 'Please enter a password.' });
+          }
 
-            if (this.errors.length) {
-                return;
-            }
+          if (this.errors.length) {
+              return;
+          }
 
-            this.fetching = true; // ho ho
+          this.fetching = true; // ho ho
 
-            return fetchJson('/signin/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({ username: this.username, password: this.password }),
-            })
-                .then((response) => {
-                    this.$store.commit('setSyncToken', response.syncToken);
-                    this.$store.commit('loadLibraryData', response.library);
-                    this.$store.commit('setSaveType', 'remote');
-                    this.$store.commit('setLoggedIn', response.username);
-                    this.$router.push('/');
-                    this.fetching = false;
-                })
-                .catch((err) => {
-                    this.errors = err;
-                    bus.$emit('focus-signin-password');
-                    this.password = '';
-                    this.fetching = false;
-                });
-        },
-    },
+          return fetchJson('/signin/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({ username: this.username, password: this.password }),
+          })
+              .then((response) => {
+                  this.$store.commit('setSyncToken', response.syncToken);
+                  this.$store.commit('loadLibraryData', response.library);
+                  this.$store.commit('setSaveType', 'remote');
+                  this.$store.commit('setLoggedIn', response.username);
+                  this.$router.push('/');
+                  this.fetching = false;
+              })
+              .catch((err) => {
+                  this.errors = err;
+                  bus.$emit('focus-signin-password');
+                  this.password = '';
+                  this.fetching = false;
+              });
+      },
+  },
 });
 </script>

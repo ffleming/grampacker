@@ -32,22 +32,22 @@ import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({
-    name: 'Help',
+  name: 'Help',
 
-    components: {
-        modal,
-    },
+  components: {
+      modal,
+  },
 
-    data() {
-        return {
-            shown: false,
-        };
-    },
+  data() {
+      return {
+          shown: false,
+      };
+  },
 
-    beforeMount() {
-        bus.$on('showHelp', () => {
-            this.shown = true;
-        });
-    },
+  beforeMount() {
+      bus.$on('showHelp', () => {
+          this.shown = true;
+      });
+  },
 });
 </script>

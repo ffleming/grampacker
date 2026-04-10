@@ -26,7 +26,7 @@
                         Weight
                     </span>
                     <span class="lpCell">
-                        In percents
+                        In percents 
                     </span>
                 </li>
                 <li v-for="category in categories" :key="category.id" :class="{'hover': category.activeHover, 'lpTotalCategory lpRow': true}">
@@ -67,7 +67,7 @@
                         Consumable
                     </span>
                     <span v-if="library.optionalFields['price']" class="lpCell lpNumber lpSubtotal">
-                        {{ $filters.displayPrice(list.totalConsumablePrice, library.currencySymbol) }}
+                      {{ $filters.displayPrice(list.totalConsumablePrice, library.currencySymbol) }}
                     </span>
                     <span class="lpCell lpNumber lpSubtotal">
                         <span class="lpDisplaySubtotal" :mg="list.totalConsumableWeight">{{ $filters.displayWeight(list.totalConsumableWeight, library.totalUnit) }}</span>
@@ -80,10 +80,10 @@
                         Worn
                     </span>
                     <span v-if="library.optionalFields['price']" class="lpCell lpNumber lpSubtotal">
-                        {{ $filters.displayPrice(list.totalWornPrice, library.currencySymbol) }}
+                      {{ $filters.displayPrice(list.totalWornPrice, library.currencySymbol) }}
                     </span>
                     <span class="lpCell lpNumber lpSubtotal">
-                        <!-- | displayWeight(library.totalUnit) -->
+                      <!-- | displayWeight(library.totalUnit) -->
                         <span class="lpDisplaySubtotal" :mg="list.totalWornWeight">{{ $filters.displayWeight(list.totalWornWeight, library.totalUnit) }}</span>
                         <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                     </span>
@@ -96,7 +96,7 @@
                     <span v-if="library.optionalFields['price']" class="lpCell lpNumber" />
                     <span class="lpCell lpNumber lpSubtotal">
                         <span class="lpDisplaySubtotal" :mg="list.totalPackWeight" :title="$filters.displayWeight(list.totalPackWeight, library.totalUnit) + ' ' + library.totalUnit + ' pack weight (consumable + base weight)'">
-                            {{ $filters.displayWeight(list.totalPackWeight, library.totalUnit) }}
+                          {{ $filters.displayWeight(list.totalPackWeight, library.totalUnit) }}
                         </span>
                         <span class="lpSubtotalUnit">{{ library.totalUnit }}</span>
                     </span>
@@ -130,93 +130,93 @@ const utilsMixin = require('../mixins/utils-mixin.js');
 const colorUtils = require('../utils/color.js');
 
 export default defineComponent({
-    name: 'ListSummary',
+  name: 'ListSummary',
 
-    components: {
-        colorPicker,
-        unitSelect,
+  components: {
+      colorPicker,
+      unitSelect,
+  },
+
+  mixins: [utilsMixin],
+  props: ['list'],
+
+  data() {
+      return {
+          chart: null,
+          hoveredCategoryId: null,
+      };
+  },
+
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+      categories() {
+          return this.list.categoryIds.map((id) => {
+              const category = this.library.getCategoryById(id);
+              category.activeHover = (this.hoveredCategoryId === category.id);
+              return category;
+          });
+      },
+  },
+
+  watch: {
+    '$store.state.library.defaultListId': {
+      handler(val,oldVal) {
+        this.updateChart(val, oldVal);
+      },
+      deep: true,
     },
-
-    mixins: [utilsMixin],
-    props: ['list'],
-
-    data() {
-        return {
-            chart: null,
-            hoveredCategoryId: null,
-        };
+    'list.totalWeight': {
+      handler(val,oldVal) {
+        this.updateChart(val, oldVal);
+      },
+      deep: true,
     },
-
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-        categories() {
-            return this.list.categoryIds.map((id) => {
-                const category = this.library.getCategoryById(id);
-                category.activeHover = (this.hoveredCategoryId === category.id);
-                return category;
-            });
-        },
+    'list.categoryIds': {
+      handler(val,oldVal) {
+        this.updateChart(val, oldVal);
+      },
+      deep: true,
     },
+  },
 
-    watch: {
-        '$store.state.library.defaultListId': {
-            handler(val, oldVal) {
-                this.updateChart(val, oldVal);
-            },
-            deep: true,
-        },
-        'list.totalWeight': {
-            handler(val, oldVal) {
-                this.updateChart(val, oldVal);
-            },
-            deep: true,
-        },
-        'list.categoryIds': {
-            handler(val, oldVal) {
-                this.updateChart(val, oldVal);
-            },
-            deep: true,
-        },
-    },
+  mounted() {
+      this.updateChart();
+  },
 
-    mounted() {
-        this.updateChart();
-    },
+  methods: {
+      updateChart(type) {
+          const chartData = this.library.renderChart(type);
 
-    methods: {
-        updateChart(type) {
-            const chartData = this.library.renderChart(type);
-
-            if (chartData) {
-                if (this.chart) {
-                    this.chart.update({ processedData: chartData });
-                } else {
-                    this.chart = pies({ processedData: chartData, container: document.getElementsByClassName('lpChart')[0], hoverCallback: this.chartHover });
-                }
-            }
-            return chartData;
-        },
-        chartHover(chartItem) {
-            if (chartItem && chartItem.id) {
-                this.hoveredCategoryId = chartItem.id;
-            } else {
-                this.hoveredCategoryId = null;
-            }
-        },
-        setTotalUnit(unit) {
-            this.$store.commit('setTotalUnit', unit);
-        },
-        updateColor(category, color) {
-            category.color = colorUtils.hexToRgb(color);
-            category.displayColor = colorUtils.rgbToString(colorUtils.hexToRgb(color));
-            this.$store.commit('updateCategoryColor', category);
-            this.updateChart();
-        },
-        colorToHex(color) {
-            return colorUtils.rgbToHex(colorUtils.stringToRgb(color));
-        },
-    },
+          if (chartData) {
+              if (this.chart) {
+                  this.chart.update({ processedData: chartData });
+              } else {
+                  this.chart = pies({ processedData: chartData, container: document.getElementsByClassName('lpChart')[0], hoverCallback: this.chartHover });
+              }
+          }
+          return chartData;
+      },
+      chartHover(chartItem) {
+          if (chartItem && chartItem.id) {
+              this.hoveredCategoryId = chartItem.id;
+          } else {
+              this.hoveredCategoryId = null;
+          }
+      },
+      setTotalUnit(unit) {
+          this.$store.commit('setTotalUnit', unit);
+      },
+      updateColor(category, color) {
+          category.color = colorUtils.hexToRgb(color);
+          category.displayColor = colorUtils.rgbToString(colorUtils.hexToRgb(color));
+          this.$store.commit('updateCategoryColor', category);
+          this.updateChart();
+      },
+      colorToHex(color) {
+          return colorUtils.rgbToHex(colorUtils.stringToRgb(color));
+      },
+  },
 });
 </script>

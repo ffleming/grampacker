@@ -38,12 +38,13 @@ function getAllIds() {
             }
             console.log(`found ${users.length} users`);
 
+
             users.forEach((user) => {
                 user.library.categories.forEach((category) => {
                     console.log(category.id);
                 });
 
-                const userListIds = user.library.lists.map((list) => list.externalId).filter((listId) => {
+                const userListIds = user.library.lists.map(list => list.externalId).filter((listId) => {
                     if (!listId) {
                         return false;
                     }
@@ -107,3 +108,4 @@ async function extractListTotal(fullUrl) {
         throw error;
     }
 }
+

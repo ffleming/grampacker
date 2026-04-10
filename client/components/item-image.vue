@@ -7,7 +7,7 @@
 .columns {
     display: flex;
     gap: 20px;
-
+    
     @media only screen and (max-width: 720px) {
         flex-direction: column;
         gap: 30px;
@@ -41,7 +41,7 @@
         input[type="text"] {
             margin-bottom: 10px;
         }
-
+        
         .lpButton {
             width: 100%;
             margin-bottom: 10px;
@@ -106,7 +106,7 @@
             </div>
         </modal>
         <form id="imageUpload" ref="imageUploadForm">
-            <input id="image" ref="imageInput" type="file" name="image" @change="uploadImage">
+            <input id="image" type="file" name="image" ref="imageInput" @change="uploadImage">
         </form>
     </div>
 </template>
@@ -118,80 +118,80 @@ import bus from '../bus';
 import modal from './modal.vue';
 
 export default defineComponent({
-    name: 'ItemImage',
+  name: 'ItemImage',
 
-    components: {
-        modal,
-    },
+  components: {
+      modal,
+  },
 
-    data() {
-        return {
-            imageUrl: null,
-            item: false,
-            uploading: false,
-            shown: false,
-        };
-    },
+  data() {
+      return {
+          imageUrl: null,
+          item: false,
+          uploading: false,
+          shown: false,
+      };
+  },
 
-    mounted() {
-        bus.$on('updateItemImage', (item) => {
-            this.shown = true;
-            this.item = item;
-            this.imageUrl = item.imageUrl;
-        });
-    },
+  mounted() {
+      bus.$on('updateItemImage', (item) => {
+          this.shown = true;
+          this.item = item;
+          this.imageUrl = item.imageUrl;
+      });
+  },
 
-    methods: {
-        saveImageUrl() {
-            this.$store.commit('updateItemImageUrl', { imageUrl: this.imageUrl, item: this.item });
-            this.shown = false;
-        },
-        triggerImageUpload() {
-            this.$refs.imageInput.click();
-        },
-        uploadImage(evt) {
-            if (!FormData) {
-                alert('Your browser is not supported for file uploads. Please update to a more modern browser.');
-                return;
-            }
-            const file = evt.target.files[0];
-            const name = file.name;
-            const size = file.size;
-            const type = file.type;
+  methods: {
+      saveImageUrl() {
+          this.$store.commit('updateItemImageUrl', { imageUrl: this.imageUrl, item: this.item });
+          this.shown = false;
+      },
+      triggerImageUpload() {
+          this.$refs.imageInput.click();
+      },
+      uploadImage(evt) {
+          if (!FormData) {
+              alert('Your browser is not supported for file uploads. Please update to a more modern browser.');
+              return;
+          }
+          const file = evt.target.files[0];
+          const name = file.name;
+          const size = file.size;
+          const type = file.type;
 
-            if (name.length < 1) {
-                return;
-            }
-            if (size > 2500000) {
-                alert('Please upload a file less than 2.5mb');
-                return;
-            }
-            if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg') {
-                alert('File doesnt match png, jpg or gif.');
-                return;
-            }
-            const formData = new FormData(this.$refs.imageUploadForm);
+          if (name.length < 1) {
+              return;
+          }
+          if (size > 2500000) {
+              alert('Please upload a file less than 2.5mb');
+              return;
+          }
+          if (type != 'image/png' && type != 'image/jpg' && !type != 'image/gif' && type != 'image/jpeg') {
+              alert('File doesnt match png, jpg or gif.');
+              return;
+          }
+          const formData = new FormData(this.$refs.imageUploadForm);
 
-            this.uploading = true;
+          this.uploading = true;
 
-            return fetchJson('/imageUpload', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin',
-            })
-                .then((response) => {
-                    this.uploading = false;
-                    this.$store.commit('updateItemImage', { image: response.data.id, item: this.item });
-                    this.shown = false;
-                }).catch((response) => {
-                    this.uploading = false;
-                    alert('Upload failed! If this issue persists please file a bug.');
-                });
-        },
-        removeItemImage() {
-            this.$store.commit('removeItemImage', this.item);
-            this.item.image = '';
-        },
-    },
+          return fetchJson('/imageUpload', {
+              method: 'POST',
+              body: formData,
+              credentials: 'same-origin',
+          })
+              .then((response) => {
+                  this.uploading = false;
+                  this.$store.commit('updateItemImage', { image: response.data.id, item: this.item });
+                  this.shown = false;
+              }).catch((response) => {
+                  this.uploading = false;
+                  alert('Upload failed! If this issue persists please file a bug.');
+              });
+      },
+      removeItemImage() {
+          this.$store.commit('removeItemImage', this.item);
+          this.item.image = '';
+      },
+  },
 });
 </script>

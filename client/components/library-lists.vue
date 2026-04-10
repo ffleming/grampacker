@@ -101,11 +101,11 @@
             <Popper id="addListFlyout" hover>
                 <span><a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a></span>
                 <template #content>
-                    <div class="lpPopoverContent">
-                        <a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a>
-                        <a class="lpAdd" @click="importCSV"><i class="lpSprite lpSpriteUpload" />Import CSV</a>
-                        <a class="lpCopy" @click="copyList"><i class="lpSprite lpSpriteCopy" />Copy a list</a>
-                    </div>
+                  <div class="lpPopoverContent">
+                    <a class="lpAdd" @click="newList"><i class="lpSprite lpSpriteAdd" />Add new list</a>
+                    <a class="lpAdd" @click="importCSV"><i class="lpSprite lpSpriteUpload" />Import CSV</a>
+                    <a class="lpCopy" @click="copyList"><i class="lpSprite lpSpriteCopy" />Copy a list</a>
+                  </div>
                 </template>
             </Popper>
         </div>
@@ -124,73 +124,73 @@
 <script>
 import { defineComponent } from 'vue';
 
-import Popper from 'vue3-popper';
+import Popper from 'vue3-popper'
 import bus from '../bus';
 
 const dragula = require('dragula');
 
 export default defineComponent({
-    name: 'LibraryList',
+  name: 'LibraryList',
 
-    components: {
-        Popper,
-    },
+  components: {
+      Popper,
+  },
 
-    filters: {
-        listName(list) {
-            return list.name || 'New list';
-        },
-    },
+  filters: {
+      listName(list) {
+          return list.name || 'New list';
+      },
+  },
 
-    props: ['list'],
+  props: ['list'],
 
-    computed: {
-        library() {
-            return this.$store.state.library;
-        },
-    },
+  computed: {
+      library() {
+          return this.$store.state.library;
+      },
+  },
 
-    mounted() {
-        this.handleListReorder();
-    },
+  mounted() {
+      this.handleListReorder();
+  },
 
-    methods: {
-        setDefaultList(list) {
-            this.$store.commit('setDefaultList', list);
-        },
-        newList() {
-            this.$store.commit('newList');
-        },
-        copyList() {
-            bus.$emit('copyList');
-        },
-        importCSV() {
-            bus.$emit('importCSV');
-        },
-        handleListReorder() {
-            const $lists = document.getElementById('lists');
-            const drake = dragula([$lists], {
-                moves($el, $source, $handle, $sibling) {
-                    return $handle.classList.contains('lpHandle');
-                },
-            });
-            drake.on('drag', ($el, $target, $source, $sibling) => {
-                this.dragStartIndex = getElementIndex($el);
-            });
-            drake.on('drop', ($el, $target, $source, $sibling) => {
-                this.$store.commit('reorderList', { before: this.dragStartIndex, after: getElementIndex($el) });
-                drake.cancel(true);
-            });
-        },
-        removeList(list) {
-            const callback = function () {
-                this.$store.commit('removeList', list);
-            };
-            const speedbumpOptions = {
-                body: 'Are you sure you want to delete this list? This cannot be undone.',
-            };
-            bus.$emit('initSpeedbump', callback, speedbumpOptions);
-        },
-    },
+  methods: {
+      setDefaultList(list) {
+          this.$store.commit('setDefaultList', list);
+      },
+      newList() {
+          this.$store.commit('newList');
+      },
+      copyList() {
+          bus.$emit('copyList');
+      },
+      importCSV() {
+          bus.$emit('importCSV');
+      },
+      handleListReorder() {
+          const $lists = document.getElementById('lists');
+          const drake = dragula([$lists], {
+              moves($el, $source, $handle, $sibling) {
+                  return $handle.classList.contains('lpHandle');
+              },
+          });
+          drake.on('drag', ($el, $target, $source, $sibling) => {
+              this.dragStartIndex = getElementIndex($el);
+          });
+          drake.on('drop', ($el, $target, $source, $sibling) => {
+              this.$store.commit('reorderList', { before: this.dragStartIndex, after: getElementIndex($el) });
+              drake.cancel(true);
+          });
+      },
+      removeList(list) {
+          const callback = function () {
+              this.$store.commit('removeList', list);
+          };
+          const speedbumpOptions = {
+              body: 'Are you sure you want to delete this list? This cannot be undone.',
+          };
+          bus.$emit('initSpeedbump', callback, speedbumpOptions);
+      },
+  },
 });
 </script>

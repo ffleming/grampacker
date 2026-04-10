@@ -44,6 +44,6 @@ $spinnerSize: 18px;
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'Spinner',
+  name: 'Spinner',
 });
 </script>
