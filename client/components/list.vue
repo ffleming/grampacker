@@ -15,8 +15,9 @@
     }
 
     textarea {
-        height: 65px;
-        width: 100%;
+        width: 95%;
+        height: 200px;
+        margin-left: 10px;
     }
 }
 
