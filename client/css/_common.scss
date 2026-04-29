@@ -423,7 +423,7 @@
     }
 }
 
-.lpLibraryList:hover .lpRemove,
+.lpLibraryList:hover:not(.lpActive) .lpRemove,
 .lpLibraryItem:hover .lpRemove,
 .lpLibraryItem:hover .lpHandle,
 .lpCategory .lpHeader:hover .lpRemove,
@@ -433,7 +433,7 @@
     }
 }
 
-.lpLibraryList.lpActive .lpRemove,
+.lpLibraryList:not(.lpActive) .lpRemove,
 .lpLibraryItem.lpInList .lpRemove {
     @media only screen and (max-width: 720px) {
         visibility: visible;
