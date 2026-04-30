@@ -443,6 +443,7 @@ Library.prototype.newList = function () {
 Library.prototype.removeList = function (id) {
     if (Object.size(this.lists) == 1) return;
     if (this.defaultListId == id) return;
+
     const list = this.getListById(id);
 
     for (var i = 0; i < list.categoryIds; i++) {
@@ -451,15 +452,6 @@ Library.prototype.removeList = function (id) {
 
     this.lists.splice(this.lists.indexOf(list), 1);
     delete this.idMap[id];
-
-    if (this.defaultListId == id) {
-        let newId = -1;
-        for (var i in lists) {
-            newId = i;
-            break;
-        }
-        this.defaultListId = newId;
-    }
 };
 
 Library.prototype.copyList = function (id) {
