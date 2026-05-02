@@ -44,7 +44,8 @@ const shareScriptsLinks = [];
 let appScriptsHtml = '';
 let appStylesHtml = '';
 
-if (config.get('environment') === 'production') {
+let env = config.get('environment');
+if (env === 'staging' || env === 'production') {
     assetData = JSON.parse(fs.readFileSync(path.join(__dirname, '../public/dist/assets.json'), 'utf8'));
     const appAssetFiles = assetData.files.app;
 
