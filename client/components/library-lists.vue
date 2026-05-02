@@ -30,17 +30,6 @@
     &.lpActive {
         color: $yellow1;
         font-weight: bold;
-
-        @media only screen and (max-width: 720px) {
-            .lpRemove {
-                visibility: visible;
-            }
-        }
-        @media only screen and (min-width: 721px) {
-            .lpRemove {
-                display: none;
-            }
-        }
     }
 
     &.gu-mirror {
