@@ -99,9 +99,41 @@
         }
     }
 }
+
+
+.envBar {
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 9999;
+  background-color: yellow;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+  &::before {
+    content: "WARNING: " attr(data-env) " ENVIRONMENT";
+    text-transform: uppercase;
+  }
+
+  &.envHeader {
+    top: 0;
+    border-bottom: 2px solid black;
+  }
+
+  &.envFooter {
+    bottom: 0;
+    border-top: 2px solid black;
+  }
+}
+
 </style>
 
 <template>
+    <div v-if="!isProd" class="envBar envHeader" :data-env="env"> </div>
     <div v-if="isLoaded" id="main" :class="{lpHasSidebar: library.showSidebar}">
         <sidebar />
         <div class="lpList lpTransition" @click="closeSidebarIfMobile">
@@ -147,6 +179,7 @@
         <account />
         <accountDelete />
     </div>
+    <div v-if="!isProd" class="envBar envFooter" :data-env="env"> </div>
 </template>
 
 <script>
@@ -200,6 +233,8 @@ export default defineComponent({
     return {
       appVersion: packageInfo.version,
       isLoaded: false,
+      isProd: __APP_ENV__ === 'production',
+      env: __APP_ENV__,
     };
   },
 

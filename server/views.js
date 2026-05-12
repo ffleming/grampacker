@@ -44,7 +44,8 @@ const shareScriptsLinks = [];
 let appScriptsHtml = '';
 let appStylesHtml = '';
 
-if (config.get('environment') === 'production') {
+let env = config.get('environment');
+if (env === 'staging' || env === 'production') {
     assetData = JSON.parse(fs.readFileSync(path.join(__dirname, '../public/dist/assets.json'), 'utf8'));
     const appAssetFiles = assetData.files.app;
 
@@ -73,8 +74,14 @@ if (config.get('environment') === 'production') {
     shareScriptsHtml = '<script src=\'/dist/share.js\'></script>';
 }
 
+let envLabel = "";
+if(env !== 'production') {
+  envLabel = ` - ${env.toUpperCase()}`;
+}
+
 index = index.replace('{{styles}}', appStylesHtml);
 index = index.replace('{{scripts}}', appScriptsHtml);
+index = index.replace('{{envLabel}}', envLabel);
 
 for (let i = 0; i < vueRoutes.length; i++) {
     router.get(vueRoutes[i].path, (req, res) => {

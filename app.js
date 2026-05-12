@@ -71,7 +71,7 @@ config.get('bindings').map(
     },
 );
 
-if (config.get('environment') !== 'production') {
+if (config.get('environment') === 'development') {
   const webpack = require('webpack');
   const WebpackDevServer = require('webpack-dev-server');
   const webpackConfig = require('./webpack.development.config');
