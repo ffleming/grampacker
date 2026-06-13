@@ -163,7 +163,7 @@
     }
 }
 
-.lpRemove {
+.lpRemove, .lpLibraryItemAdd {
     border-radius: 16px;
     cursor: pointer;
     display: inline-block;
@@ -434,7 +434,8 @@
 }
 
 .lpLibraryList:not(.lpActive) .lpRemove,
-.lpLibraryItem.lpInList .lpRemove {
+.lpLibraryItem .lpRemove,
+.lpLibraryItem .lpLibraryItemAdd {
     @media only screen and (max-width: 720px) {
         visibility: visible;
     }
