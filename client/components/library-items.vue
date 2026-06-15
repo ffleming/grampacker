@@ -44,7 +44,7 @@
     list-style: none;
     margin: 0 10px 5px;
     min-height: 43px;
-    overflow: hidden;
+    overflow: visible;
     padding: 5px 5px 0 15px;
     position: relative;
 
@@ -86,7 +86,7 @@
     }
 
     .lpHandle {
-        height: 80px;
+        height: 37px;
         left: 0;
         position: absolute;
         top: 5px;
@@ -97,9 +97,16 @@
     }
 
     .lpRemove {
-        bottom: 0;
-        position: absolute;
-        right: 14px;
+      bottom: 0;
+      position: absolute;
+      right: 14px;
+    }
+
+    .lpLibraryItemAdd {
+      position: absolute;
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     #library.lpSearching & {
@@ -139,8 +146,15 @@
                 <span class="lpDescription">
                     {{ item.description }}
                 </span>
-                <a class="lpRemove speedbump" title="Delete this item permanently" @click="removeItem(item)"><i class="lpSprite lpSpriteRemove" /></a>
-                <div v-if="currentListItems.indexOf(item.id) === -1" class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
+                <div v-if="currentListItems.indexOf(item.id) === -1"
+                  class="lpHandle lpLibraryItemHandle" title="Reorder this item" />
+                <a class="lpRemove speedbump" title="Delete this item permanently"
+                    @click="removeItem(item)">
+                    <i class="lpSprite lpSpriteRemove" /></a>
+                <a v-if="currentListItems.indexOf(item.id) === -1"
+                  class="lpLibraryItemAdd" title="Add this item to list"
+                  @click="addItemToCurrentList(item)">
+                  <i class="lpSprite lpSpriteLibraryItemAdd" /></a>
             </li>
         </ul>
     </section>
@@ -267,6 +281,20 @@ export default defineComponent({
                 body: 'Are you sure you want to delete this item? This cannot be undone.',
             };
             bus.$emit('initSpeedbump', callback, speedbumpOptions);
+        },
+        addItemToCurrentList(item) {
+            let targetCategory = this.categories[0];
+            if (!targetCategory) {
+                this.$store.commit('newCategory', this.list);
+                targetCategory = this.categories[0];
+            }
+            if (targetCategory && item) {
+                this.$store.commit('addItemToCategory', {
+                    itemId: item.id,
+                    categoryId: targetCategory.id,
+                    dropIndex: targetCategory.categoryItems.length,
+                });
+            }
         },
         clearSearch() {
             this.searchText = '';

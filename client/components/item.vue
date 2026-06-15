@@ -168,13 +168,26 @@
         </span>
         <span class="lpRemoveCell">
             <a class="lpRemove lpDesktopOnly" title="Remove item" @click="removeItem"><i class="lpSprite lpSpriteRemove" /></a>
-            <Popper hover placement="left" class="lpItemOptions lpMobileOnly">
+            <Popper hover placement="left" :close-delay="200" :offset-distance="1" class="lpItemOptions lpMobileOnly" @close:popper="showMoveMenu = false">
                 <span class="lpOptionsTarget">&#8942;</span>
                 <template #content>
                   <div class="lpItemPopover">
-                    <a class="lpItemOption" @click="updateItemImage"><i class="lpSprite lpCamera" /> <span v-if="!item.image && !item.imageUrl">Add photo</span><span v-else>Change photo</span></a>
-                    <a class="lpItemOption" @click="updateItemLink"><i class="lpSprite lpLink" /> <span v-if="!item.url">Add link</span><span v-else>Change link</span></a>
-                    <a class="lpItemOption lpRemoveOption" @click="removeItem"><i class="lpSprite lpSpriteRemove" /> Remove item</a>
+                    <template v-if="!showMoveMenu">
+                      <a class="lpItemOption" @click="updateItemImage"><i class="lpSprite lpCamera" /> <span v-if="!item.image && !item.imageUrl">Add photo</span><span v-else>Change photo</span></a>
+                      <a class="lpItemOption" @click="updateItemLink"><i class="lpSprite lpLink" /> <span v-if="!item.url">Add link</span><span v-else>Change link</span></a>
+                      <template v-if="activeCategories.length > 0" >
+                      <a class="lpItemOption" @click="showMoveMenu = true">
+                        <i class="lpSprite" style="background: none; text-align: center; font-style: normal; line-height: 14px; font-size: 14px;">➔</i>
+                        <span>Move to...</span>
+                      </a>
+                      </template>
+                      <a class="lpItemOption lpRemoveOption" @click="removeItem"><i class="lpSprite lpSpriteRemove" /> Remove item</a>
+                    </template>
+                    <template v-else>
+                      <a v-for="cat in activeCategories" :key="cat.id" class="lpItemOption" @click="moveToCategory(cat)">
+                        <span>{{ cat.name }}</span>
+                      </a>
+                    </template>
                   </div>
                 </template>
             </Popper>
@@ -212,6 +225,7 @@ export default defineComponent({
           priceError: false,
           qtyError: false,
           numStars: 4,
+          showMoveMenu: false,
       };
   },
 
@@ -240,6 +254,15 @@ export default defineComponent({
               return this.item.imageUrl;
           }
           return '';
+      },
+      activeCategories() {
+          const list = this.$store.getters.activeList;
+          if (!list || !list.categoryIds) {
+              return [];
+          }
+          return list.categoryIds
+              .map(id => this.library.getCategoryById(id))
+              .filter(cat => cat && cat.id !== this.category.id);
       },
   },
 
@@ -442,6 +465,18 @@ export default defineComponent({
 
           // if the removed item has a blank name remove it from the gear list
           if (!this.item.name || !this.item.name.trim().length) this.$store.commit('removeItem', { item: this.item });
+      },
+      moveToCategory(cat) {
+          const list = this.$store.getters.activeList;
+          if (list && cat) {
+              this.$store.commit('reorderItem', {
+                  itemId: this.item.id,
+                  categoryId: cat.id,
+                  list: { id: list.id },
+                  dropIndex: cat.categoryItems.length,
+              });
+              this.showMoveMenu = false;
+          }
       },
   },
 });

@@ -40,6 +40,17 @@
     }
 }
 
+.lpSpriteLibraryItemAdd {
+    background-position: -25px -50px;
+    height: 8px;
+    top: 0;
+    width: 8px;
+
+    .lpLibraryItemAdd:hover & {
+        background-position: -25px -75px;
+    }
+}
+
 .lpWorn {
     background-position: -50px 0;
     width: 17px;
