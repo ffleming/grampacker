@@ -67,12 +67,25 @@
     }
 }
 
-input.lpCategoryName { /* specificity */
+input.lpCategoryName {
     border: 1px solid transparent;
     flex: 1 0 300px;
     font-size: 16px;
     font-weight: 600;
     padding-bottom: 0;
+}
+
+input.lpCategoryDescription  {
+    border: 1px solid transparent;
+    padding-left: 20px;
+    flex: 1 0 300px;
+    font-size: 16px;
+    font-weight: 600;
+    padding-bottom: 0;
+    width: 77%;
+    @media only screen and (max-width: 720px) {
+      width: 100%;
+    }
 }
 
 .lpSubtotal {
@@ -363,4 +376,24 @@ input.lpCategoryName { /* specificity */
             }
         }
     }
+}
+
+#listDescriptionContainer {
+  margin: 25px 0;
+
+  h3,
+  p {
+      display: inline-block;
+      margin: 0 0 5px;
+  }
+
+  h3 {
+      margin-right: 10px;
+  }
+
+  textarea {
+      width: 95%;
+      height: 200px;
+      margin-left: 10px;
+  }
 }

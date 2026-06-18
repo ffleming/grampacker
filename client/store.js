@@ -160,6 +160,10 @@ const store = createStore({
             const category = state.library.getCategoryById(updatedCategory.id);
             category.color = updatedCategory.color;
         },
+        updateCategoryDescription(state, updatedCategory) {
+            const category = state.library.getCategoryById(updatedCategory.id);
+            category.description = updatedCategory.description;
+        },
         updateItem(state, item) {
             state.library.updateItem(item);
             state.library.getListById(state.library.defaultListId).calculateTotals();

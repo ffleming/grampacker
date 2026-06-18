@@ -9,6 +9,7 @@ const defaultOptionalFields = {
     worn: true,
     consumable: true,
     listDescription: false,
+    categoryDescription: false,
 };
 
 const Item = function ({ id, unit }) {
@@ -47,6 +48,7 @@ const Category = function ({ library, id, _isNew }) {
     this.library = library;
     this.id = id;
     this.name = '';
+    this.description = '';
     this.categoryItems = [];
 
     this.subtotalWeight = 0;
