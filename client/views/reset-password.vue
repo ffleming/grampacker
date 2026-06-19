@@ -1,5 +1,6 @@
 <style lang="scss">
 #forgotPassword {
+    max-width: 95vw;
     width: 620px;
 }
 
