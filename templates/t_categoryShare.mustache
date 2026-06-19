@@ -6,7 +6,7 @@
             <span class="lpWeightCell">Weight</span>
             <span class="lpQtyCell"><span class="lpDesktopText">Quantity</span><span class="lpMobileText">Qty</span></span>
         </li>
-        <div class="lpCategoryDescription">{{description}}</div>
+        {{#description}}<div class="lpCategoryDescription">{{description}}</div>{{/description}}
         {{{items}}}
         <li class="lpFooter lpItemsFooter">
             {{#showPrices}}<span class="lpPriceCell lpNumber"><div class="lpPriceSubtotal">{{currencySymbol}}{{subtotalPriceDisplay}}</div></span>{{/showPrices}}
