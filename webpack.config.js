@@ -1,8 +1,11 @@
+const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const config = require('config');
+const TerserPlugin = require('terser-webpack-plugin');
+const workers = Math.max(1, Math.min(os.cpus().length - 1, 12));
 
 class AssetJsonPlugin {
     apply(compiler) {
@@ -111,4 +114,11 @@ module.exports = {
         __APP_ENV__: JSON.stringify(config.get('environment'))
       }),
     ],
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				parallel: workers,
+			}),
+		],
+	},
 };
