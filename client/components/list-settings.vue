@@ -83,6 +83,11 @@ export default defineComponent({
               displayName: 'List descriptions',
               cssClass: 'lpShowListDescription',
               value: false,
+          }, {
+              name: 'categoryDescription',
+              displayName: 'Category descriptions',
+              cssClass: 'lpShowCategoryDescription',
+              value: false,
           }],
       };
   },

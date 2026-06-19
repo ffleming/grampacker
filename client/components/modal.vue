@@ -6,6 +6,7 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
     left: 50%;
     max-height: calc(90% - (#{$spacingLarge} * 2));
+    max-width: 95vw;
     overflow-y: auto;
     padding: $spacingLarge;
     position: fixed;

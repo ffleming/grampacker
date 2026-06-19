@@ -168,7 +168,7 @@
         </span>
         <span class="lpRemoveCell">
             <a class="lpRemove lpDesktopOnly" title="Remove item" @click="removeItem"><i class="lpSprite lpSpriteRemove" /></a>
-            <Popper hover placement="left" :close-delay="200" :offset-distance="1" class="lpItemOptions lpMobileOnly" @close:popper="showMoveMenu = false">
+            <Popper hover placement="left" :close-delay="200" offset-distance="1" class="lpItemOptions lpMobileOnly" @close:popper="showMoveMenu = false">
                 <span class="lpOptionsTarget">&#8942;</span>
                 <template #content>
                   <div class="lpItemPopover">

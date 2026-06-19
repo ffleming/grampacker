@@ -69,6 +69,14 @@
                 <span class="lpQtyCell"><span class="lpDesktopText">Quantity</span><span class="lpMobileText">Qty</span></span>
                 <span class="lpRemoveCell"><a class="lpRemove lpRemoveCategory lpDesktopOnly" title="Remove this category" @click="removeCategory(category)"><i class="lpSprite lpSpriteRemove" /></a></span>
             </li>
+              <div v-if="library.optionalFields['categoryDescription']"
+                  :id="`categoryDescriptionContainer-${category.id}`"
+                    class="categoryDescriptionContainer">
+                <input type="text" :value="category.description"
+                       placeholder="Category Description"
+                       class="lpCategoryDescription lpSilent"
+                       @input="updateCategoryDescription">
+              </div>
             <item v-for="itemContainer in itemContainers" :key="itemContainer.item.id" :item-container="itemContainer" :category="category" />
             <li class="lpFooter lpItemsFooter">
                 <span class="lpAddItemCell">
@@ -180,6 +188,9 @@ export default defineComponent({
       },
       updateCategoryName(evt) {
           this.$store.commit('updateCategoryName', { id: this.category.id, name: evt.target.value });
+      },
+      updateCategoryDescription(evt) {
+          this.$store.commit('updateCategoryDescription', { id: this.category.id, description: evt.target.value });
       },
       removeCategory(category) {
           const callback = function () {

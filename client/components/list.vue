@@ -1,26 +1,6 @@
 <style lang="scss">
 @import "../css/_globals";
 
-#listDescriptionContainer {
-    margin: 25px 0;
-
-    h3,
-    p {
-        display: inline-block;
-        margin: 0 0 5px;
-    }
-
-    h3 {
-        margin-right: 10px;
-    }
-
-    textarea {
-        width: 95%;
-        height: 200px;
-        margin-left: 10px;
-    }
-}
-
 #getStarted {
     background: darken($background1, 10%);
     display: flex;
@@ -71,7 +51,9 @@
 
         <div v-if="library.optionalFields['listDescription']" id="listDescriptionContainer">
             <h3>List Description</h3> <p>(<a href="https://guides.github.com/features/mastering-markdown/" target="_blank" class="lpHref">Markdown</a> supported)</p>
-            <textarea id="listDescription" v-model="list.description" @update:modelValue="updateListDescription" />
+            <textarea id="listDescription" v-model="list.description"
+                                           @update:modelValue="updateListDescription"
+                                           placeholder="List description" />
         </div>
 
         <ul class="lpCategories">
